@@ -49,4 +49,13 @@ macro_rules! default_pairs {
     };
 }
 
+macro_rules! output_unit_test {
+    ($fn_name: ident) => {
+        #[test]
+        fn $fn_name() {
+            println!("{:#?}", super::$fn_name().unwrap());
+        }
+    };
+}
+
 pub mod proc;
