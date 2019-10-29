@@ -1,6 +1,8 @@
 use super::{Error, Result};
 use std::collections::HashMap;
 
+/// key: (node, zone);
+/// value: [page_num;10], far left value in the file has index 0.
 pub fn buddyinfo() -> Result<HashMap<(usize, String), [usize; 10]>> {
     let content = std::fs::read_to_string("/proc/buddyinfo")?;
     let mut ret = HashMap::new();
@@ -32,17 +34,24 @@ pub fn buddyinfo() -> Result<HashMap<(usize, String), [usize; 10]>> {
     Ok(ret)
 }
 
-pub mod acpi;
-pub mod driver;
-
 default_read! {cmdline, "/proc/cmdline"}
 
-default_read! {consoles, "/proc/consoles"}
+default_pairs! {cpuinfo, "/proc/cpuinfo", "processor"}
 
-default_pairs! {cpuinfo, "/proc/cpuinfo"}
+default_pairs! {crypto, "/proc/crypto", "cryptographic ciphers"}
 
-default_pairs! {crypto, "/proc/crypto"}
-
+/// the first one is character devices, the second one is block devices.
+///
+/// ```
+/// use linux_proc::devices;
+///
+/// fn main() {
+///     let (character_devices, block_devices) = devices().unwrap();
+///     println!("{:?}", character_devices);
+///     println!("{:?}", block_devices);
+/// }
+/// ```
+///
 pub fn devices() -> Result<(Vec<(usize, String)>, Vec<(usize, String)>)> {
     let content = std::fs::read_to_string("/proc/devices")?;
     let mut block = content.split("\n\n");
@@ -79,6 +88,11 @@ pub fn devices() -> Result<(Vec<(usize, String)>, Vec<(usize, String)>)> {
 
     Ok((character_devices, block_devices))
 }
+
+pub mod acpi;
+pub mod driver;
+
+default_read! {consoles, "/proc/consoles"}
 
 #[derive(Debug)]
 pub struct Disk {
@@ -266,4 +280,13 @@ pub fn diskstats() -> Result<Vec<Disk>> {
         ret.push(disk);
     }
     Ok(ret)
+}
+
+#[cfg(test)]
+mod test {
+    output_unit_test!(buddyinfo);
+    output_unit_test!(cmdline);
+    output_unit_test!(cpuinfo);
+    output_unit_test!(crypto);
+    output_unit_test!(devices);
 }
