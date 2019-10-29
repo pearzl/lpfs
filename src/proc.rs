@@ -89,6 +89,19 @@ pub fn devices() -> Result<(Vec<(usize, String)>, Vec<(usize, String)>)> {
     Ok((character_devices, block_devices))
 }
 
+pub fn dma() -> Result<HashMap<usize, String>> {
+    let content = std::fs::read_to_string("/proc/dma")?;
+    let mut ret = HashMap::new();
+    for line in content.trim().lines() {
+        let mut kv = line.split(':');
+        let key = kv.next().ok_or(Error::BadFormat)?;
+        let key = key.parse::<usize>().map_err(|_| Error::BadFormat)?;
+        let value = kv.next().ok_or(Error::BadFormat)?;
+        ret.insert(key, value.to_string());
+    }
+    Ok(ret)
+}
+
 pub mod acpi;
 pub mod driver;
 
@@ -289,4 +302,5 @@ mod test {
     output_unit_test!(cpuinfo);
     output_unit_test!(crypto);
     output_unit_test!(devices);
+    output_unit_test!(dma);
 }
