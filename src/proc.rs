@@ -124,7 +124,9 @@ pub fn execdomains() -> Result<Vec<(String, String, String)>> {
 }
 
 /// Each line is represent as a tuple in Vector.
+///
 /// In tuple, first element is first column, that is fb number.
+///
 /// And the rest columns are in the second element, each columns is an item.
 pub fn fb() -> Result<Vec<(usize, Vec<String>)>> {
     let content = std::fs::read_to_string("/proc/fb")?;
@@ -135,6 +137,25 @@ pub fn fb() -> Result<Vec<(usize, Vec<String>)>> {
         let item1 = item_iter.next().ok_or(Error::BadFormat)?;
         let item2 = item_iter.map(|s| s.trim().to_string()).collect();
         ret.push((item1.parse::<usize>().map_err(|_| Error::BadFormat)?, item2));
+    }
+    Ok(ret)
+}
+
+/// Each line is represent as a tuple in Vector.
+///
+/// The first element signifies whether the file system is mounted on a block device,
+/// false means corresponding filesystems is not mounted on a device,
+/// that is first column of the file content is nodev. True is the opposite.
+///
+/// Second element is the name of file system.
+pub fn filesystems() -> Result<Vec<(bool, String)>> {
+    let content = std::fs::read_to_string("/proc/filesystems")?;
+    let mut ret = vec![];
+    for line in content.trim().lines() {
+        let mut item_iter = line.split('\t');
+        let nodev = item_iter.next().ok_or(Error::BadFormat)?;
+        let fs = item_iter.next().ok_or(Error::BadFormat)?;
+        ret.push((nodev != "nodev", fs.trim().to_string()));
     }
     Ok(ret)
 }
@@ -342,4 +363,5 @@ mod test {
     output_unit_test!(dma);
     output_unit_test!(execdomains);
     output_unit_test!(fb);
+    output_unit_test!(filesystems);
 }
