@@ -89,15 +89,52 @@ pub fn devices() -> Result<(Vec<(usize, String)>, Vec<(usize, String)>)> {
     Ok((character_devices, block_devices))
 }
 
-pub fn dma() -> Result<HashMap<usize, String>> {
+/// Each line is represent as a tuple in Vector.
+/// Each column is represent as a item in tuple.
+pub fn dma() -> Result<Vec<(usize, String)>> {
     let content = std::fs::read_to_string("/proc/dma")?;
-    let mut ret = HashMap::new();
+    let mut ret = vec![];
     for line in content.trim().lines() {
         let mut kv = line.split(':');
         let key = kv.next().ok_or(Error::BadFormat)?;
         let key = key.parse::<usize>().map_err(|_| Error::BadFormat)?;
         let value = kv.next().ok_or(Error::BadFormat)?;
-        ret.insert(key, value.to_string());
+        ret.push((key, value.to_string()));
+    }
+    Ok(ret)
+}
+
+/// Each line is represent as a tuple in Vector.
+/// Each column is represent as a item in tuple.
+pub fn execdomains() -> Result<Vec<(String, String, String)>> {
+    let content = std::fs::read_to_string("/proc/execdomains")?;
+    let mut ret = vec![];
+    for line in content.trim().lines() {
+        let mut item_iter = line.split_ascii_whitespace();
+        let item1 = item_iter.next().ok_or(Error::BadFormat)?;
+        let item2 = item_iter.next().ok_or(Error::BadFormat)?;
+        let item3 = item_iter.next().ok_or(Error::BadFormat)?;
+        ret.push((
+            item1.trim().to_string(),
+            item2.trim().to_string(),
+            item3.trim().to_string(),
+        ));
+    }
+    Ok(ret)
+}
+
+/// Each line is represent as a tuple in Vector.
+/// In tuple, first element is first column, that is fb number.
+/// And the rest columns are in the second element, each columns is an item.
+pub fn fb() -> Result<Vec<(usize, Vec<String>)>> {
+    let content = std::fs::read_to_string("/proc/fb")?;
+    let mut ret = vec![];
+    for line in content.trim().lines() {
+        println!("{}", line);
+        let mut item_iter = line.split_ascii_whitespace();
+        let item1 = item_iter.next().ok_or(Error::BadFormat)?;
+        let item2 = item_iter.map(|s| s.trim().to_string()).collect();
+        ret.push((item1.parse::<usize>().map_err(|_| Error::BadFormat)?, item2));
     }
     Ok(ret)
 }
@@ -303,4 +340,6 @@ mod test {
     output_unit_test!(crypto);
     output_unit_test!(devices);
     output_unit_test!(dma);
+    output_unit_test!(execdomains);
+    output_unit_test!(fb);
 }
