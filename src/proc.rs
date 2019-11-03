@@ -15,8 +15,7 @@ pub fn buddyinfo() -> Result<HashMap<(usize, String), [usize; 10]>> {
         let node = node
             .trim()
             .trim_end_matches(',')
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let _ = column.next();
         let zone = column.next().ok_or(Error::BadFormat)?;
@@ -24,7 +23,7 @@ pub fn buddyinfo() -> Result<HashMap<(usize, String), [usize; 10]>> {
         let mut list = [0; 10];
         for i in 0..10 {
             let num = column.next().ok_or(Error::BadFormat)?;
-            let num = num.parse::<usize>().map_err(|_| Error::BadFormat)?;
+            let num = num.parse::<usize>()?;
             list[i] = num;
         }
 
@@ -65,9 +64,7 @@ pub fn devices() -> Result<(Vec<(usize, String)>, Vec<(usize, String)>)> {
         let major_number = item.next().ok_or(Error::BadFormat)?;
         let name = item.next().ok_or(Error::BadFormat)?;
 
-        let major_number = major_number
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+        let major_number = major_number.parse::<usize>()?;
         character_devices.push((major_number, name.to_string()));
     }
 
@@ -81,8 +78,7 @@ pub fn devices() -> Result<(Vec<(usize, String)>, Vec<(usize, String)>)> {
         let name = item.next().ok_or(Error::BadFormat)?;
 
         let major_number = major_number
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
         block_devices.push((major_number, name.to_string()));
     }
 
@@ -97,7 +93,7 @@ pub fn dma() -> Result<Vec<(usize, String)>> {
     for line in content.trim().lines() {
         let mut kv = line.split(':');
         let key = kv.next().ok_or(Error::BadFormat)?;
-        let key = key.parse::<usize>().map_err(|_| Error::BadFormat)?;
+        let key = key.parse::<usize>()?;
         let value = kv.next().ok_or(Error::BadFormat)?;
         ret.push((key, value.to_string()));
     }
@@ -136,7 +132,7 @@ pub fn fb() -> Result<Vec<(usize, Vec<String>)>> {
         let mut item_iter = line.split_ascii_whitespace();
         let item1 = item_iter.next().ok_or(Error::BadFormat)?;
         let item2 = item_iter.map(|s| s.trim().to_string()).collect();
-        ret.push((item1.parse::<usize>().map_err(|_| Error::BadFormat)?, item2));
+        ret.push((item1.parse::<usize>()?, item2));
     }
     Ok(ret)
 }
@@ -349,13 +345,11 @@ pub fn diskstats() -> Result<Vec<Disk>> {
 
         let major_number = item_iter.next().ok_or(Error::BadFormat)?;
         let major_number = major_number
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let minor_number = item_iter.next().ok_or(Error::BadFormat)?;
         let minor_number = minor_number
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let device_name = item_iter
             .next()
@@ -364,78 +358,63 @@ pub fn diskstats() -> Result<Vec<Disk>> {
 
         let reads_completed_successfully = item_iter.next().ok_or(Error::BadFormat)?;
         let reads_completed_successfully = reads_completed_successfully
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let reads_merged = item_iter.next().ok_or(Error::BadFormat)?;
         let reads_merged = reads_merged
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let sectors_read = item_iter.next().ok_or(Error::BadFormat)?;
         let sectors_read = sectors_read
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let time_spent_reading = item_iter.next().ok_or(Error::BadFormat)?;
         let time_spent_reading = time_spent_reading
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let writes_completed = item_iter.next().ok_or(Error::BadFormat)?;
         let writes_completed = writes_completed
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let writes_merged = item_iter.next().ok_or(Error::BadFormat)?;
         let writes_merged = writes_merged
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let sectors_written = item_iter.next().ok_or(Error::BadFormat)?;
         let sectors_written = sectors_written
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let time_spent_writing = item_iter.next().ok_or(Error::BadFormat)?;
         let time_spent_writing = time_spent_writing
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let ios_currently_in_progress = item_iter.next().ok_or(Error::BadFormat)?;
         let ios_currently_in_progress = ios_currently_in_progress
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let time_spent_doing_ios = item_iter.next().ok_or(Error::BadFormat)?;
         let time_spent_doing_ios = time_spent_doing_ios
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let weighted_time_spent_doing_ios = item_iter.next().ok_or(Error::BadFormat)?;
         let weighted_time_spent_doing_ios = weighted_time_spent_doing_ios
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let discards_completed_successfully = item_iter.next().unwrap_or("0");
         let discards_completed_successfully = discards_completed_successfully
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let discards_merged = item_iter.next().unwrap_or("0");
         let discards_merged = discards_merged
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let sectors_discarded = item_iter.next().unwrap_or("0");
         let sectors_discarded = sectors_discarded
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let time_spent_discarding = item_iter.next().unwrap_or("0");
         let time_spent_discarding = time_spent_discarding
-            .parse::<usize>()
-            .map_err(|_| Error::BadFormat)?;
+            .parse::<usize>()?;
 
         let disk = Disk {
             major_number,
