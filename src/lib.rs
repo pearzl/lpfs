@@ -54,11 +54,12 @@
 pub enum Error {
     /// contains a std::io::Error, which should be `NotFound`.
     IO(std::io::Error),
-    /// this error should appear. 
-    /// Otherwise it's a situation where unexpected input appears. 
+    /// this error should appear.
+    /// Otherwise it's a situation where unexpected input appears.
     /// That is a bug.default_read!
     BadFormat,
-    Number(std::num::ParseIntError)
+    ParseInt(std::num::ParseIntError),
+    ParseFloat(std::num::ParseFloatError),
 }
 
 impl From<std::io::Error> for Error {
@@ -69,7 +70,13 @@ impl From<std::io::Error> for Error {
 
 impl From<std::num::ParseIntError> for Error {
     fn from(err: std::num::ParseIntError) -> Self {
-        Error::Number(err)
+        Error::ParseInt(err)
+    }
+}
+
+impl From<std::num::ParseFloatError> for Error {
+    fn from(err: std::num::ParseFloatError) -> Self {
+        Error::ParseFloat(err)
     }
 }
 
