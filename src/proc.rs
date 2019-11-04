@@ -265,6 +265,20 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
     Ok(ret)
 }
 
+/// Each line is represent as a tuple in Vector.
+/// Each column is represent as a item in tuple.
+pub fn iomem() -> Result<Vec<(String, String)>> {
+    let content = std::fs::read_to_string("/proc/iomem")?;
+    let mut ret = vec![];
+    for line in content.trim().lines() {
+        let mut kv = line.split(':');
+        let key = kv.next().ok_or(Error::BadFormat)?;
+        let value = kv.next().ok_or(Error::BadFormat)?;
+        ret.push((key.trim().to_string(), value.trim().to_string()));
+    }
+    Ok(ret)
+}
+
 pub mod acpi;
 pub mod driver;
 
@@ -453,5 +467,6 @@ mod test {
     output_unit_test!(fb);
     output_unit_test!(filesystems);
     output_unit_test!(interrupts);
+    output_unit_test!(iomem);
 
 }
