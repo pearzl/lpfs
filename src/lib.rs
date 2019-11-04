@@ -124,6 +124,20 @@ macro_rules! default_pairs {
     };
 }
 
+macro_rules! default_list {
+    ($fn_name: ident, $path: expr, $return_type: ty, $parse_code: ident) => {
+        pub fn $fn_name() -> Result<Vec<$return_type>> {
+            let content = std::fs::read_to_string($path)?;
+            let mut ret = vec![];
+            for line in content.trim().lines() {
+                let columns: Vec<&str> = line.split_ascii_whitespace().collect();
+                ret.push($parse_code(columns)?);
+            }
+            Ok(ret)
+        }
+    };
+}
+
 /// generate a simple unit test which print the returning value to std_out.
 #[cfg(test)]
 macro_rules! output_unit_test {
@@ -136,16 +150,17 @@ macro_rules! output_unit_test {
 }
 
 macro_rules! getter_gen {
-    ($filed: ident : $type: ty) => {
-        pub fn $filed(&self) -> $type {
-            self.$filed
-        }
+    (
+        $(
+            $filed: ident : $type: ty
+        ), *
+    ) => {
+        $(
+            pub fn $filed(&self) -> &$type {
+                &self.$filed
+            }
+        ) *
     };
-    ($filed: ident : $type: ty : &) => {
-        pub fn $filed(&self) -> &$type {
-            &self.$filed
-        }
-    }
 }
 
 pub mod proc;
