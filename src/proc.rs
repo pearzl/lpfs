@@ -319,29 +319,12 @@ pub struct LoadAvg {
 }
 
 impl LoadAvg {
-    pub fn one(&self) -> f32 {
-        self.one
-    }
-
-    pub fn five(&self) -> f32 {
-        self.five
-    }
-
-    pub fn fifteen(&self) -> f32 {
-        self.fifteen
-    }
-
-    pub fn cur_num(&self) -> usize {
-        self.cur_num
-    }
-
-    pub fn total_num(&self) -> usize {
-        self.total_num
-    }
-
-    pub fn last_pid(&self) -> usize {
-        self.last_pid
-    }
+    getter_gen!{one: f32}
+    getter_gen!{five: f32}
+    getter_gen!{fifteen: f32}
+    getter_gen!{cur_num: usize}
+    getter_gen!{total_num: usize}
+    getter_gen!{last_pid: usize}
 }
 
 /// The content is parsed to a LoadAvg.
@@ -382,6 +365,108 @@ pub fn loadavg() -> Result<LoadAvg> {
         total_num,
         last_pid,
     })
+}
+
+/// returned by [`lock`](fn.locks.html)
+#[derive(Debug)]
+pub struct Lock {
+    id: usize,
+    class: String,
+    mode: String,
+    rw: String,
+    pid: usize,
+    major: usize,
+    minor: usize,
+    inode: usize,
+    start: usize,
+    end: Option<usize>
+}
+
+impl Lock {
+    getter_gen!{id: usize}
+    getter_gen!{class: String : &}
+    getter_gen!{mode: String : &}
+    getter_gen!{rw: String : &}
+    getter_gen!{pid: usize}
+    getter_gen!{major: usize}
+    getter_gen!{minor: usize}
+    getter_gen!{inode: usize}
+    getter_gen!{start: usize}
+    getter_gen!{end: Option<usize>}
+
+    pub fn column(&self, index: usize) -> String {
+        match index {
+            0 => format!("{}", self.id),
+            1 => format!("{}", self.class),
+            2 => format!("{}", self.mode),
+            3 => format!("{}", self.rw),
+            4 => format!("{}", self.pid),
+            5 => format!("{:02x}:{:02x}:{}", self.major, self.minor, self.inode),
+            6 => format!("{}", self.start),
+            7 => if let Some(e) = self.end {
+                format!("{}", e)
+            }else {
+                format!("EOF")
+            },
+            _ => panic!("out of range")
+        }
+    }
+}
+
+/// Each entry in Vector is a line in file which represent a lock.
+/// 
+/// There are two method to access the Lock: 
+/// 1. by filed name, these method has the same name as the filed name.
+/// 2. by column index, correct index if from 0 to 7, wrong index make a panic.
+/// 
+/// Note: index by column always return `String` type.
+/// However filed name have different type to return and are not group by column. 
+///
+/// Note: access last column by filed is an Option, None stand for EOF.
+/// The last column always exist.
+/// ```
+/// use linux_proc::*;
+/// fn main() {
+///     for lock in locks().unwrap() {
+///         assert_eq!(lock.class(), &lock.column(1));
+///     }
+/// }
+/// ```
+pub fn locks() -> Result<Vec<Lock>> {
+    let content = std::fs::read_to_string("/proc/locks")?;
+    let mut ret = vec![];
+    
+    for line in content.trim().lines() {
+        let columns: Vec<&str> = line.trim().split_ascii_whitespace().collect();
+        if columns.len() != 8 {
+            return Err(Error::BadFormat)
+        }
+
+        let id = columns[0].trim_end_matches(':').parse::<usize>()?;
+        let class = columns[1].to_string();
+        let mode = columns[2].to_string();
+        let rw = columns[3].to_string();
+        let pid = columns[4].parse::<usize>()?;
+        let file: Vec<&str> = columns[5].split(':').collect();
+        if file.len() != 3 {
+            return Err(Error::BadFormat)
+        }
+        let major = usize::from_str_radix(file[0], 16)?;
+        let minor = usize::from_str_radix(file[1], 16)?;
+        let inode = usize::from_str_radix(file[2], 10)?;
+        let start = columns[6].parse::<usize>()?;
+        let end = if "EOF" == columns[7] {
+            None
+        }else {
+            Some(columns[7].parse::<usize>()?)
+        };
+
+        ret.push(Lock{
+            id, class, mode, rw, pid, major, minor, inode, start, end
+        })
+    }
+
+    Ok(ret)
 }
 
 pub mod acpi;
@@ -545,6 +630,8 @@ pub fn diskstats() -> Result<Vec<Disk>> {
 
 #[cfg(test)]
 mod test {
+    use super::*;
+
     output_unit_test!(buddyinfo);
     output_unit_test!(cmdline);
     output_unit_test!(cpuinfo);
@@ -559,4 +646,29 @@ mod test {
     output_unit_test!(ioports);
     output_unit_test!(kcore_size);
     output_unit_test!(loadavg);
+    output_unit_test!(locks);
+
+    #[test]
+    fn test_locks_index() {
+        let l = Lock {
+            id: 4,
+            class: "FLOCK".to_string(),
+            mode: "ADVISORY".to_string(),
+            rw: "WRITE".to_string(),
+            pid: 649,
+            major: 0,
+            minor: 19,
+            inode: 16573,
+            start: 0,
+            end: None,
+        };
+        assert_eq!(l.column(0), "4");
+        assert_eq!(l.column(1), "FLOCK");
+        assert_eq!(l.column(2), "ADVISORY");
+        assert_eq!(l.column(3), "WRITE");
+        assert_eq!(l.column(4), "649");
+        assert_eq!(l.column(5), "00:13:16573");
+        assert_eq!(l.column(6), "0");
+        assert_eq!(l.column(7), "EOF");
+    }
 }
