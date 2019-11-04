@@ -153,7 +153,7 @@ pub fn filesystems() -> Result<Vec<(bool, String)>> {
 }
 
 #[derive(Debug)]
-/// return by [`interrupts`](fn.interrupts.html)
+/// returned by [`interrupts`](fn.interrupts.html)
 pub enum Interrupt {
     Internal {
         name: String,
@@ -300,6 +300,88 @@ pub fn ioports() -> Result<Vec<(String, String)>> {
 pub fn kcore_size() -> Result<u64> {
     let md = std::fs::metadata("/proc/kcore")?;
     Ok(md.len())
+}
+
+/// Unimplemented now.
+pub fn kmsg() -> Result<String> {
+    unimplemented!()
+}
+
+/// returned by [`loadavg()`](fn.loadavg.html)
+#[derive(Debug)]
+pub struct LoadAvg {
+    one: f32,
+    five: f32,
+    fifteen: f32,
+    cur_num: usize,
+    total_num: usize,
+    last_pid: usize,
+}
+
+impl LoadAvg {
+    pub fn one(&self) -> f32 {
+        self.one
+    }
+
+    pub fn five(&self) -> f32 {
+        self.five
+    }
+
+    pub fn fifteen(&self) -> f32 {
+        self.fifteen
+    }
+
+    pub fn cur_num(&self) -> usize {
+        self.cur_num
+    }
+
+    pub fn total_num(&self) -> usize {
+        self.total_num
+    }
+
+    pub fn last_pid(&self) -> usize {
+        self.last_pid
+    }
+}
+
+/// The content is parsed to a LoadAvg.
+/// ```
+/// use linux_proc::*;
+/// fn main() {
+///     let la = loadavg().unwrap();
+///     println!("one minute load: {}", la.one());
+///     println!("five minutes load: {}", la.five());
+///     println!("fifteen minutes laod: {}", la.fifteen());
+///     println!("current process number: {}", la.cur_num());
+///     println!("total process number: {}", la.total_num());
+///     println!("last process id: {}", la.last_pid());
+/// }
+/// ```
+pub fn loadavg() -> Result<LoadAvg> {
+    let content = std::fs::read_to_string("/proc/loadavg")?;
+    let mut column_iter = content.trim().split_ascii_whitespace();
+    let one = column_iter.next().ok_or(Error::BadFormat)?.parse::<f32>()?;
+    let five = column_iter.next().ok_or(Error::BadFormat)?.parse::<f32>()?;
+    let fifteen = column_iter.next().ok_or(Error::BadFormat)?.parse::<f32>()?;
+    let pnum: Vec<&str> = column_iter
+        .next()
+        .ok_or(Error::BadFormat)?
+        .split('/')
+        .collect();
+    let cur_num = pnum.get(0).ok_or(Error::BadFormat)?.parse::<usize>()?;
+    let total_num = pnum.get(1).ok_or(Error::BadFormat)?.parse::<usize>()?;
+    let last_pid = column_iter
+        .next()
+        .ok_or(Error::BadFormat)?
+        .parse::<usize>()?;
+    Ok(LoadAvg {
+        one,
+        five,
+        fifteen,
+        cur_num,
+        total_num,
+        last_pid,
+    })
 }
 
 pub mod acpi;
@@ -476,4 +558,5 @@ mod test {
     output_unit_test!(iomem);
     output_unit_test!(ioports);
     output_unit_test!(kcore_size);
+    output_unit_test!(loadavg);
 }
