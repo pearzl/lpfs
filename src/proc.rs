@@ -319,12 +319,12 @@ pub struct LoadAvg {
 }
 
 impl LoadAvg {
-    getter_gen!{one: f32}
-    getter_gen!{five: f32}
-    getter_gen!{fifteen: f32}
-    getter_gen!{cur_num: usize}
-    getter_gen!{total_num: usize}
-    getter_gen!{last_pid: usize}
+    getter_gen! {one: f32}
+    getter_gen! {five: f32}
+    getter_gen! {fifteen: f32}
+    getter_gen! {cur_num: usize}
+    getter_gen! {total_num: usize}
+    getter_gen! {last_pid: usize}
 }
 
 /// The content is parsed to a LoadAvg.
@@ -379,20 +379,20 @@ pub struct Lock {
     minor: usize,
     inode: usize,
     start: usize,
-    end: Option<usize>
+    end: Option<usize>,
 }
 
 impl Lock {
-    getter_gen!{id: usize}
-    getter_gen!{class: String : &}
-    getter_gen!{mode: String : &}
-    getter_gen!{rw: String : &}
-    getter_gen!{pid: usize}
-    getter_gen!{major: usize}
-    getter_gen!{minor: usize}
-    getter_gen!{inode: usize}
-    getter_gen!{start: usize}
-    getter_gen!{end: Option<usize>}
+    getter_gen! {id: usize}
+    getter_gen! {class: String : &}
+    getter_gen! {mode: String : &}
+    getter_gen! {rw: String : &}
+    getter_gen! {pid: usize}
+    getter_gen! {major: usize}
+    getter_gen! {minor: usize}
+    getter_gen! {inode: usize}
+    getter_gen! {start: usize}
+    getter_gen! {end: Option<usize>}
 
     pub fn column(&self, index: usize) -> String {
         match index {
@@ -403,24 +403,26 @@ impl Lock {
             4 => format!("{}", self.pid),
             5 => format!("{:02x}:{:02x}:{}", self.major, self.minor, self.inode),
             6 => format!("{}", self.start),
-            7 => if let Some(e) = self.end {
-                format!("{}", e)
-            }else {
-                format!("EOF")
-            },
-            _ => panic!("out of range")
+            7 => {
+                if let Some(e) = self.end {
+                    format!("{}", e)
+                } else {
+                    format!("EOF")
+                }
+            }
+            _ => panic!("out of range"),
         }
     }
 }
 
 /// Each entry in Vector is a line in file which represent a lock.
-/// 
-/// There are two method to access the Lock: 
+///
+/// There are two method to access the Lock:
 /// 1. by filed name, these method has the same name as the filed name.
 /// 2. by column index, correct index if from 0 to 7, wrong index make a panic.
-/// 
+///
 /// Note: index by column always return `String` type.
-/// However filed name have different type to return and are not group by column. 
+/// However filed name have different type to return and are not group by column.
 ///
 /// Note: access last column by filed is an Option, None stand for EOF.
 /// The last column always exist.
@@ -435,11 +437,11 @@ impl Lock {
 pub fn locks() -> Result<Vec<Lock>> {
     let content = std::fs::read_to_string("/proc/locks")?;
     let mut ret = vec![];
-    
+
     for line in content.trim().lines() {
         let columns: Vec<&str> = line.trim().split_ascii_whitespace().collect();
         if columns.len() != 8 {
-            return Err(Error::BadFormat)
+            return Err(Error::BadFormat);
         }
 
         let id = columns[0].trim_end_matches(':').parse::<usize>()?;
@@ -449,7 +451,7 @@ pub fn locks() -> Result<Vec<Lock>> {
         let pid = columns[4].parse::<usize>()?;
         let file: Vec<&str> = columns[5].split(':').collect();
         if file.len() != 3 {
-            return Err(Error::BadFormat)
+            return Err(Error::BadFormat);
         }
         let major = usize::from_str_radix(file[0], 16)?;
         let minor = usize::from_str_radix(file[1], 16)?;
@@ -457,16 +459,39 @@ pub fn locks() -> Result<Vec<Lock>> {
         let start = columns[6].parse::<usize>()?;
         let end = if "EOF" == columns[7] {
             None
-        }else {
+        } else {
             Some(columns[7].parse::<usize>()?)
         };
 
-        ret.push(Lock{
-            id, class, mode, rw, pid, major, minor, inode, start, end
+        ret.push(Lock {
+            id,
+            class,
+            mode,
+            rw,
+            pid,
+            major,
+            minor,
+            inode,
+            start,
+            end,
         })
     }
 
     Ok(ret)
+}
+
+default_read! {mdstat, "/proc/mdstat"}
+
+pub fn meminfo() -> Result<HashMap<String, usize>> {
+    let content = std::fs::read_to_string("/proc/meminfo")?;
+    let mut map = HashMap::new();
+    for line in content.trim().lines() {
+        let columns: Vec<&str> = line.trim().split_ascii_whitespace().collect();
+        let name = columns[0].trim_end_matches(':').to_string();
+        let num = columns[1].parse::<usize>()?;
+        map.insert(name, num);
+    }
+    Ok(map)
 }
 
 pub mod acpi;
@@ -647,6 +672,8 @@ mod test {
     output_unit_test!(kcore_size);
     output_unit_test!(loadavg);
     output_unit_test!(locks);
+    output_unit_test!(mdstat);
+    output_unit_test!(meminfo);
 
     #[test]
     fn test_locks_index() {
