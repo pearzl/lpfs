@@ -135,6 +135,19 @@ macro_rules! output_unit_test {
     };
 }
 
+macro_rules! getter_gen {
+    ($filed: ident : $type: ty) => {
+        pub fn $filed(&self) -> $type {
+            self.$filed
+        }
+    };
+    ($filed: ident : $type: ty : &) => {
+        pub fn $filed(&self) -> &$type {
+            &self.$filed
+        }
+    }
+}
+
 pub mod proc;
 
 #[doc(inline)]
