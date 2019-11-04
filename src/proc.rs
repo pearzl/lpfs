@@ -319,12 +319,14 @@ pub struct LoadAvg {
 }
 
 impl LoadAvg {
-    getter_gen! {one: f32}
-    getter_gen! {five: f32}
-    getter_gen! {fifteen: f32}
-    getter_gen! {cur_num: usize}
-    getter_gen! {total_num: usize}
-    getter_gen! {last_pid: usize}
+    getter_gen! {
+    one: f32,
+    five: f32,
+    fifteen: f32,
+    cur_num: usize,
+    total_num: usize,
+    last_pid: usize
+    }
 }
 
 /// The content is parsed to a LoadAvg.
@@ -383,16 +385,18 @@ pub struct Lock {
 }
 
 impl Lock {
-    getter_gen! {id: usize}
-    getter_gen! {class: String : &}
-    getter_gen! {mode: String : &}
-    getter_gen! {rw: String : &}
-    getter_gen! {pid: usize}
-    getter_gen! {major: usize}
-    getter_gen! {minor: usize}
-    getter_gen! {inode: usize}
-    getter_gen! {start: usize}
-    getter_gen! {end: Option<usize>}
+    getter_gen! {
+        id: usize,
+        class: String,
+        mode: String,
+        rw: String,
+        pid: usize,
+        major: usize,
+        minor: usize,
+        inode: usize,
+        start: usize,
+        end: Option<usize>
+    }
 
     pub fn column(&self, index: usize) -> String {
         match index {
@@ -482,6 +486,7 @@ pub fn locks() -> Result<Vec<Lock>> {
 
 default_read! {mdstat, "/proc/mdstat"}
 
+/// each line is parsed to an entry, if the third column is exist, kB, it is ignored.
 pub fn meminfo() -> Result<HashMap<String, usize>> {
     let content = std::fs::read_to_string("/proc/meminfo")?;
     let mut map = HashMap::new();
@@ -494,6 +499,15 @@ pub fn meminfo() -> Result<HashMap<String, usize>> {
     Ok(map)
 }
 
+#[inline]
+fn parse_misc(columns: Vec<&str>) -> Result<(usize, String)> {
+    let device = columns[0].parse::<usize>()?;
+    let deriver = columns[1].to_string();
+    Ok((device, deriver))
+}
+
+default_list! { misc, "/proc/misc", (usize, String), parse_misc }
+
 pub mod acpi;
 pub mod driver;
 
@@ -501,24 +515,47 @@ default_read! {consoles, "/proc/consoles"}
 
 #[derive(Debug)]
 pub struct Disk {
-    pub major_number: usize,
-    pub minor_number: usize,
-    pub device_name: String,
-    pub reads_completed_successfully: usize,
-    pub reads_merged: usize,
-    pub sectors_read: usize,
-    pub time_spent_reading: usize,
-    pub writes_completed: usize,
-    pub writes_merged: usize,
-    pub sectors_written: usize,
-    pub time_spent_writing: usize,
-    pub ios_currently_in_progress: usize,
-    pub time_spent_doing_ios: usize,
-    pub weighted_time_spent_doing_ios: usize,
-    pub discards_completed_successfully: usize,
-    pub discards_merged: usize,
-    pub sectors_discarded: usize,
-    pub time_spent_discarding: usize,
+    major_number: usize,
+    minor_number: usize,
+    device_name: String,
+    reads_completed_successfully: usize,
+    reads_merged: usize,
+    sectors_read: usize,
+    time_spent_reading: usize,
+    writes_completed: usize,
+    writes_merged: usize,
+    sectors_written: usize,
+    time_spent_writing: usize,
+    ios_currently_in_progress: usize,
+    time_spent_doing_ios: usize,
+    weighted_time_spent_doing_ios: usize,
+    discards_completed_successfully: usize,
+    discards_merged: usize,
+    sectors_discarded: usize,
+    time_spent_discarding: usize,
+}
+
+impl Disk {
+    getter_gen! {
+        major_number: usize,
+        minor_number: usize,
+        device_name: String,
+        reads_completed_successfully: usize,
+        reads_merged: usize,
+        sectors_read: usize,
+        time_spent_reading: usize,
+        writes_completed: usize,
+        writes_merged: usize,
+        sectors_written: usize,
+        time_spent_writing: usize,
+        ios_currently_in_progress: usize,
+        time_spent_doing_ios: usize,
+        weighted_time_spent_doing_ios: usize,
+        discards_completed_successfully: usize,
+        discards_merged: usize,
+        sectors_discarded: usize,
+        time_spent_discarding: usize
+    }
 }
 
 impl std::ops::Index<usize> for Disk {
@@ -674,6 +711,7 @@ mod test {
     output_unit_test!(locks);
     output_unit_test!(mdstat);
     output_unit_test!(meminfo);
+    output_unit_test!(misc);
 
     #[test]
     fn test_locks_index() {
