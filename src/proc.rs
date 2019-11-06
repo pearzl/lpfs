@@ -47,18 +47,25 @@ macro_rules! default_read {
 }
 
 macro_rules! default_list {
-    ($fn_name: ident, $path: expr, $return_type: ty, $parse_code: ident, $sep: expr) => {
+    ($fn_name: ident, $path: expr, $return_type: ty, $parse_code: ident, $sep: expr, $skip: expr) => {
         pub fn $fn_name() -> $crate::proc::Result<Vec<$return_type>> {
             let content = std::fs::read_to_string($path)?;
             let mut ret = vec![];
-            for block in content.trim().split($sep) {
+            let mut block_iter = content.trim().split($sep);
+            for _ in 0..$skip {
+                let _ = block_iter.next();
+            }
+            for block in block_iter {
                 ret.push($parse_code(block)?);
             }
             Ok(ret)
         }
     };
+    ($fn_name: ident, $path: expr, $return_type: ty, $parse_code: ident, $sep: expr) => {
+        default_list! {$fn_name, $path, $return_type, $parse_code, $sep, 0}
+    };
     ($fn_name: ident, $path: expr, $return_type: ty, $parse_code: ident) => {
-        default_list! {$fn_name, $path, $return_type, $parse_code, '\n'}
+        default_list! {$fn_name, $path, $return_type, $parse_code, '\n', 0}
     };
 }
 
@@ -107,7 +114,11 @@ mod misc;
 mod consoles {
     default_read! {consoles, "/proc/consoles"}
 }
-pub mod acpi;
-pub mod driver;
 pub mod modules;
 pub mod mounts;
+pub mod mtrr {
+    default_read! {mtrr, "/proc/consoles"}
+}
+pub mod acpi;
+pub mod driver;
+pub mod partitions;
