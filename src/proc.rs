@@ -122,3 +122,4 @@ pub mod mtrr {
 pub mod acpi;
 pub mod driver;
 pub mod partitions;
+pub mod slabinfo;
