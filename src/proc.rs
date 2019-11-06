@@ -107,6 +107,7 @@ mod misc;
 mod consoles {
     default_read! {consoles, "/proc/consoles"}
 }
-
 pub mod acpi;
 pub mod driver;
+pub mod modules;
+pub mod mounts;
