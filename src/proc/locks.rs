@@ -29,11 +29,11 @@ pub struct Lock {
     minor: usize,
     inode: usize,
     start: usize,
-    end: Option<usize>
+    end: Option<usize>,
 }
 
-impl Lock{
-    getter_gen!{
+impl Lock {
+    getter_gen! {
         id: usize,
         class: String,
         mode: String,
@@ -96,8 +96,16 @@ impl FromStr for Lock {
         };
 
         Ok(Lock {
-            id, class, mode, rw, pid, major,
-            minor, inode, start, end,
+            id,
+            class,
+            mode,
+            rw,
+            pid,
+            major,
+            minor,
+            inode,
+            start,
+            end,
         })
     }
 }
@@ -107,6 +115,6 @@ fn to_locks(line: &str) -> Result<Lock> {
     Lock::from_str(line)
 }
 
-default_list!{
+default_list! {
     locks, "/proc/locks", Lock, to_locks
 }

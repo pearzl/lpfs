@@ -4,7 +4,7 @@ use std::str::FromStr;
 #[derive(Debug)]
 pub struct Dma {
     channel: usize,
-    driver: String
+    driver: String,
 }
 
 impl FromStr for Dma {
@@ -15,9 +15,9 @@ impl FromStr for Dma {
         if columns.len() != 2 {
             return Err(Error::BadFormat);
         }
-        Ok(Dma{
+        Ok(Dma {
             channel: columns[0].trim().parse::<usize>()?,
-            driver: columns[1].trim().to_string()
+            driver: columns[1].trim().to_string(),
         })
     }
 }
@@ -27,6 +27,6 @@ fn to_dma(line: &str) -> Result<Dma> {
     Dma::from_str(line)
 }
 
-default_list!{
+default_list! {
     dma, "/proc/dma", Dma, to_dma
 }

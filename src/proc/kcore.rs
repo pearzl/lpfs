@@ -1,4 +1,4 @@
-use crate::proc::{Result};
+use crate::proc::Result;
 
 /// return the size of /proc/kcore in bytes.
 ///

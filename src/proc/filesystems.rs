@@ -4,7 +4,7 @@ use std::str::FromStr;
 #[derive(Debug)]
 pub struct FileSystem {
     nodev: bool,
-    fs_type: String 
+    fs_type: String,
 }
 
 impl FromStr for FileSystem {
@@ -15,9 +15,9 @@ impl FromStr for FileSystem {
         if columns.len() < 2 {
             return Err(Error::BadFormat);
         }
-        Ok(FileSystem{
+        Ok(FileSystem {
             nodev: columns[0] != "nodev",
-            fs_type: columns[1].trim().to_string()
+            fs_type: columns[1].trim().to_string(),
         })
     }
 }
@@ -27,6 +27,6 @@ fn to_filesystems(line: &str) -> Result<FileSystem> {
     FileSystem::from_str(line)
 }
 
-default_list!{
+default_list! {
     filesystems, "/proc/filesystems", FileSystem, to_filesystems
 }

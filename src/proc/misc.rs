@@ -4,7 +4,7 @@ use std::str::FromStr;
 #[derive(Debug)]
 pub struct Misc {
     device: usize,
-    driver: String
+    driver: String,
 }
 
 impl FromStr for Misc {
@@ -13,11 +13,11 @@ impl FromStr for Misc {
     fn from_str(value: &str) -> Result<Self> {
         let columns: Vec<&str> = value.trim().split_ascii_whitespace().collect();
         if columns.len() != 2 {
-            return Err(Error::BadFormat)
-        } 
-        Ok(Misc{
+            return Err(Error::BadFormat);
+        }
+        Ok(Misc {
             device: columns[0].parse::<usize>()?,
-            driver: columns[1].to_string()
+            driver: columns[1].to_string(),
         })
     }
 }

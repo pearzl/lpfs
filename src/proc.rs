@@ -99,7 +99,7 @@ mod kmsg {
     }
 }
 mod locks;
-mod mdstat{
+mod mdstat {
     default_read! {mdstat, "/proc/mdstat"}
 }
 mod meminfo;

@@ -46,9 +46,7 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
 
         if let Ok(irq) = column1.parse::<usize>() {
             for i in 1..1 + cpu_num {
-                let c = columns[i]
-                    .trim()
-                    .parse::<usize>()?;
+                let c = columns[i].trim().parse::<usize>()?;
                 counts.push(c);
             }
 
@@ -62,9 +60,7 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
                 device_name,
             });
         } else if column1 == "ERR" {
-            let c = columns[1]
-                .trim()
-                .parse::<usize>()?;
+            let c = columns[1].trim().parse::<usize>()?;
             counts.push(c);
             ret.push(Interrupt::Internal {
                 name: "ERR".to_string(),
@@ -72,9 +68,7 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
                 detail: "".to_string(),
             });
         } else if column1 == "MIS" {
-            let c = columns[1]
-                .trim()
-                .parse::<usize>()?;
+            let c = columns[1].trim().parse::<usize>()?;
             counts.push(c);
             ret.push(Interrupt::Internal {
                 name: "MIS".to_string(),
@@ -85,9 +79,7 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
             let name = column1.to_string();
 
             for i in 1..1 + cpu_num {
-                let c = columns[i]
-                    .trim()
-                    .parse::<usize>()?;
+                let c = columns[i].trim().parse::<usize>()?;
                 counts.push(c);
             }
 

@@ -4,7 +4,7 @@ use std::str::FromStr;
 #[derive(Debug)]
 pub struct Fb {
     device: usize,
-    driver: String
+    driver: String,
 }
 
 impl FromStr for Fb {
@@ -14,7 +14,7 @@ impl FromStr for Fb {
         let mut columns = value.split_ascii_whitespace();
         let device = columns.next().ok_or(Error::BadFormat)?.parse::<usize>()?;
         let driver: String = columns.collect();
-        Ok(Fb{device, driver})
+        Ok(Fb { device, driver })
     }
 }
 
@@ -23,6 +23,6 @@ fn to_fb(line: &str) -> Result<Fb> {
     Fb::from_str(line)
 }
 
-default_list!{
+default_list! {
     fb, "/proc/fb", Fb, to_fb
 }

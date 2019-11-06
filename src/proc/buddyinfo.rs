@@ -48,4 +48,3 @@ fn to_buddyinfo(line: &str) -> Result<BuddyInfo> {
 default_list! {
    buddyinfo, "/proc/buddyinfo", BuddyInfo, to_buddyinfo
 }
-

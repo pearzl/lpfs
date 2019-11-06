@@ -1,11 +1,11 @@
 use crate::proc::{Error, Result};
-use std::str::FromStr;
 use std::collections::HashMap;
+use std::str::FromStr;
 
 // TODO: detail the fileds
 #[derive(Debug)]
 pub struct MemInfo {
-    entry: HashMap<String, usize>
+    entry: HashMap<String, usize>,
 }
 
 impl FromStr for MemInfo {
@@ -16,15 +16,13 @@ impl FromStr for MemInfo {
         for line in mi.lines() {
             let columns: Vec<&str> = line.split_ascii_whitespace().collect();
             if columns.len() != 3 {
-                return Err(Error::BadFormat)
+                return Err(Error::BadFormat);
             }
             let key = columns[0].trim_end_matches(':').to_string();
             let value = columns[1].parse::<usize>()?;
             map.insert(key, value);
         }
-        Ok(MemInfo{
-            entry: map
-        })
+        Ok(MemInfo { entry: map })
     }
 }
 
