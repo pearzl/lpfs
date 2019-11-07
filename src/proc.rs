@@ -120,6 +120,8 @@ pub mod mtrr {
     default_read! {mtrr, "/proc/consoles"}
 }
 pub mod acpi;
+pub mod slabinfo;
+pub mod stat;
+
 pub mod driver;
 pub mod partitions;
-pub mod slabinfo;
