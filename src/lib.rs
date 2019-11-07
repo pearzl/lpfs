@@ -4,7 +4,7 @@
 //! This crate interoperate files under /proc/ in linux.
 //!
 //! ```
-//! use linux_proc::*;
+//! use linux_proc::proc::cpuinfo::*;
 //!
 //! fn main() {
 //!     println!("{:?}", cpuinfo().unwrap());

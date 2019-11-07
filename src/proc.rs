@@ -83,35 +83,35 @@ macro_rules! getter_gen {
     };
 }
 
-mod buddyinfo;
-mod cmdline {
+pub mod buddyinfo;
+pub mod cmdline {
     default_read! {cmdline, "/proc/cmdline"}
 }
-mod cpuinfo;
-mod crypto;
-mod dma;
-mod execdomains {
+pub mod cpuinfo;
+pub mod crypto;
+pub mod dma;
+pub mod execdomains {
     default_read! {execdomains, "/proc/execdomains"}
 }
-mod fb;
-mod filesystems;
-mod interrupts;
-mod iomem;
-mod kcore;
-mod loadavg;
-mod kmsg {
+pub mod fb;
+pub mod filesystems;
+pub mod interrupts;
+pub mod iomem;
+pub mod kcore;
+pub mod loadavg;
+pub mod kmsg {
     /// Unimplemented now.
     pub fn kmsg() -> super::Result<String> {
         unimplemented!()
     }
 }
-mod locks;
-mod mdstat {
+pub mod locks;
+pub mod mdstat {
     default_read! {mdstat, "/proc/mdstat"}
 }
-mod meminfo;
-mod misc;
-mod consoles {
+pub mod meminfo;
+pub mod misc;
+pub mod consoles {
     default_read! {consoles, "/proc/consoles"}
 }
 pub mod modules;
