@@ -45,13 +45,13 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
         let mut counts = Vec::with_capacity(cpu_num);
 
         if let Ok(irq) = column1.parse::<usize>() {
-            for i in 1..1 + cpu_num {
-                let c = columns[i].trim().parse::<usize>()?;
+            for item in columns.iter().take(cpu_num + 1).skip(1) {
+                let c = item.trim().parse::<usize>()?;
                 counts.push(c);
             }
 
-            let device_name = format!("{}", columns.pop().ok_or(Error::BadFormat)?);
-            let type_of: String = columns[1 + cpu_num..].into_iter().map(|s| *s).collect();
+            let device_name = columns.pop().ok_or(Error::BadFormat)?.to_string();
+            let type_of: String = columns[1 + cpu_num..].iter().copied().collect();
 
             ret.push(Interrupt::Device {
                 irq_number: irq,
@@ -64,7 +64,7 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
             counts.push(c);
             ret.push(Interrupt::Internal {
                 name: "ERR".to_string(),
-                counts: counts,
+                counts,
                 detail: "".to_string(),
             });
         } else if column1 == "MIS" {
@@ -72,18 +72,18 @@ pub fn interrupts() -> Result<Vec<Interrupt>> {
             counts.push(c);
             ret.push(Interrupt::Internal {
                 name: "MIS".to_string(),
-                counts: counts,
+                counts,
                 detail: "".to_string(),
             });
         } else {
             let name = column1.to_string();
 
-            for i in 1..1 + cpu_num {
-                let c = columns[i].trim().parse::<usize>()?;
+            for item in columns.iter().take(cpu_num + 1).skip(1) {
+                let c = item.trim().parse::<usize>()?;
                 counts.push(c);
             }
 
-            let detail: String = columns[1 + cpu_num..].into_iter().map(|s| *s).collect();
+            let detail: String = columns[1 + cpu_num..].iter().copied().collect();
 
             ret.push(Interrupt::Internal {
                 name,

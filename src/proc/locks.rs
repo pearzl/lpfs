@@ -46,6 +46,7 @@ impl Lock {
         end: Option<usize>
     }
 
+    #[allow(clippy::useless_format)]
     pub fn column(&self, index: usize) -> String {
         match index {
             0 => format!("{}", self.id),
@@ -59,7 +60,7 @@ impl Lock {
                 if let Some(e) = self.end {
                     format!("{}", e)
                 } else {
-                    format!("EOF")
+                    format!("{}", "EOF")
                 }
             }
             _ => panic!("out of range"),

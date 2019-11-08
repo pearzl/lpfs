@@ -143,7 +143,7 @@ impl FromStr for Stat {
                 .trim_start_matches("cpu")
                 .split_ascii_whitespace()
                 .collect();
-            if columns.len() != 11 || columns[0].to_string() != i.to_string() {
+            if columns.len() != 11 || columns[0] != i.to_string() {
                 return Err(Error::BadFormat);
             }
             for (k, v) in columns[1..].iter().enumerate() {

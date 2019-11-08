@@ -15,7 +15,7 @@ pub fn wakeup() -> Result<Vec<Device>> {
     let mut line_iter = content.lines();
     let _ = line_iter.next();
 
-    while let Some(line) = line_iter.next() {
+    for line in line_iter {
         let items: Vec<&str> = line.split_ascii_whitespace().collect();
         if items.len() < 3 {
             return Err(Error::BadFormat);

@@ -11,7 +11,7 @@ impl FromStr for Crypto {
     fn from_str(value: &str) -> Result<Self> {
         let mut ret = HashMap::new();
         for line in value.trim().lines() {
-            let columns: Vec<&str> = line.split(":").collect();
+            let columns: Vec<&str> = line.split(':').collect();
             if columns.len() != 2 {
                 return Err(Error::BadFormat);
             }

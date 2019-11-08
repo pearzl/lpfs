@@ -122,6 +122,11 @@ pub mod mtrr {
 pub mod acpi;
 pub mod slabinfo;
 pub mod stat;
+pub mod swaps;
+pub mod uptime;
+pub mod version {
+    default_read! {version, "/proc/version"}
+}
 
 pub mod driver;
 pub mod partitions;
