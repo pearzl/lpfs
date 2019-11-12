@@ -1284,6 +1284,10 @@ pub fn uptime() -> Result<Uptime> {
 
 default_read! {version, "/proc/version"}
 
+pub fn proc_self() -> Result<PathBuf> {
+    Ok(std::fs::read_link("/proc/self")?)
+}
+
 pub mod acpi;
 pub mod driver;
 pub mod pid;
