@@ -1285,5 +1285,5 @@ pub fn uptime() -> Result<Uptime> {
 default_read! {version, "/proc/version"}
 
 pub mod acpi;
-
 pub mod driver;
+pub mod pid;
