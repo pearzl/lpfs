@@ -1290,4 +1290,5 @@ pub fn proc_self() -> Result<PathBuf> {
 
 pub mod acpi;
 pub mod driver;
+pub mod net;
 pub mod pid;

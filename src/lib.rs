@@ -61,6 +61,13 @@ pub enum Error {
     BadFormat,
     ParseInt(std::num::ParseIntError),
     ParseFloat(std::num::ParseFloatError),
+    ParseAddr(std::net::AddrParseError),
+}
+
+impl From<std::net::AddrParseError> for Error {
+    fn from(err: std::net::AddrParseError) -> Self {
+        Error::ParseAddr(err)
+    }
 }
 
 impl From<std::io::Error> for Error {
