@@ -1,4 +1,4 @@
-use super::{Error, Result};
+use crate::{Error, Result};
 use std::collections::HashMap;
 
 pub fn rtc() -> Result<HashMap<String, String>> {

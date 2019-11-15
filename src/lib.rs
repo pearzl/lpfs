@@ -1,34 +1,38 @@
-#![cfg(target_os = "linux")]
+// #![cfg(target_os = "linux")]
+#![doc(html_playground_url = "https://play.rust-lang.org/")]
 #![allow(dead_code)]
 
-//! This crate interoperate files under /proc/ in linux.
+
+//! ## how to use
+//!
+//! The layout of this crate is very like the /proc/ directory layout.
+//! 
+//! Each file correspond to a module which contains everything to interoperate with the file.
+//! Majority modules has a function which has the same name as the file.
+//! 
+//! However, function reside in process directories is a little different. 
+//! They receive an u32 argument to specify the target process, and the function name has a "_of" suffix.
 //!
 //! ```
-//! use linux_proc::proc::cpuinfo::*;
-//!
+//! use crate::cmdline::*;
+//! use crate::pid::cmdline::*;
+//! 
 //! fn main() {
-//!     println!("{:?}", cpuinfo().unwrap());
+//!     //  /proc/cmdline
+//!     println!("{:?}", cmdline());
+//!     
+//!     //  /proc/1/cmdline
+//!     println!("{:?}", cmdline_of(1));
 //! }
 //! ```
 //!
-//! ## layout of this crate
-//!
-//! It's very like the /proc/ directory layout.
-//!
-//! Top-level files within proc file system has a function to interoperate with
-//! which has the same name of the files.
-//! For example, read information from /proc/cpuinfo should use `crate::proc::cpuinfo()`.
-//!
-//! Those files reside in directories within /proc/ has a same name mod.
-//! For example, /proc/driver/rtc and `crate::driver::rtc()`.
-//!
-//! Everything under proc mod is re-export, so crate::proc is not necessary.
+//! Everything under proc mod is re-export, so `crate::proc::cmdline` equals to `crate::cmdline`.
 //!
 //! ## Returning value
 //!
 //! The returning value has different type depends on the files.
 //! Some function simply return the content of the file, including ending `\n`.
-//! Some function parse the content and return the light wrapping.
+//! Some function parse the content and return the wrapping type.
 //!
 //! There are tow possbile cases where return an Err:
 //!
@@ -41,16 +45,14 @@
 //! ## which files is supported
 //!
 //! It's very depends on th system.
-//! Here is a list from [red hat], and every file in this list is supported now.
+//! Here is a list from [red hat], every file in this list should be supported.
 //!
 //![red hat]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-proc
 
-/// All errors in this crate.
-///
-/// In most cases, all function should success,
-/// for everythin reside in `/proc/` is not a real file.
-/// Returning error is only exist in theory
-/// if the file exist on your computer as we using std::io inside.
+/// all kind of error may occurs in the crate.
+/// 
+/// IO often occurs when the file is not exists in your system, it wrap an std::io::Error::NotFound.
+/// others should be consider as an error and should be fix.
 #[derive(Debug)]
 pub enum Error {
     /// contains a std::io::Error, which should be `NotFound`.
@@ -94,7 +96,7 @@ macro_rules! default_read {
     ($fn_name: ident, $path: expr) => {
         /// Read the whole file content and return it.
         /// Ending line break is included.
-        pub fn $fn_name() -> $crate::proc::Result<String> {
+        pub fn $fn_name() -> $crate::Result<String> {
             Ok(std::fs::read_to_string($path)?)
         }
     };
@@ -102,7 +104,7 @@ macro_rules! default_read {
 
 macro_rules! default_list {
     ($fn_name: ident, $path: expr, $return_type: ty, $parse_code: ident, $sep: expr, $skip: expr) => {
-        pub fn $fn_name() -> $crate::proc::Result<Vec<$return_type>> {
+        pub fn $fn_name() -> $crate::Result<Vec<$return_type>> {
             let content = std::fs::read_to_string($path)?;
             let mut ret = vec![];
             let mut block_iter = content.trim().split($sep);
@@ -130,6 +132,7 @@ macro_rules! getter_gen {
         ), *
     ) => {
         $(
+            #[inline(always)]
             pub fn $filed(&self) -> &$type {
                 &self.$filed
             }
@@ -137,4 +140,6 @@ macro_rules! getter_gen {
     };
 }
 
+#[doc(inline)]
 pub mod proc;
+pub use proc::*;
