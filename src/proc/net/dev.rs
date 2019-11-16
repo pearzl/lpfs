@@ -2,10 +2,10 @@ use crate::{Error, Result};
 use std::str::FromStr;
 
 #[derive(Debug)]
-pub struct Dev{
+pub struct Dev {
     name: String,
-    receive: [usize;8],
-    transmit: [usize; 8]
+    receive: [usize; 8],
+    transmit: [usize; 8],
 }
 
 impl Dev {
@@ -15,7 +15,7 @@ impl Dev {
         transmit: [usize; 8]
     }
 
-    pub fn bytes_rev(&self) -> usize{
+    pub fn bytes_rev(&self) -> usize {
         self.receive[0]
     }
 
@@ -28,7 +28,7 @@ impl Dev {
     }
 
     pub fn drops_rev(&self) -> usize {
-        self. receive[3]
+        self.receive[3]
     }
 
     pub fn fifo_rev(&self) -> usize {
@@ -46,7 +46,7 @@ impl Dev {
     pub fn multicast(&self) -> usize {
         self.receive[7]
     }
-    
+
     pub fn bytes_trs(&self) -> usize {
         self.transmit[0]
     }
@@ -86,23 +86,25 @@ impl FromStr for Dev {
     fn from_str(line: &str) -> Result<Self> {
         let columns: Vec<&str> = line.split_ascii_whitespace().collect();
         if columns.len() != 17 {
-            return Err(Error::BadFormat)
+            return Err(Error::BadFormat);
         }
-        
+
         let name = columns[0].trim_end_matches(':').to_string();
-        
-        let mut receive = [0;8];
+
+        let mut receive = [0; 8];
         for (rev, item) in receive.iter_mut().zip(columns[1..9].iter()) {
             *rev = item.parse::<usize>()?;
         }
 
-        let mut transmit = [0;8];
+        let mut transmit = [0; 8];
         for (trs, item) in transmit.iter_mut().zip(columns[1..9].iter()) {
             *trs = item.parse::<usize>()?;
         }
 
-        Ok(Dev{
-            name, receive, transmit
+        Ok(Dev {
+            name,
+            receive,
+            transmit,
         })
     }
 }
@@ -115,4 +117,3 @@ fn to_dev(line: &str) -> Result<Dev> {
 default_list! {
     dev, "/proc/net/dev", Dev, to_dev, '\n', 2
 }
-
