@@ -70,4 +70,5 @@ pub mod net {
     pub mod dev;
     pub mod dev_mcast;
     pub mod ip_tables_names;
+    pub mod netstat;
 }
