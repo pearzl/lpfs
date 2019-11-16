@@ -3,8 +3,13 @@ name = "proc_getter"
 version = "0.0.1"
 authors = ["pearzl <302669696@qq.com>"]
 edition = "2018"
+
 license = "MIT"
 description = "make retriving infomations from /proc/* easier"
+readme = "README.md"
+key_words = ["proc", "linux", "info"]
+repository = "https://github.com/pearzl/proc_getter"
+documentation = "https://docs.rs/crate/proc_getter/0.0.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
