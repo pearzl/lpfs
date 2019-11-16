@@ -4,6 +4,8 @@
 
 The goal of this repo is to make retriving system informations reside in proc file system easier.
 
+# Example
+
 ```
 use proc_getter::cmdline::*;
 use proc_getter::pid::cmdline::*;
@@ -19,7 +21,7 @@ fn main() {
 
 ## minial requirement
 
-rust 2018
+rust 2018 (rustc 1.31.0 +)
 
 ## supported
 
