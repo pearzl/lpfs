@@ -138,6 +138,6 @@ macro_rules! getter_gen {
     };
 }
 
-#[doc(inline)]
 pub mod proc;
+#[doc(inline)]
 pub use proc::*;
