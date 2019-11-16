@@ -75,7 +75,7 @@ The table below lists the implemented files.
 | --- | --- |
 | acpi | wakeup |
 | driver | rtc |
-| net | arp |
+| net | arp, dev, dev_mcast, iptables_name |
 
 *Note: Not fully tested.*
 

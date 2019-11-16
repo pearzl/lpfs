@@ -69,4 +69,5 @@ pub mod net {
     pub mod arp;
     pub mod dev;
     pub mod dev_mcast;
+    pub mod ip_tables_names;
 }
