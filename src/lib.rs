@@ -2,21 +2,20 @@
 #![doc(html_playground_url = "https://play.rust-lang.org/")]
 #![allow(dead_code)]
 
-
 //! ## how to use
 //!
 //! The layout of this crate is very like the /proc/ directory layout.
-//! 
+//!
 //! Each file correspond to a module which contains everything to interoperate with the file.
 //! Majority modules has a function which has the same name as the file.
-//! 
-//! However, function reside in process directories is a little different. 
+//!
+//! However, function reside in process directories is a little different.
 //! They receive an u32 argument to specify the target process, and the function name has a "_of" suffix.
 //!
 //! ```
-//! use crate::cmdline::*;
-//! use crate::pid::cmdline::*;
-//! 
+//! use linux_proc::cmdline::*;
+//! use linux_proc::pid::cmdline::*;
+//!
 //! fn main() {
 //!     //  /proc/cmdline
 //!     println!("{:?}", cmdline());
@@ -50,7 +49,7 @@
 //![red hat]: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-proc
 
 /// all kind of error may occurs in the crate.
-/// 
+///
 /// IO often occurs when the file is not exists in your system, it wrap an std::io::Error::NotFound.
 /// others should be consider as an error and should be fix.
 #[derive(Debug)]

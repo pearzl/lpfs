@@ -1,8 +1,8 @@
 use crate::{Error, Result};
 use std::str::FromStr;
 
-/// represented an entry in /proc/devices. 
-/// 
+/// represented an entry in /proc/devices.
+///
 /// Both character devices and block devices.
 #[derive(Debug)]
 pub struct Device {
@@ -35,8 +35,10 @@ impl FromStr for Device {
 /// return character devices and block devices.
 ///
 /// ```
+/// use linux_proc::devices::*;
+///
 /// let (cha, blk) = devices().unwrap();
-/// 
+///
 /// println!("first character device is {}", cha[0].name());
 /// println!("first block device is {}", blk[0].name());
 /// ```

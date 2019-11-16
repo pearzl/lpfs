@@ -1,16 +1,18 @@
 use crate::{Error, Result};
-use std::str::FromStr;
 use std::collections::HashMap;
 use std::ops::Deref;
+use std::str::FromStr;
 
 /// represent the content of /proc/meminfo
-/// 
+///
 /// ```
+/// use linux_proc::meminfo::*;
+///
 /// let info = meminfo().unwrap();
 /// println!("total usable RAM is {} KiB.", info.get("MemTotal").unwrap());
 /// ```
 #[derive(Debug)]
-pub struct MemInfo (HashMap<String, usize>);
+pub struct MemInfo(HashMap<String, usize>);
 
 impl Deref for MemInfo {
     type Target = HashMap<String, usize>;
@@ -26,19 +28,23 @@ impl FromStr for MemInfo {
     fn from_str(mi: &str) -> Result<Self> {
         let mut map = HashMap::new();
         for line in mi.lines() {
-            let columns: Vec<&str> = line.split_ascii_whitespace().collect();
-            if columns.len() != 3 {
+            let columns: Vec<&str> = line.split(':').collect();
+            if columns.len() != 2 {
                 return Err(Error::BadFormat);
             }
-            let key = columns[0].trim_end_matches(':').to_string();
-            let value = columns[1].parse::<usize>()?;
+            let key = columns[0].trim().to_string();
+            let value = columns[1]
+                .trim()
+                .trim_end_matches("kB")
+                .trim()
+                .parse::<usize>()?;
             map.insert(key, value);
         }
-        Ok(MemInfo ( map ))
+        Ok(MemInfo(map))
     }
 }
 
 pub fn meminfo() -> Result<MemInfo> {
     let content = std::fs::read_to_string("/proc/meminfo")?;
-    MemInfo::from_str(&content)
+    MemInfo::from_str(&content.trim())
 }

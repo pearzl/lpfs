@@ -1,11 +1,13 @@
 use crate::{Error, Result};
-use std::str::FromStr;
 use std::collections::HashMap;
 use std::ops::Deref;
+use std::str::FromStr;
 
 /// represent an entry in /proc/crypto
 ///
 /// ```
+/// use linux_proc::crypto::*;
+///
 /// let info = crypto().unwrap();
 /// assert_eq!(info[0].name(), info[0].get("name").unwrap());
 /// ```
@@ -60,7 +62,7 @@ impl FromStr for Crypto {
             if columns.len() != 2 {
                 return Err(Error::BadFormat);
             }
-            ret.insert(columns[0].to_string(), columns[1].to_string());
+            ret.insert(columns[0].trim().to_string(), columns[1].trim().to_string());
         }
         Ok(Crypto(ret))
     }
@@ -73,4 +75,32 @@ fn to_crypto(block: &str) -> Result<Crypto> {
 
 default_list! {
     crypto, "/proc/crypto", Crypto, to_crypto, "\n\n"
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn getter() {
+        let source = r#"
+name         : sha1
+driver       : sha1-ssse3
+module       : kernel
+priority     : 150
+refcnt       : 5
+selftest     : passed
+type         : shash
+blocksize    : 64
+digestsize   : 20
+"#;
+        let c = Crypto::from_str(source.trim()).unwrap();
+        assert_eq!(c.get("name").unwrap(), c.name());
+        assert_eq!(c.get("driver").unwrap(), c.driver());
+        assert_eq!(c.get("module").unwrap(), c.module());
+        assert_eq!(c.get("priority").unwrap(), &c.priority().to_string());
+        assert_eq!(c.get("refcnt").unwrap(), &c.refcnt().to_string());
+        assert_eq!(c.get("selftest").unwrap() == "passed", c.selftest());
+        assert_eq!(c.get("type").unwrap(), c.r#type());
+    }
 }

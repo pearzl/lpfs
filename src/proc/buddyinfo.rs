@@ -4,6 +4,8 @@ use std::str::FromStr;
 /// represent an entry in /proc/buddyinfo
 ///
 /// ```
+/// use linux_proc::buddyinfo::*;
+///
 /// let bis = buddyinfo().unwrap();
 /// for bi in bis {
 ///     let chunk_0= bi.page_nums()[0];

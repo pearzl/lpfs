@@ -4,8 +4,10 @@ use std::str::FromStr;
 /// represent an entry in /proc/diskstats
 ///
 /// if kernel version is blow 4.18, the last four filed is not exist in file, then they will be 0.
-/// 
+///
 /// ```
+/// use linux_proc::diskstats::*;
+///
 /// let disks = diskstats().unwrap();
 /// for disk in disks {
 ///     println!("disk name: {}", disk.device_name());

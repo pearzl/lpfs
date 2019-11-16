@@ -1,7 +1,7 @@
 use crate::{Error, Result};
-use std::str::FromStr;
 use std::collections::HashMap;
 use std::ops::Deref;
+use std::str::FromStr;
 
 /// represent an entry in /proc/cpuinfo
 ///
@@ -9,6 +9,8 @@ use std::ops::Deref;
 /// other fileds should retrvie from inner HashMap.
 ///
 /// ```
+/// use linux_proc::cpuinfo::*;
+///
 /// let info = cpuinfo().unwrap();
 /// assert_eq!(info[0].cpu_family(), info[0].get("cpu family").unwrap());
 /// ```
