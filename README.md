@@ -42,67 +42,40 @@ Detail information is listed blow.
 
 /proc/*
 
-| file | status |
-| --- | --- |
-| buddyinfo| ✔ |
-| cmdline | ✔ |
-| consoles | ✔|
-| cpuinfo | ✔ |
-| crypto | ✔ |
-| devices | ✔ |
-| diskstates | ✔ |
-| dma | ✔ |
-| execdomains | ✔ |
-| fb | ✔ |
-| filesystems | ✔ |
-| interrupts | ✔ |
-| iomem | ✔ |
-| ioports | ✔ |
-| kcore | ✔ |
-| kmsg | ❌ |
-| loadavg| ✔ |
-| locks | ✔ |
-| mdstat | ✔ |
-| meminfo | ✔ |
-| misc | ✔ |
-| modules | ✔ |
-| mounts | ✔ |
-| mtrr | ✔ |
-| partitions | ✔ |
-| slabinfo | ✔ |
-| stat | ✔ |
-| swaps | ✔ |
-| uptime | ✔ |
-| version | ✔ |
-| self | ✔ |
-| sysrq-trigger | ❌ |
+| file | status | file | status | file | status |
+| --- | --- | --- | --- | --- | --- |
+| buddyinfo| ✔ | cmdline | ✔ | consoles | ✔|
+| cpuinfo | ✔ | crypto | ✔ | devices | ✔ |
+| diskstates | ✔ | dma | ✔ | execdomains | ✔ |
+| fb | ✔ | filesystems | ✔ | interrupts | ✔ |
+| iomem | ✔ | ioports | ✔ | kcore | ✔ |
+| kmsg | ❌ | loadavg| ✔ | locks | ✔ |
+| mdstat | ✔ | meminfo | ✔ | misc | ✔ |
+| modules | ✔ | mounts | ✔ | mtrr | ✔ |
+| partitions | ✔ | slabinfo | ✔ | stat | ✔ |
+| swaps | ✔ | uptime | ✔ | version | ✔ |
+| self | ✔ | sysrq-trigger | ❌ |
 
 #### process directroies
 
 /proc/${pid}/*
 
-| file | status |
-| --- | --- |
-| cmdline| ✔ |
-| cwd | ✔ |
-| environ | ✔ |
-| exe | ✔ |
-| fd | ❌ |
-| map | ✔ |
-| root | ✔ |
-| stat | ✔ |
-| statm | ✔ |
+| file | status | file | status | file | status |
+| --- | --- | --- | --- | --- | --- | 
+| cmdline| ✔ | cwd | ✔ | environ | ✔ |
+| exe | ✔ | fd | ❌ | map | ✔ |
+| root | ✔ | stat | ✔ | statm | ✔ |
 | status | ✔ |
 
 #### other subdirectories
 
-/proc/XXX/*
+The table below lists the implemented files. 
 
-| file | status |
+| directory | file |
 | --- | --- |
-| acpi/wakeup | ✔ |
-| driver/rtc | ✔ |
-| net/arp | ✔ |
+| acpi | wakeup |
+| driver | rtc |
+| net | arp |
 
 *Note: Not fully tested.*
 

@@ -67,4 +67,5 @@ pub mod driver {
 }
 pub mod net {
     pub mod arp;
+    pub mod dev;
 }
