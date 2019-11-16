@@ -36,4 +36,3 @@ fn to_misc(line: &str) -> Result<Misc> {
 }
 
 default_list! { misc, "/proc/misc", Misc, to_misc }
-

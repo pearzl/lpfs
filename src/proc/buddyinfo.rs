@@ -4,7 +4,7 @@ use std::str::FromStr;
 /// represent an entry in /proc/buddyinfo
 ///
 /// ```
-/// use linux_proc::buddyinfo::*;
+/// use proc_getter::buddyinfo::*;
 ///
 /// let bis = buddyinfo().unwrap();
 /// for bi in bis {

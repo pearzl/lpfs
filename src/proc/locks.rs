@@ -13,7 +13,7 @@ use std::str::FromStr;
 /// Note: access last column by filed is an Option, None stand for EOF.
 /// The last column always exist.
 /// ```
-/// use linux_proc::proc::locks::*;
+/// use proc_getter::proc::locks::*;
 /// fn main() {
 ///     for lock in locks().unwrap() {
 ///         assert_eq!(lock.class(), &lock.column(1));

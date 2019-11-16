@@ -6,7 +6,7 @@ use std::str::FromStr;
 /// if kernel version is blow 4.18, the last four filed is not exist in file, then they will be 0.
 ///
 /// ```
-/// use linux_proc::diskstats::*;
+/// use proc_getter::diskstats::*;
 ///
 /// let disks = diskstats().unwrap();
 /// for disk in disks {

@@ -1,6 +1,6 @@
 use crate::{Error, Result};
-use std::str::FromStr;
 use std::path::{Path, PathBuf};
+use std::str::FromStr;
 
 /// represent an entry in /proc/mounts
 #[derive(Debug)]

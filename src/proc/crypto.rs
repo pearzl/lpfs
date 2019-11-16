@@ -6,7 +6,7 @@ use std::str::FromStr;
 /// represent an entry in /proc/crypto
 ///
 /// ```
-/// use linux_proc::crypto::*;
+/// use proc_getter::crypto::*;
 ///
 /// let info = crypto().unwrap();
 /// assert_eq!(info[0].name(), info[0].get("name").unwrap());

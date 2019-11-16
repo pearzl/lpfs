@@ -58,22 +58,29 @@ impl Cpu {
     }
 
     /// return the cpu time.
-    /// 
+    ///
     /// user + nice + system + idle + iowait + irq + softirq + steal + guest + guest_nice
     pub fn cpu_time(&self) -> usize {
-        &self.user + &self.nice + &self.system + &self.idle
-        + &self.iowait + &self.irq + &self.steal + &self.guest + &self.guest_nice
+        &self.user
+            + &self.nice
+            + &self.system
+            + &self.idle
+            + &self.iowait
+            + &self.irq
+            + &self.steal
+            + &self.guest
+            + &self.guest_nice
     }
 
     /// return the user time.
-    /// 
+    ///
     /// user + nice
     pub fn user_time(&self) -> usize {
         &self.user + &self.nice
     }
 
     /// return the system time.
-    /// 
+    ///
     /// system + irq + softirq
     pub fn system_time(&self) -> usize {
         &self.system + &self.irq + &self.softirq

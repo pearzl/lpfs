@@ -34,8 +34,8 @@ pub mod proc_self;
 
 // Process Directories
 
-/// functions in this module has two differences compare to the functions reside in other moduels: 
-/// 
+/// functions in this module has two differences compare to the functions reside in other moduels:
+///
 /// 1. receive an argument of u32, which represent the process pid number.
 /// 2. append "_of" suffix to the function.
 pub mod pid {
@@ -59,7 +59,7 @@ pub mod pid {
 }
 
 // other subdirectories
-pub mod acpi{
+pub mod acpi {
     pub mod wakeup;
 }
 pub mod driver {

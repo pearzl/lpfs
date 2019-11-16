@@ -1,8 +1,10 @@
 [package]
-name = "linux_proc"
-version = "0.1.0"
+name = "proc_getter"
+version = "0.0.1"
 authors = ["pearzl <302669696@qq.com>"]
 edition = "2018"
+license = "MIT"
+description = "make retriving infomations from /proc/* easier"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

@@ -1,6 +1,5 @@
-// #![cfg(target_os = "linux")]
+#![cfg(target_os = "linux")]
 #![doc(html_playground_url = "https://play.rust-lang.org/")]
-#![allow(dead_code)]
 
 //! ## how to use
 //!
@@ -13,8 +12,8 @@
 //! They receive an u32 argument to specify the target process, and the function name has a "_of" suffix.
 //!
 //! ```
-//! use linux_proc::cmdline::*;
-//! use linux_proc::pid::cmdline::*;
+//! use proc_getter::cmdline::*;
+//! use proc_getter::pid::cmdline::*;
 //!
 //! fn main() {
 //!     //  /proc/cmdline

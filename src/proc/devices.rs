@@ -35,7 +35,7 @@ impl FromStr for Device {
 /// return character devices and block devices.
 ///
 /// ```
-/// use linux_proc::devices::*;
+/// use proc_getter::devices::*;
 ///
 /// let (cha, blk) = devices().unwrap();
 ///

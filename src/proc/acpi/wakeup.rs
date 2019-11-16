@@ -11,7 +11,7 @@ pub struct Device {
 }
 
 impl Device {
-    getter_gen!{
+    getter_gen! {
         device: String,
         s_state: String,
         status: String,
@@ -37,7 +37,7 @@ impl FromStr for Device {
     }
 }
 
-#[inline(always)] 
+#[inline(always)]
 fn to_wakeup(line: &str) -> Result<Device> {
     Device::from_str(line)
 }

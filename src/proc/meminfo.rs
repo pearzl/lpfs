@@ -6,7 +6,7 @@ use std::str::FromStr;
 /// represent the content of /proc/meminfo
 ///
 /// ```
-/// use linux_proc::meminfo::*;
+/// use proc_getter::meminfo::*;
 ///
 /// let info = meminfo().unwrap();
 /// println!("total usable RAM is {} KiB.", info.get("MemTotal").unwrap());

@@ -9,7 +9,7 @@ use std::str::FromStr;
 /// other fileds should retrvie from inner HashMap.
 ///
 /// ```
-/// use linux_proc::cpuinfo::*;
+/// use proc_getter::cpuinfo::*;
 ///
 /// let info = cpuinfo().unwrap();
 /// assert_eq!(info[0].cpu_family(), info[0].get("cpu family").unwrap());

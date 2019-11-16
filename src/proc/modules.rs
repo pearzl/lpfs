@@ -52,7 +52,6 @@ impl FromStr for Module {
     }
 }
 
-
 #[derive(Debug)]
 pub enum State {
     Live,

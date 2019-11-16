@@ -1,4 +1,4 @@
-use crate::{Result, Error};
+use crate::{Error, Result};
 use std::collections::HashMap;
 
 pub fn environ_of(pid: u32) -> Result<HashMap<String, String>> {

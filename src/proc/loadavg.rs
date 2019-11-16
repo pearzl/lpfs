@@ -55,7 +55,7 @@ impl FromStr for LoadAvg {
 
 /// The content is parsed to a LoadAvg.
 /// ```
-/// use linux_proc::proc::loadavg::*;
+/// use proc_getter::proc::loadavg::*;
 /// fn main() {
 ///     let la = loadavg().unwrap();
 ///     println!("one minute load: {}", la.one());
