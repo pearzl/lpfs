@@ -1,6 +1,19 @@
 
 The goal of this repo is to make retriving system informations reside in proc file system easier.
 
+```
+use proc_getter::cmdline::*;
+use proc_getter::pid::cmdline::*;
+
+fn main() {
+    //  /proc/cmdline
+    println!("{:?}", cmdline());
+
+    //  /proc/1/cmdline
+    println!("{:?}", cmdline_of(1));
+}
+```
+
 ## minial requirement
 
 rust 2018
