@@ -55,7 +55,6 @@ pub mod pid {
     pub mod stat;
     pub mod statm;
     pub mod status;
-
 }
 
 // other subdirectories
@@ -71,4 +70,5 @@ pub mod net {
     pub mod dev_mcast;
     pub mod ip_tables_names;
     pub mod netstat;
+    pub mod route;
 }
