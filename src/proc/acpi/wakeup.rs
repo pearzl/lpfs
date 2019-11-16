@@ -32,7 +32,7 @@ impl FromStr for Device {
             device: items[0].to_string(),
             s_state: items[1].to_string(),
             status: items[2].to_string(),
-            sysfs_node: items.get(3).map(|s| s.to_string()),
+            sysfs_node: items.get(3).map(|s| (*s).to_string()),
         })
     }
 }

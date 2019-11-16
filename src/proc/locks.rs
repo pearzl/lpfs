@@ -14,10 +14,9 @@ use std::str::FromStr;
 /// The last column always exist.
 /// ```
 /// use proc_getter::proc::locks::*;
-/// fn main() {
-///     for lock in locks().unwrap() {
-///         assert_eq!(lock.class(), &lock.column(1));
-///     }
+///
+/// for lock in locks().unwrap() {
+///     assert_eq!(lock.class(), &lock.column(1));
 /// }
 /// ```
 #[derive(Debug)]

@@ -56,15 +56,14 @@ impl FromStr for LoadAvg {
 /// The content is parsed to a LoadAvg.
 /// ```
 /// use proc_getter::proc::loadavg::*;
-/// fn main() {
-///     let la = loadavg().unwrap();
-///     println!("one minute load: {}", la.one());
-///     println!("five minutes load: {}", la.five());
-///     println!("fifteen minutes laod: {}", la.fifteen());
-///     println!("current process number: {}", la.cur_num());
-///     println!("total process number: {}", la.total_num());
-///     println!("last process id: {}", la.last_pid());
-/// }
+///
+/// let la = loadavg().unwrap();
+/// println!("one minute load: {}", la.one());
+/// println!("five minutes load: {}", la.five());
+/// println!("fifteen minutes laod: {}", la.fifteen());
+/// println!("current process number: {}", la.cur_num());
+/// println!("total process number: {}", la.total_num());
+/// println!("last process id: {}", la.last_pid());
 /// ```
 pub fn loadavg() -> Result<LoadAvg> {
     let content = std::fs::read_to_string("/proc/loadavg")?;

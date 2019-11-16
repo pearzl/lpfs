@@ -89,6 +89,5 @@ mod test {
         assert_eq!(arp.hw_addr, MacAddr([0, 80, 191, 37, 104, 243]));
         assert_eq!(arp.mask, "*".to_string());
         assert_eq!(arp.device, "eth0".to_string());
-        ;
     }
 }
