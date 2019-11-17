@@ -63,7 +63,7 @@ Detail information is listed blow.
 | file | status | file | status | file | status |
 | --- | --- | --- | --- | --- | --- | 
 | cmdline| ✔ | cwd | ✔ | environ | ✔ |
-| exe | ✔ | fd | ❌ | map | ✔ |
+| exe | ✔ | fd | ❌ | maps | ✔ |
 | root | ✔ | stat | ✔ | statm | ✔ |
 | status | ✔ |
 

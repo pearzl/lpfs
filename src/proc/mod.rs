@@ -50,7 +50,7 @@ pub mod pid {
     pub mod cwd;
     pub mod environ;
     pub mod exe;
-    pub mod map;
+    pub mod maps;
     pub mod root;
     pub mod stat;
     pub mod statm;
