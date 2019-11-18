@@ -30,7 +30,7 @@ pub mod swaps;
 pub mod uptime;
 pub mod version;
 
-pub mod proc_self;
+pub mod _self;
 
 // Process Directories
 
