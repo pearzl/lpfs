@@ -184,12 +184,18 @@ pub fn stat_of(pid: u32) -> Result<Stat> {
     Stat::from_str(content.trim())
 }
 
+pub fn stat_self() -> Result<Stat> {
+    let content = std::fs::read_to_string(pself_path!("stat"))?;
+    Stat::from_str(content.trim())
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
 
     #[test]
-    fn test_stat_of() {
+    fn test_stat() {
         println!("{:?}", stat_of(1).unwrap());
+        println!("{:?}", stat_self().unwrap());
     }
 }

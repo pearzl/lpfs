@@ -46,6 +46,12 @@ pub mod pid {
         };
     }
 
+    macro_rules! pself_path {
+        ($fname: expr) => {
+            format!("/proc/self/{}", $fname)
+        };
+    }
+
     pub mod cmdline;
     pub mod cwd;
     pub mod environ;
