@@ -1,6 +1,6 @@
 
 [![docs.rs](https://docs.rs/proc_getter/badge.svg)](https://docs.rs/proc_getter)
-[![crates.io](https://img.shields.io/badge/crates.io-0.0.1-red)](https://crates.io/crates/proc_getter)
+[![crates.io](https://img.shields.io/crates/v/proc_getter.svg)](https://crates.io/crates/proc_getter)
 
 The goal of this repo is to make retriving system informations reside in proc file system easier.
 
