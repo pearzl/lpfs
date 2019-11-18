@@ -56,7 +56,6 @@ pub mod pid {
     pub mod statm;
     pub mod status;
     pub mod task;
-
 }
 
 // other subdirectories
