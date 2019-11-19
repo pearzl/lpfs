@@ -18,6 +18,23 @@ pub fn self_pid() -> Result<u32> {
     Ok(pid)
 }
 
+pub fn threads_of(pid: u32) -> Result<Vec<u32>> {
+    let path = format!("/proc/{}/task/", pid);
+    let dir_entries = std::fs::read_dir(path)?;
+    let mut ret = vec![];
+
+    for task_dir in dir_entries {
+        let thread_id_str = task_dir?.file_name();
+        let thread_id = thread_id_str
+            .to_str()
+            .ok_or(Error::BadFormat)?
+            .parse::<u32>()?;
+        ret.push(thread_id);
+    }
+
+    Ok(ret)
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -25,6 +42,7 @@ mod test {
     #[test]
     fn test_self() {
         println!("{:?}", _self().unwrap());
-        println!("{:?}", self_pid().unwrap())
+        println!("{:?}", self_pid().unwrap());
+        assert_eq!(vec![1u32], threads_of(1).unwrap());
     }
 }

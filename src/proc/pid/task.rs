@@ -8,6 +8,8 @@ macro_rules! tid_path {
     };
 }
 
+pub use super::super::_self::threads_of;
+
 pub fn stat_oft(pid: i32, tid: i32) -> Result<Stat> {
     let content = std::fs::read_to_string(tid_path!(pid, tid, "stat"))?;
     Stat::from_str(content.trim())
