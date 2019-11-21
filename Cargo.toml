@@ -1,5 +1,5 @@
 [package]
-name = "linux_proc"
+name = "proc_getter"
 version = "0.1.0"
 authors = ["pearzl <302669696@qq.com>"]
 edition = "2018"
@@ -9,6 +9,9 @@ edition = "2018"
 [dependencies]
 
 [features]
-default = ["all"]
-all = []
-apm = []
+default = ["apm"]
+
+apm = ["proc"]
+
+pid = []
+proc = []
