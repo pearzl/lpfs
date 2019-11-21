@@ -6,10 +6,13 @@ macro_rules! define_struct {
                 $(#[$idoc: meta])*
                 $item_name: ident : $ty: ty,
             )+
-        }
+        } => $path: literal;
     ) => {
+        #[doc="represent the content of "]
+        #[doc=$path]
+        #[doc="."]
         $(#[$odoc])*
-        #[derive(Debug)]
+        #[derive(Debug, PartialEq, Eq)]
         pub struct $name {
             $(
                 $item_name : $ty,
@@ -34,11 +37,11 @@ macro_rules! define_modules {
         )*
     ) => {
         $(
-            #[cfg(any(feature = "all", feature = $feature_name ))]
+            #[cfg(feature = $feature_name )]
             #[doc(hidden)]
             pub mod $mod_name;
             #[doc(inline)]
-            #[cfg(any(feature = "all", feature = $feature_name ))]
+            #[cfg(feature = $feature_name )]
             pub use $mod_name::*;
         )*
     };

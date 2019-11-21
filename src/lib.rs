@@ -4,12 +4,26 @@
 #[macro_use]
 mod macros;
 
+#[cfg(feature = "proc")]
+pub mod proc;
+
 /// all the funcitons return this error in the crate.
 #[derive(Debug)]
 pub enum ProcErr {
     /// Failed to read the corresponding file.
     IO(std::io::Error),
+    Parse(Box<dyn std::error::Error>),
+    BadFormat(String),
 }
 
-#[cfg(any(feature = "all", feature = "proc"))]
-pub mod proc;
+impl From<std::io::Error> for ProcErr {
+    fn from(x: std::io::Error) -> Self {
+        ProcErr::IO(x)
+    }
+}
+
+impl From<std::num::ParseIntError> for ProcErr {
+    fn from(x: std::num::ParseIntError) -> Self {
+        ProcErr::Parse(Box::new(x))
+    }
+}
