@@ -77,7 +77,11 @@ define_struct! {
         /// return None if remaining time is unknown, or time units is seconds.
         remain_time: Option<u64>,
         unit: String,
-    } => "/proc/apm";
+    } => {
+        apm,
+        "/proc/apm",
+        list()
+    }
 }
 
 use std::str::FromStr;
@@ -143,6 +147,7 @@ impl FromStr for Apm {
 
 impl Apm {
 
+    /// return remaining time in seconds.
     pub fn remain_time_sec(&self) -> Option <u64> {
         let unit = &self.unit;
         let unit_sec = if unit == "min" {
@@ -153,7 +158,7 @@ impl Apm {
             None
         };
 
-        let remain_time_sec = match (self.remain_time, unit_sec) {
+        match (self.remain_time, unit_sec) {
             (Some(v), Some(is_sec)) => {
                 if is_sec {
                     Some(v)
@@ -162,9 +167,8 @@ impl Apm {
                 }
             },
             _ => None
-        };
-
-        remain_time_sec
+        }
+        
     }
 }
 

@@ -6,7 +6,11 @@ macro_rules! define_struct {
                 $(#[$idoc: meta])*
                 $item_name: ident : $ty: ty,
             )+
-        } => $path: literal;
+        } => {
+            $fn_name: ident,
+            $path: literal,
+            list()
+        }
     ) => {
         #[doc="represent the content of "]
         #[doc=$path]
@@ -27,6 +31,17 @@ macro_rules! define_struct {
                 }
             )*
         }
+
+        pub fn $fn_name() -> Result<Vec<$name>, crate::ProcErr> {
+            let content = std::fs::read_to_string($path)?;
+            let mut ret = vec![];
+            for line in content.trim().lines() {
+                let v = $name::from_str(line)?;
+                ret.push(v);
+            }
+            Ok(ret)
+        }
+
     }
 }
 
