@@ -23,8 +23,9 @@
 //! >
 //! > -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-apm
 //! >
-//! >
-//! >
+//! 
+//! 
+//!
 //! > 0) Linux driver version (this will change if format changes)
 //! > 1) APM BIOS Version.  Usually 1.0, 1.1 or 1.2.
 //! > 2) APM flags from APM Installation Check (0x00):
