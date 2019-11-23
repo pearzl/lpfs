@@ -64,6 +64,8 @@
 //! > -- https://github.com/torvalds/linux/blob/86c2f5d653058798703549e1be39a819fcac0d5d/arch/x86/kernel/apm_32.c
 
 define_struct! {
+    /// Represent the content of /proc/apm, returnd by (apm())[fn.apm.html].
+    ///
     /// fields of this struct reference to 
     /// [apm_32.c](https://github.com/torvalds/linux/blob/86c2f5d653058798703549e1be39a819fcac0d5d/arch/x86/kernel/apm_32.c#L1663) 
     pub struct Apm {
@@ -78,11 +80,11 @@ define_struct! {
         /// return None if remaining time is unknown, or time units is seconds.
         remain_time: Option<u64>,
         unit: String,
-    } => {
-        apm,
-        "/proc/apm",
-        list()
     }
+}
+
+instance_impl! {
+    apm, "/proc/apm", Apm
 }
 
 use std::str::FromStr;
@@ -92,7 +94,7 @@ impl FromStr for Apm {
     fn from_str(s: &str) -> Result<Apm, Self::Err> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 9 {
-            return Err(crate::ProcErr::BadFormat(format!("file: {}, line: {}", file!(), line!())))
+            return Err(bfe!("unknow format".to_string()))
         }
 
         let driver_version = columns[0].to_string();
@@ -100,7 +102,7 @@ impl FromStr for Apm {
         let bios_version = {
             let vv: Vec<&str> = columns[1].split('.').collect();
             if vv.len() != 2 {
-                return Err(crate::ProcErr::BadFormat(format!("file: {}, line: {}", file!(), line!())))
+                return Err(bfe!("wrong bios version".to_string()))
             }
             (
                 vv[0].parse::<u8>()?, 

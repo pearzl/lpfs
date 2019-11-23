@@ -8,10 +8,14 @@ edition = "2018"
 
 [dependencies]
 
+[dev-dependencies]
+lazy_static = "1.4.0"
+
 [features]
-default = ["apm"]
+default = ["apm", "cpuinfo"]
 
 apm = ["proc"]
+cpuinfo = ["proc"]
 
 pid = []
 proc = []

@@ -1,29 +1,22 @@
 macro_rules! define_struct {
     (
         $(#[$odoc: meta])*
-        pub struct $name: ident {
+        pub struct $name: ident $(<$lt: tt>)? {
             $(
                 $(#[$idoc: meta])*
                 $item_name: ident : $ty: ty,
             )+
-        } => {
-            $fn_name: ident,
-            $path: literal,
-            list()
         }
     ) => {
-        #[doc="represent the content of "]
-        #[doc=$path]
-        #[doc="."]
         $(#[$odoc])*
-        #[derive(Debug, PartialEq, Eq)]
-        pub struct $name {
+        #[derive(Debug, PartialEq, Clone)]
+        pub struct $name $(<$lt>)? {
             $(
                 $item_name : $ty,
             )+
         }
 
-        impl $name {
+        impl$(<$lt>)? $name$(<$lt>)? {
             $(
                 $(#[$idoc])*
                 pub fn $item_name(&self) -> &$ty {
@@ -31,17 +24,40 @@ macro_rules! define_struct {
                 }
             )*
         }
+    }
+}
 
-        pub fn $fn_name() -> Result<Vec<$name>, crate::ProcErr> {
+// macro_rules! list_impl {
+//     (
+//         $(#[$k: meta])*
+//         $fn_name: ident, $path: expr, $return_type: ty, $sep: expr, $skip: literal
+//     ) => {
+//         $(#[$k])*
+//         pub fn $fn_name() -> Result<Vec<$return_type>, crate::ProcErr> {
+//             let content = std::fs::read_to_string($path)?;
+//             let mut ret = vec![];
+//             for line in content.trim().lines() {
+//                 let v = $return_type::from_str(line)?;
+//                 ret.push(v);
+//             }
+//             Ok(ret)
+//         }
+//     }
+// }
+
+macro_rules! instance_impl {
+    (
+        $(#[$k: meta])*
+        $fn_name: ident, $path: expr, $return_type: ty
+    ) => {
+        #[doc="Return parsed content of "]
+        #[doc=$path]
+        #[doc=".\n\n See it's return type for details."]
+        $(#[$k])*
+        pub fn $fn_name() -> Result<$return_type, crate::ProcErr> {
             let content = std::fs::read_to_string($path)?;
-            let mut ret = vec![];
-            for line in content.trim().lines() {
-                let v = $name::from_str(line)?;
-                ret.push(v);
-            }
-            Ok(ret)
+            content.trim().parse()
         }
-
     }
 }
 
@@ -59,5 +75,13 @@ macro_rules! define_modules {
             #[cfg(feature = $feature_name )]
             pub use $mod_name::*;
         )*
+    };
+}
+
+macro_rules! bfe {
+    (
+        $msg: expr
+    ) => {
+        crate::ProcErr::BadFormat($msg)
     };
 }

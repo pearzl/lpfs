@@ -7,4 +7,5 @@
 
 define_modules! {
     apm "apm";
+    cpuinfo "cpuinfo";
 }

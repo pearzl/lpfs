@@ -27,3 +27,9 @@ impl From<std::num::ParseIntError> for ProcErr {
         ProcErr::Parse(Box::new(x))
     }
 }
+
+impl From<std::num::ParseFloatError> for ProcErr {
+    fn from(x: std::num::ParseFloatError) -> Self {
+        ProcErr::Parse(Box::new(x))
+    }
+}
