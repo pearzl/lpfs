@@ -12,10 +12,11 @@ edition = "2018"
 lazy_static = "1.4.0"
 
 [features]
-default = ["apm", "cpuinfo"]
+default = ["apm", "cpuinfo", "stat"]
 
 apm = ["proc"]
 cpuinfo = ["proc"]
+stat = ["proc"]
 
 pid = []
 proc = []
