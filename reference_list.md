@@ -6,7 +6,6 @@
 - https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 - https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-proc
 - https://www.unix.com/man-page/suse/5/proc/
-- http://manpagesfr.free.fr/man/man5/proc.5.html
 - http://man7.org/linux/man-pages/man5/proc.5.html
 
 ## working
