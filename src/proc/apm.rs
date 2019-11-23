@@ -180,7 +180,7 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_case1() {
+    fn test_parse_apm1() {
         let source = "1.16 1.2 0x07 0x01 0xff 0x80 -1% -1 ?";
 
         let apm_ = source.parse::<Apm>().unwrap();
@@ -201,7 +201,7 @@ mod test {
     }
 
     #[test]
-    fn test_case2() {
+    fn test_parse_apm2() {
         let source = "1.16 1.2 0x03 0x01 0x03 0x09 100% -1 ?";
 
         let apm_ = source.parse::<Apm>().unwrap();
@@ -222,7 +222,7 @@ mod test {
     }
 
     #[test]
-    fn test_case3() {
+    fn test_parse_apm3() {
         let source = "1.16 1.2 0x03 0x00 0x00 0x01 99% 1792 min";
 
         let apm_ = source.parse::<Apm>().unwrap();
