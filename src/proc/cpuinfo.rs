@@ -278,13 +278,18 @@ impl CpuInfo {
 
     /// Return physical core number
     /// 
-    /// This is the `cpu_cores` from first Processor.
+    /// This is caculated from `core id`.
     /// 
-    /// *Note: This method will panic if `cpu cores` doesn't appear.*
-    /// Field `cpu cores` only appears on SMP machine. 
+    /// *Note: This method will panic if `core id` doesn't appear.*
+    /// Field `core id` only appears on SMP machine. 
     /// In this case, physical core numbers equals to logical core numbers.
     pub fn physical_core_num(&self) -> usize {
-        self.entry[0].cpu_cores().unwrap() as usize
+        let mut set = vec![false; self.entry.len()];
+        for p in self.entry.iter() {
+            let i = p.core_id().unwrap() as usize;
+            set[i] = true;
+        }
+        set.into_iter().filter(|v|*v).count()
     }
 
 }
