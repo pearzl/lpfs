@@ -255,7 +255,7 @@ impl FromStr for Processor {
 }
 
 define_struct! {
-    /// represent the content of the /proc/cpuinfo
+    /// represent the content of the /proc/cpuinfo, returned by (cpuinfo())[fn.cpuinfo.html]
     /// 
     /// It is an Vec<(Process)[struct.Processor.html]> actually, but provides two useful method :
     /// (logical_core_num())[#method.logical_core_num] and
@@ -314,6 +314,10 @@ impl FromStr for CpuInfo {
         }
         Ok(CpuInfo{entry})
     }
+}
+
+instance_impl! {
+    cpuinfo, "/proc/cpuinfo", CpuInfo
 }
 
 #[cfg(test)]
