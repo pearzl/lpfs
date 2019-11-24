@@ -1,16 +1,23 @@
 [package]
-name = "proc_getter"
+name = "lpfs"
 version = "0.1.0"
 authors = ["pearzl <302669696@qq.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+license = "MIT"
+description = "Retriving infomations from linux proc filesystem"
+readme = "README.md"
+keywords = ["proc", "linux", "info", "sys", "procfs"]
+repository = "https://github.com/pearzl/lpfs"
+documentation = "https://docs.rs/crate/lpfs"
+
 [dependencies]
 
 [dev-dependencies]
 lazy_static = "1.4.0"
-libc = "*"
+libc = "0.2.65"
 
 [features]
 default = ["apm", "cpuinfo", "stat", "_self", "task", "pid_stat", "pid_comm"]

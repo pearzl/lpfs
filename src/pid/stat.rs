@@ -1,5 +1,6 @@
 //! /proc/[pid]/stat
 //! 
+//! <pre>
 //! > Status information about the process.  This is used by ps(1).
 //! > It is defined in the kernel source file fs/proc/array.c.
 //! > 
@@ -290,13 +291,13 @@
 //! >           waitpid(2).
 //! >
 //! > -- http://man7.org/linux/man-pages/man5/proc.5.html
-//! 
+//! </pre>
 
 define_struct! {
     /// Represent the content of /proc/[pid]/stat and /proc/[pid]/task/[tid]/stat. 
-    /// Returned by (stat_of())[fn.stat_of.html]
+    /// Returned by [`stat_of()`](fn.stat_of.html).
     /// 
-    /// The fields of this struct reference to (fs/proc/array.c)[https://github.com/torvalds/linux/blob/master/fs/proc/array.c]
+    /// The fields of this struct reference to [fs/proc/array.c](https://github.com/torvalds/linux/blob/master/fs/proc/array.c)
     pub struct StatP {
         pid: i32,
         comm: String,
@@ -391,7 +392,7 @@ impl FromStr for StatP {
 
         unwrap_integer!(columns[0], i32, pid);
         let comm = columns[1][1..columns[1].len()-1].to_string();
-        let state = columns[2].chars().next().ok_or(bfe!("stat is empty".to_string()))?;
+        let state = columns[2].chars().next().ok_or_else(||bfe!("stat is empty".to_string()))?;
         unwrap_integer!(columns[3], i32, ppid);
         unwrap_integer!(columns[4], i32, pgrp);
         unwrap_integer!(columns[5], i32, session);

@@ -52,7 +52,7 @@
 //! 
 
 define_struct!{
-    /// Each instance of this struct represent a block in /proc/cpuinfo.
+    /// Each instance of this struct represent a block in /proc/cpuinfo. See (CpuInfo)[struct.CpuInfo.html].
     ///
     /// Fields of this struct reference to 
     /// [proc.c](https://github.com/torvalds/linux/blob/master/arch/x86/kernel/cpu/proc.c#L57).
@@ -211,7 +211,7 @@ impl FromStr for Processor {
                 .filter(|item| *item != "")
                 .map(String::from)
                 .collect())
-            .unwrap_or(vec![]);
+            .unwrap_or_else(||vec![]);
         let bugs = map.get("bugs")
             .map(|s| s.split(' ')
                 .filter(|item| *item != "")
@@ -255,11 +255,11 @@ impl FromStr for Processor {
 }
 
 define_struct! {
-    /// represent the content of the /proc/cpuinfo, returned by (cpuinfo())[fn.cpuinfo.html]
+    /// Represent the content of the /proc/cpuinfo, returned by [`cpuinfo()`](fn.cpuinfo.html).
     /// 
-    /// It is an Vec<(Process)[struct.Processor.html]> actually, but provides two useful method :
-    /// (logical_core_num())[#method.logical_core_num] and
-    /// (physical_core_num())[#method.physical_core_num]
+    /// It is an Vec<[Process](struct.Processor.html)> actually, but provides two useful method :
+    /// [logical_core_num()](#method.logical_core_num) and
+    /// [physical_core_num()](#method.physical_core_num)
     /// 
     /// This struct implement Index trait.
     pub struct CpuInfo {
@@ -278,11 +278,13 @@ impl CpuInfo {
 
     /// Return physical core number
     /// 
+    /// 
     /// This is caculated from `core id`.
     /// 
-    /// *Note: This method will panic if `core id` doesn't appear.*
-    /// Field `core id` only appears on SMP machine. 
-    /// In this case, physical core numbers equals to logical core numbers.
+    /// Note: This method will **panic** if `core id` doesn't appear.
+    /// 
+    /// *Field `core id` only appears on SMP machine. 
+    /// In this case, physical core numbers equals to logical core numbers.*
     pub fn physical_core_num(&self) -> usize {
         let mut set = vec![false; self.entry.len()];
         for p in self.entry.iter() {

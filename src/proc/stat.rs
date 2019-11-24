@@ -102,9 +102,9 @@
 //! 
 
 define_struct! {
-    /// Each instance represent an cpu entry in /proc/stat
+    /// Each instance represent an cpu entry in /proc/stat. See (Stat)[struct.Stat.html].
     /// 
-    /// The fields of this struct reference to (stat.c)[https://github.com/torvalds/linux/blob/master/fs/proc/stat.c].
+    /// The fields of this struct reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
     /// 
     /// This struct implement Index trait.
     pub struct Cpu {
@@ -211,7 +211,7 @@ impl FromStr for Cpu {
     fn from_str(s: &str) -> Result<Cpu, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 11 {
-            return Err(bfe!(format!("need 10 number to parse to Cpu")))
+            return Err(bfe!(("need 10 number to parse to Cpu").to_string()))
         }
 
         let mut cpu = [0;10];
@@ -226,9 +226,9 @@ impl FromStr for Cpu {
 
 
 define_struct! {
-    /// Represent the content of /proc/stat, returned by (stat())[fn.stat.html]
+    /// Represent the content of /proc/stat, returned by [`stat()`](fn.stat.html).
     /// 
-    /// The fields of this struct reference to (stat.c)[https://github.com/torvalds/linux/blob/master/fs/proc/stat.c].
+    /// The fields of this struct reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
     pub struct Stat {
         cpu: Cpu,
         cpu_n: Vec<Cpu>,

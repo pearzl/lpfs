@@ -9,7 +9,7 @@
 //! > https://www.kernel.org/doc/Documentation/filesystems/proc.txt
 
 define_struct! {
-    /// Represent the content of /proc/[pid]/comm, returned by (comm_of())[fn.comm_of.html]
+    /// Represent the content of /proc/[pid]/comm, returned by [`comm_of()`](fn.comm_of.html).
     /// 
     /// This is an String wrapper with implement of Deref trait.
     pub struct CommP {
@@ -29,7 +29,7 @@ impl Deref for CommP {
 
 impl CommP {
     /// Consume this CommP and return the inner String.
-    pub fn to_inner(self) -> String {
+    pub fn into_inner(self) -> String {
         self.inner
     }
 }

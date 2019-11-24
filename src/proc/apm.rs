@@ -64,7 +64,7 @@
 //! > -- https://github.com/torvalds/linux/blob/86c2f5d653058798703549e1be39a819fcac0d5d/arch/x86/kernel/apm_32.c
 
 define_struct! {
-    /// Represent the content of /proc/apm, returnd by (apm())[fn.apm.html].
+    /// Represent the content of /proc/apm, returnd by [`apm()`](fn.apm.html).
     ///
     /// fields of this struct reference to 
     /// [apm_32.c](https://github.com/torvalds/linux/blob/86c2f5d653058798703549e1be39a819fcac0d5d/arch/x86/kernel/apm_32.c#L1663) 
