@@ -10,13 +10,15 @@ edition = "2018"
 
 [dev-dependencies]
 lazy_static = "1.4.0"
+libc = "*"
 
 [features]
-default = ["apm", "cpuinfo", "stat"]
+default = ["apm", "cpuinfo", "stat", "_self"]
 
 apm = ["proc"]
 cpuinfo = ["proc"]
 stat = ["proc"]
+_self = ["proc"]
 
 pid = []
 proc = []
