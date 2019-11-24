@@ -1,3 +1,7 @@
+//! This module contains functions to retrive information from /proc/self.
+//!
+//! There is no item named self in this crate, because self is a key word in rust, so we use _self instead.
+
 use std::path::PathBuf;
 
 type Result<T> = std::result::Result<T, crate::ProcErr>;
