@@ -4,9 +4,9 @@
 #[macro_use]
 mod macros;
 
-pub mod proc;
-pub mod pid;
 pub mod _self;
+pub mod pid;
+pub mod proc;
 
 /// all the funcitons return this error in the crate.
 #[derive(Debug)]

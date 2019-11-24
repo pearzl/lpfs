@@ -64,7 +64,7 @@ macro_rules! instance_impl {
 macro_rules! pid_instance_impl {
     (
         $(#[$k: meta])*
-        $fn_name: ident, $file_name: expr, $return_type: ty, 
+        $fn_name: ident, $file_name: expr, $return_type: ty,
         $self_fn_name: ident, $of_task_fn_name: ident, $self_task_fn_name: ident
     ) => {
         #[doc="Return parsed content of `/proc/[pid]/"]

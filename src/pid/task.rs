@@ -10,7 +10,7 @@ pub fn task_self() -> Result<Vec<u32>> {
         let thread_id_str = task_dir?.file_name();
         let thread_id = thread_id_str
             .to_str()
-            .ok_or(bfe!("contains non-unicode chatacter".to_string()))?
+            .ok_or_else(|| bfe!("contains non-unicode chatacter".to_string()))?
             .parse::<u32>()?;
         ret.push(thread_id);
     }
@@ -27,7 +27,7 @@ pub fn task_of(pid: u32) -> Result<Vec<u32>> {
         let thread_id_str = task_dir?.file_name();
         let thread_id = thread_id_str
             .to_str()
-            .ok_or(bfe!("contains non-unicode chatacter".to_string()))?
+            .ok_or_else(||bfe!("contains non-unicode chatacter".to_string()))?
             .parse::<u32>()?;
         ret.push(thread_id);
     }

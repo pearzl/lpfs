@@ -215,7 +215,7 @@ impl FromStr for Cpu {
         }
 
         let mut cpu = [0;10];
-        for (cpuv, strv) in cpu.iter_mut().zip(columns[1..].into_iter()) {
+        for (cpuv, strv) in cpu.iter_mut().zip(columns[1..].iter()) {
             *cpuv = strv.parse::<u64>()?;
         }
 

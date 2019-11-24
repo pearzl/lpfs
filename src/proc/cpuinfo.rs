@@ -217,7 +217,7 @@ impl FromStr for Processor {
                 .filter(|item| *item != "")
                 .map(String::from)
                 .collect())
-            .unwrap_or(vec![]);
+            .unwrap_or_else(||vec![]);
         
         unwrap_number!(bogomips, "bogomips", f32);
         unwrap_opt_number!(tlb_size, "TLB size", i32);
@@ -241,7 +241,7 @@ impl FromStr for Processor {
                 .filter(|item| *item != "")
                 .map(String::from)
                 .collect())
-            .unwrap_or(vec![]);
+            .unwrap_or_else(||vec![]);
         
         Ok(Processor{
             processor, vendor_id,  cpu_family, model, model_name,
