@@ -17,7 +17,7 @@ pub fn _self() -> Result<PathBuf> {
 
 /// Return the process ID (pid) of calling process.
 ///
-/// This should have the same output of `[getpid()](http://man7.org/linux/man-pages/man2/getpid.2.html])`,
+/// This should have the same output of [`getpid()`](http://man7.org/linux/man-pages/man2/getpid.2.html]),
 /// but it is a safe method.
 ///
 /// *Note: std::process::id() have same behavior.*
