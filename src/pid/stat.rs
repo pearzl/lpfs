@@ -524,4 +524,13 @@ mod test {
         };
         assert_eq!(correct, source.parse::<StatP>().unwrap());
     }
+
+    #[test]
+    fn test_stat_of() {
+        let pid = unsafe { libc::getpid() } as u32;
+        stat_of(pid).unwrap();
+        stat_self().unwrap();
+        stat_of_task(pid, pid).unwrap();
+        stat_self_task(pid).unwrap();
+    }
 }
