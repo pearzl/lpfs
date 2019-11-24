@@ -13,12 +13,14 @@ lazy_static = "1.4.0"
 libc = "*"
 
 [features]
-default = ["apm", "cpuinfo", "stat", "_self"]
+default = ["apm", "cpuinfo", "stat", "_self", "task", "pid_stat"]
 
-apm = ["proc"]
-cpuinfo = ["proc"]
-stat = ["proc"]
-_self = ["proc"]
+apm = []
+cpuinfo = []
+stat = []
 
-pid = []
-proc = []
+_self = []
+task = []
+
+pid_stat = []
+

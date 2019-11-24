@@ -9,5 +9,4 @@ define_modules! {
     apm "apm";
     cpuinfo "cpuinfo";
     stat "stat";
-    _self "_self";
 }

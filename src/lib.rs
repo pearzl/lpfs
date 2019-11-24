@@ -4,8 +4,9 @@
 #[macro_use]
 mod macros;
 
-#[cfg(feature = "proc")]
 pub mod proc;
+pub mod pid;
+pub mod _self;
 
 /// all the funcitons return this error in the crate.
 #[derive(Debug)]
