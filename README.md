@@ -1,4 +1,12 @@
 
+**This crate is longer being maintained on crates.io.**
+
+**Because it is renamed to (lpfs)[https://github.com/pearzl/lpfs].**
+
+You can find these code at proc_getter branch of lpfs.
+
+-----
+
 [![docs.rs](https://docs.rs/proc_getter/badge.svg)](https://docs.rs/proc_getter)
 [![crates.io](https://img.shields.io/crates/v/proc_getter.svg)](https://crates.io/crates/proc_getter)
 [![license](https://img.shields.io/github/license/pearzl/proc_getter)](./LICENSE)
