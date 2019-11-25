@@ -9,4 +9,5 @@ define_modules! {
     apm "apm";
     cpuinfo "cpuinfo";
     stat "stat";
+    loadavg "loadavg";
 }

@@ -20,11 +20,18 @@ lazy_static = "1.4.0"
 libc = "0.2.65"
 
 [features]
-default = ["apm", "cpuinfo", "stat", "_self", "task", "pid_stat", "pid_comm"]
+default = [
+    "apm", "cpuinfo", "stat", "loadavg",
+    
+    "_self", "task", 
+    
+    "pid_stat", "pid_comm"
+    ]
 
 apm = []
 cpuinfo = []
 stat = []
+loadavg = []
 
 _self = []
 task = []
