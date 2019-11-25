@@ -69,7 +69,7 @@ define_struct!{
         /// In first case, it should be "unknonw", but it doesn't actually be checked.
         stepping: Option<u8>,
         microcode: Option<u32>,
-        cpu_mhz: Option<f32>,
+        cpu_mhz: Option<f64>,
         /// Unit is KB(KiB).
         cache_size: Option<u32>,
         
@@ -95,7 +95,7 @@ define_struct!{
 
         flags: Vec<String>,
         bugs: Vec<String>,
-        bogomips: f32,
+        bogomips: f64,
         
         tlb_size: Option<i32>,
 
@@ -183,7 +183,7 @@ impl FromStr for Processor {
             None
         };
         
-        unwrap_opt_number!(cpu_mhz, "cpu MHz", f32);
+        unwrap_opt_number!(cpu_mhz, "cpu MHz", f64);
 
         let cache_size = if let Some(v) = map.get("cache size") {
             let value = v[..v.len()-3].parse::<u32>()?;
@@ -219,7 +219,7 @@ impl FromStr for Processor {
                 .collect())
             .unwrap_or_else(||vec![]);
         
-        unwrap_number!(bogomips, "bogomips", f32);
+        unwrap_number!(bogomips, "bogomips", f64);
         unwrap_opt_number!(tlb_size, "TLB size", i32);
         unwrap_number!(clflush_size, "clflush size", u16);
         unwrap_number!(cache_alignment, "cache_alignment", i32);
@@ -374,7 +374,7 @@ power management:"
             cpuid_level     : Some(11),
             wp              : Some(true),
             flags           : vec![String::from("fpu"), String::from("vme"), String::from("de"), String::from("pse"), String::from("tsc"), String::from("msr"), String::from("pae"), String::from("mce"), String::from("cx8"), String::from("apic"), String::from("sep"), String::from("mtrr"), String::from("pge"), String::from("mca"), String::from("cmov"), String::from("pat"), String::from("pse36"), String::from("clflush"), String::from("dts"), String::from("acpi"), String::from("mmx"), String::from("fxsr"), String::from("sse"), String::from("sse2"), String::from("ss"), String::from("ht"), String::from("tm"), String::from("syscall"), String::from("nx"), String::from("rdtscp"), String::from("lm"), String::from("const"), String::from("ant_tsc"), String::from("ida"), String::from("pni"), String::from("monitor"), String::from("ds_cpl"), String::from("vmx"), String::from("est"), String::from("tm2"), String::from("cx16"), String::from("xtpr"), String::from("popcnt"), String::from("lahf_lm")],
-            bogomips        : 5871.08f32,
+            bogomips        : 5871.08f64,
             clflush_size    : 64,
             cache_alignment : 64,
             address_sizes   : (40, 48),
@@ -430,7 +430,7 @@ power management:"
             cpuid_level     : Some(11),
             wp              : Some(true),
             flags           : vec![String::from("fpu"), String::from("vme"), String::from("de"), String::from("pse"), String::from("tsc"), String::from("msr"), String::from("pae"), String::from("mce"), String::from("cx8"), String::from("apic"), String::from("sep"), String::from("mtrr"), String::from("pge"), String::from("mca"), String::from("cmov"), String::from("pat"), String::from("pse36"), String::from("clflush"), String::from("dts"), String::from("acpi"), String::from("mmx"), String::from("fxsr"), String::from("sse"), String::from("sse2"), String::from("ss"), String::from("ht"), String::from("tm"), String::from("syscall"), String::from("nx"), String::from("rdtscp"), String::from("lm"), String::from("const"), String::from("ant_tsc"), String::from("ida"), String::from("pni"), String::from("monitor"), String::from("ds_cpl"), String::from("vmx"), String::from("est"), String::from("tm2"), String::from("cx16"), String::from("xtpr"), String::from("popcnt"), String::from("lahf_lm")],
-            bogomips        : 5866.74f32,
+            bogomips        : 5866.74f64,
             clflush_size    : 64,
             cache_alignment : 64,
             address_sizes   : (40, 48),
