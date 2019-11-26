@@ -1,3 +1,28 @@
-TODO:
+## top-level files
 
 - /proc/buddyinfo
+- /proc/cmdline
+- /proc/crypto
+- /proc/devices
+- /proc/dma
+- /proc/execdomains
+- /proc/fb
+- /proc/filesystems
+- /proc/interrupts
+- /proc/iomem
+- /proc/ioports
+- /proc/kmsg
+- /proc/locks
+- /proc/mdstat
+- /proc/meminfo
+- /proc/misc
+- /proc/modules
+- /proc/mounts
+- /proc/mtrr
+- /proc/partitions
+- /proc/pci
+- /proc/slabinfo
+- /proc/swaps
+- /proc/sysrq-trigger
+- /proc/uptime
+- /proc/version

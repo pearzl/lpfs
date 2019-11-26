@@ -10,4 +10,5 @@ define_modules! {
     cpuinfo "cpuinfo";
     stat "stat";
     loadavg "loadavg";
+    kcore "kcore";
 }

@@ -21,7 +21,7 @@ libc = "0.2.65"
 
 [features]
 default = [
-    "apm", "cpuinfo", "stat", "loadavg",
+    "apm", "cpuinfo", "stat", "loadavg", "kcore",
     
     "_self", "task", 
     
@@ -32,6 +32,7 @@ apm = []
 cpuinfo = []
 stat = []
 loadavg = []
+kcore = []
 
 _self = []
 task = []
