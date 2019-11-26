@@ -11,4 +11,5 @@ define_modules! {
     stat "stat";
     loadavg "loadavg";
     kcore "kcore";
+    uptime "uptime";
 }
