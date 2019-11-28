@@ -45,3 +45,15 @@ impl FromStr for Uptime {
 instance_impl! {
     uptime, "/proc/uptime", Uptime
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_parse_uptime() {
+        let source = "2935986.36 5816188.13";
+        let correct = Uptime{ total: 2935986.36, idle: 5816188.13 };
+        assert_eq!(source.parse::<Uptime>().unwrap(), correct);
+    }
+}
