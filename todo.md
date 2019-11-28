@@ -1,6 +1,5 @@
 ## top-level files
 
-- /proc/buddyinfo
 - /proc/cmdline
 - /proc/crypto
 - /proc/devices

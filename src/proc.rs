@@ -12,4 +12,5 @@ define_modules! {
     loadavg "loadavg";
     kcore "kcore";
     uptime "uptime";
+    buddyinfo "buddyinfo";
 }
