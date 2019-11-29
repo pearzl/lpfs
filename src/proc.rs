@@ -13,4 +13,5 @@ define_modules! {
     kcore "kcore";
     uptime "uptime";
     buddyinfo "buddyinfo";
+    pagetypeinfo "pagetypeinfo";
 }

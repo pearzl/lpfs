@@ -68,15 +68,19 @@ define_struct! {
     /// 
     /// The fields of this struct reference to [`mm/vmstat.c`](https://github.com/torvalds/linux/blob/89d57dddd7d319ded00415790a0bb3c954b7e386/mm/vmstat.c#L1356).
     pub struct BuddyInfo {
-        entries: Vec<Page>,
+        entries: Vec<(i32, String, [u64;11])>,
     }
 }
+#[derive(Debug, PartialEq)]
+struct Page {
+    node: i32,
+    zone: String,
+    free_areas: [u64;11],
+}
 
-define_struct! {
-    pub struct Page {
-        node: i32,
-        zone: String,
-        free_areas: [u64;11],
+impl Page {
+    fn into_tuple(self) -> (i32, String, [u64;11]) {
+        (self.node, self.zone, self.free_areas)
     }
 }
 
@@ -110,7 +114,7 @@ impl FromStr for BuddyInfo {
         let mut entries = vec![];
         for line in s.lines() {
             let page = line.parse::<Page>()?;
-            entries.push(page);
+            entries.push(page.into_tuple());
         }
         Ok(BuddyInfo{ entries })
     }
