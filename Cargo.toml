@@ -22,7 +22,7 @@ libc = "0.2.65"
 [features]
 default = [
     "apm", "cpuinfo", "stat", "loadavg", "kcore",
-    "uptime", "buddyinfo", "pagetypeinfo",
+    "uptime", "buddyinfo", "pagetypeinfo", "crypto",
     
     "_self", "task", 
     
@@ -37,6 +37,7 @@ kcore = []
 uptime = []
 buddyinfo = []
 pagetypeinfo = []
+crypto = []
 
 _self = []
 task = []

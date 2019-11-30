@@ -14,4 +14,5 @@ define_modules! {
     uptime "uptime";
     buddyinfo "buddyinfo";
     pagetypeinfo "pagetypeinfo";
+    crypto "crypto";
 }

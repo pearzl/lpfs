@@ -1,7 +1,6 @@
 ## top-level files
 
 - /proc/cmdline
-- /proc/crypto
 - /proc/devices
 - /proc/dma
 - /proc/execdomains
