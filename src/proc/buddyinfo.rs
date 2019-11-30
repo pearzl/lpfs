@@ -64,31 +64,22 @@
 
 
 define_struct! {
-    /// Represent the content of /proc/buddyinfo
+    /// Represent the an entry of /proc/buddyinfo
     /// 
-    /// The fields of this struct reference to [`mm/vmstat.c`](https://github.com/torvalds/linux/blob/89d57dddd7d319ded00415790a0bb3c954b7e386/mm/vmstat.c#L1356).
+    /// The fields of this struct reference to [`mm/vmstat.c`]
+    /// (https://github.com/torvalds/linux/blob/89d57dddd7d319ded00415790a0bb3c954b7e386/mm/vmstat.c#L1356).
     pub struct BuddyInfo {
-        entries: Vec<(i32, String, [u64;11])>,
-    }
-}
-#[derive(Debug, PartialEq)]
-struct Page {
-    node: i32,
-    zone: String,
-    free_areas: [u64;11],
-}
-
-impl Page {
-    fn into_tuple(self) -> (i32, String, [u64;11]) {
-        (self.node, self.zone, self.free_areas)
+        node: i32, 
+        zone: String, 
+        free_areas: [u64;11],
     }
 }
 
 use std::str::FromStr;
-impl FromStr for Page {
+impl FromStr for BuddyInfo {
     type Err = crate::ProcErr;
 
-    fn from_str(s: &str) -> Result<Page, crate::ProcErr> {
+    fn from_str(s: &str) -> Result<BuddyInfo, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 15 {
             return Err(bfe!("no enough fields to parse a Page".to_string()))
@@ -101,27 +92,14 @@ impl FromStr for Page {
             *fa = v.parse::<u64>()?;
         }
 
-        Ok(Page{
+        Ok(BuddyInfo{
             node, zone, free_areas
         })
     }
 }
 
-impl FromStr for BuddyInfo {
-    type Err = crate::ProcErr;
-
-    fn from_str(s: &str) -> Result<BuddyInfo, crate::ProcErr> {
-        let mut entries = vec![];
-        for line in s.lines() {
-            let page = line.parse::<Page>()?;
-            entries.push(page.into_tuple());
-        }
-        Ok(BuddyInfo{ entries })
-    }
-}
-
-instance_impl! {
-    buddyinfo, "/proc/buddyinfo", BuddyInfo
+list_impl! {
+    buddyinfo, "/proc/buddyinfo", BuddyInfo, '\n', 0
 }
 
 #[cfg(test)]
@@ -131,9 +109,9 @@ mod test {
     #[test]
     fn test_parse_page() {
         let source = "Node 0, zone      DMA      7      3     11     11      6      1      4      4      3      0      0";
-        let correct = Page {
+        let correct = BuddyInfo {
             node: 0, zone: String::from("DMA"), free_areas: [7,3,11,11,6,1,4,4,3,0,0]
         };
-        assert_eq!(correct, source.parse::<Page>().unwrap());
+        assert_eq!(correct, source.parse::<BuddyInfo>().unwrap());
     }
 }

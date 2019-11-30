@@ -27,23 +27,23 @@ macro_rules! define_struct {
     }
 }
 
-// macro_rules! list_impl {
-//     (
-//         $(#[$k: meta])*
-//         $fn_name: ident, $path: expr, $return_type: ty, $sep: expr, $skip: literal
-//     ) => {
-//         $(#[$k])*
-//         pub fn $fn_name() -> Result<Vec<$return_type>, crate::ProcErr> {
-//             let content = std::fs::read_to_string($path)?;
-//             let mut ret = vec![];
-//             for line in content.trim().lines() {
-//                 let v = $return_type::from_str(line)?;
-//                 ret.push(v);
-//             }
-//             Ok(ret)
-//         }
-//     }
-// }
+macro_rules! list_impl {
+    (
+        $(#[$k: meta])*
+        $fn_name: ident, $path: expr, $return_type: ty, $sep: expr, $skip: literal
+    ) => {
+        $(#[$k])*
+        pub fn $fn_name() -> Result<Vec<$return_type>, crate::ProcErr> {
+            let content = std::fs::read_to_string($path)?;
+            let mut ret = vec![];
+            for line in content.trim().lines() {
+                let v: $return_type = line.parse()?;
+                ret.push(v);
+            }
+            Ok(ret)
+        }
+    }
+}
 
 macro_rules! instance_impl {
     (
