@@ -22,4 +22,3 @@
 - /proc/slabinfo
 - /proc/swaps
 - /proc/sysrq-trigger
-- /proc/version

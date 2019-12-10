@@ -15,4 +15,5 @@ define_modules! {
     buddyinfo "buddyinfo";
     pagetypeinfo "pagetypeinfo";
     crypto "crypto";
+    version "version";
 }
