@@ -69,6 +69,10 @@ impl FromStr for Version {
     }
 }
 
+instance_impl! {
+    version, "/proc/version", Version
+}
+
 
 #[cfg(test)]
 mod test {
