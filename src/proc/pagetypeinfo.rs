@@ -75,11 +75,11 @@ impl FromStr for FreePage {
     fn from_str(s: &str) -> Result<FreePage, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 17 {
-            return Err(bfe!(format!("no enough fileds to parse a free page")))
+            return Err(bfe!("no enough fileds to parse a free page".to_string()))
         }
 
-        let node = columns[1].trim_end_matches(",").parse::<i32>()?;
-        let zone = columns[3].trim_end_matches(",").to_string();
+        let node = columns[1].trim_end_matches(',').parse::<i32>()?;
+        let zone = columns[3].trim_end_matches(',').to_string();
         let migrate = columns[5].to_string();
         let mut counts = [0;11];
         for (c, v) in counts.iter_mut().zip(columns[6..].iter()) {
@@ -114,7 +114,7 @@ impl FromStr for BlockTypeNumber {
             return Err(bfe!("no enough fields to parse blocks type number".to_string()))
         }
 
-        let node = columns[1].trim_end_matches(",").parse::<i32>()?;
+        let node = columns[1].trim_end_matches(',').parse::<i32>()?;
         let zone = columns[3].to_string();
         let mut counts = [0;6];
         for (c, v) in counts.iter_mut().zip(columns[4..].iter()) {

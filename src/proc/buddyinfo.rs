@@ -85,7 +85,7 @@ impl FromStr for BuddyInfo {
             return Err(bfe!("no enough fields to parse a Page".to_string()))
         }
         
-        let node = columns[1].trim_end_matches(",").parse::<i32>()?;
+        let node = columns[1].trim_end_matches(',').parse::<i32>()?;
         let zone = columns[3].to_string();
         let mut free_areas = [0;11];
         for (fa, v) in free_areas.iter_mut().zip(columns[4..].iter()) {
