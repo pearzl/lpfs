@@ -16,4 +16,5 @@ define_modules! {
     pagetypeinfo "pagetypeinfo";
     crypto "crypto";
     version "version";
+    cmdline "cmdline";
 }
