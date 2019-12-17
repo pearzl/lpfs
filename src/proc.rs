@@ -18,4 +18,5 @@ define_modules! {
     version "version";
     cmdline "cmdline";
     consoles "consoles";
+    devices "devices";
 }
