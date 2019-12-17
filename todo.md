@@ -1,6 +1,5 @@
 ## top-level files
 
-- /proc/cmdline
 - /proc/devices
 - /proc/dma
 - /proc/execdomains

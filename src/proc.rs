@@ -17,4 +17,5 @@ define_modules! {
     crypto "crypto";
     version "version";
     cmdline "cmdline";
+    consoles "consoles";
 }
