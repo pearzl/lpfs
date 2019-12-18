@@ -297,7 +297,7 @@ define_struct! {
     /// Represent the content of /proc/[pid]/stat and /proc/[pid]/task/[tid]/stat. 
     /// Returned by [`stat_of()`](fn.stat_of.html).
     /// 
-    /// The fields of this struct reference to [fs/proc/array.c](https://github.com/torvalds/linux/blob/master/fs/proc/array.c)
+    /// Reference to [`fs/proc/array.c`](https://github.com/torvalds/linux/blob/master/fs/proc/array.c)
     pub struct StatP {
         pid: i32,
         comm: String,

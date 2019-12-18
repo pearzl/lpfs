@@ -6,9 +6,9 @@
 //! 
 
 define_struct!{
-    /// Represent an entry in /proc/dma
+    /// Represent the an entry in /proc/dma, returned by [`dma()`](fn.dma.html).
     /// 
-    /// See [`kernel/dma.c`](https://github.com/torvalds/linux/blob/master/kernel/dma.c).
+    /// Reference to [`kernel/dma.c`](https://github.com/torvalds/linux/blob/master/kernel/dma.c).
     pub struct Dma {
         channel: u8,
         device: String,

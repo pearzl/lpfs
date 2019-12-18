@@ -1,6 +1,5 @@
 ## top-level files
 
-- /proc/dma
 - /proc/execdomains
 - /proc/fb
 - /proc/filesystems

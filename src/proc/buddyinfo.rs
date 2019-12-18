@@ -66,7 +66,7 @@
 define_struct! {
     /// Represent the an entry of /proc/buddyinfo
     /// 
-    /// The fields of this struct reference to [`mm/vmstat.c`]
+    /// Reference to [`mm/vmstat.c`]
     /// (https://github.com/torvalds/linux/blob/89d57dddd7d319ded00415790a0bb3c954b7e386/mm/vmstat.c#L1356).
     pub struct BuddyInfo {
         node: i32, 

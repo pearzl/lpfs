@@ -34,7 +34,7 @@
 define_struct! {
     /// Represent the content of /proc/loadavg
     /// 
-    /// The fields of this struct reference to [`fs/proc/loadavg.c`](https://github.com/torvalds/linux/blob/345671ea0f9258f410eb057b9ced9cefbbe5dc78/fs/proc/loadavg.c).
+    /// Reference to [`fs/proc/loadavg.c`](https://github.com/torvalds/linux/blob/345671ea0f9258f410eb057b9ced9cefbbe5dc78/fs/proc/loadavg.c).
     pub struct LoadAvg {
         one: f32,
         five: f32,

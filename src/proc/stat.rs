@@ -104,7 +104,7 @@
 define_struct! {
     /// Each instance represent an cpu entry in /proc/stat. See (Stat)[struct.Stat.html].
     /// 
-    /// The fields of this struct reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
+    /// Reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
     /// 
     /// This struct implement Index trait.
     pub struct Cpu {
@@ -228,7 +228,7 @@ impl FromStr for Cpu {
 define_struct! {
     /// Represent the content of /proc/stat, returned by [`stat()`](fn.stat.html).
     /// 
-    /// The fields of this struct reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
+    /// Reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
     pub struct Stat {
         cpu: Cpu,
         cpu_n: Vec<Cpu>,

@@ -1,5 +1,6 @@
 
 define_struct!{
+    /// Represent the content of /proc/cmdline, returned by [`cmdline()`](fn.cmdline.html)
     pub struct Cmdline{
         cmdline: String,
     }

@@ -40,7 +40,7 @@
 define_struct! {
     /// Represent the content of /proc/pagetypeinfo, returned by [`pagetypeinfo()`](fn.pagetypeinfo.html)
     /// 
-    /// The fields of this struct reference to [`mm/vmstat.c`](https://github.com/torvalds/linux/blob/master/mm/vmstat.c#L1372)
+    /// Reference to [`mm/vmstat.c`](https://github.com/torvalds/linux/blob/master/mm/vmstat.c#L1372)
     /// 
     /// See [`free_pages()`](struct.PageTypeInfo.html#method.free_pages), 
     /// [`blocks_type_number()`](struct.PageTypeInfo.html#method.blocks_type_number) for details.
