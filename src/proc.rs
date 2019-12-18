@@ -19,4 +19,5 @@ define_modules! {
     cmdline "cmdline";
     consoles "consoles";
     devices "devices";
+    dma "dma";
 }
