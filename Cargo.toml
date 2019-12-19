@@ -24,7 +24,7 @@ default = [
     "apm", "cpuinfo", "stat", "loadavg", "kcore",
     "uptime", "buddyinfo", "pagetypeinfo", "crypto",
     "version", "cmdline", "consoles", "devices",
-    "dma",
+    "dma", "execdomains",
     
     "_self", "task", 
     
@@ -45,6 +45,7 @@ cmdline = []
 consoles = []
 devices = []
 dma = []
+execdomains = []
 
 _self = []
 task = []

@@ -20,4 +20,5 @@ define_modules! {
     consoles "consoles";
     devices "devices";
     dma "dma";
+    execdomains "execdomains";
 }
