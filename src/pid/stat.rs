@@ -359,17 +359,21 @@ impl FromStr for StatP {
     type Err = crate::ProcErr;
 
     fn from_str(s: &str) -> Result<StatP, crate::ProcErr> {
-        let columns: Vec<&str> = s.split_ascii_whitespace().collect();
-        if columns.len() < 44 {
+        // let columns: Vec<&str> = s.split_ascii_whitespace().collect();
+        let columns_: Vec<&str> = s.split(|c| c == '(' || c == ')').collect();
+        if columns_.len() != 3 {
             return Err(bfe!("no enough fields to parse a StatP".to_string()));
         }
+        let mut columns: Vec<&str> = vec![columns_[0].trim(), columns_[1].trim()];
+        columns.extend(columns_[2].trim().split_ascii_whitespace());
+        println!();
 
         macro_rules! unwrap_integer {
             (
                 $source: expr, $type: ty, $field: ident
             ) => {
                 let $field = $source.parse::<$type>()
-                    .map_err(|_|bfe!(concat!("parse", stringify!($field),"failed").to_string()))?;
+                    .map_err(|_|bfe!(concat!("parse ", stringify!($field)," failed").to_string()))?;
             }
         }
 
@@ -380,7 +384,7 @@ impl FromStr for StatP {
                 let $field = if let Some(v) = $source.get($get_n) {
                     let value = v.parse::<$type>()
                         .map_err(|_|bfe!(
-                            concat!("parse", stringify!($field),"failed")
+                            concat!("parse ", stringify!($field)," failed")
                             .to_string())
                         )?;
                     Some(value)
@@ -391,7 +395,7 @@ impl FromStr for StatP {
         }
 
         unwrap_integer!(columns[0], i32, pid);
-        let comm = columns[1][1..columns[1].len()-1].to_string();
+        let comm = columns[1].to_string();
         let state = columns[2].chars().next().ok_or_else(||bfe!("stat is empty".to_string()))?;
         unwrap_integer!(columns[3], i32, ppid);
         unwrap_integer!(columns[4], i32, pgrp);
@@ -521,6 +525,63 @@ mod test {
             arg_end: Some(140727263432671),
             env_start: Some(140727263432671),
             env_end: Some(140727263432671),
+            exit_code: Some(0),
+        };
+        assert_eq!(correct, source.parse::<StatP>().unwrap());
+
+        let source = "1410 (Network File Th) S 251 251 1 0 -1 1077960768 8 2764 0 32 0 0 1 3 20 0 193 0 1541 2565836800 93388 4294967295 3078164480 3078178764 3214281856 2368030232 2999026130 0 4612 4096 1073775868 3223042942 0 0 -1 0 0 3 0 0 0 3078184256 3078184948 3092856832 3214289929 3214290005 3214290005 3214290916 0";
+        let correct = StatP {
+            pid: 1410,
+            comm: String::from("Network File Th"),
+            state: 'S',
+            ppid: 251,
+            pgrp: 251,
+            session: 1,
+            tty_nr: 0,
+            tpgid: -1,
+            flags: 1077960768,
+            minflt: 8,
+            cminflt: 2764,
+            majflt: 0,
+            cmajflt: 32,
+            utime: 0,
+            stime: 0,
+            cutime: 1,
+            cstime: 3,
+            priority: 20,
+            nice: 0,
+            num_threads: 193,
+            itrealvalue: 0,
+            starttime: 1541,
+            vsize: 2565836800,
+            rss: 93388,
+            rsslim: 4294967295,
+            startcode: 3078164480,
+            endcode: 3078178764,
+            startstack: 3214281856,
+            kstkesp: 2368030232,
+            kstkeip: 2999026130,
+            signal: 0,
+            blocked: 4612,
+            sigignore: 4096,
+            sigcatch: 1073775868,
+            wchan: 3223042942,
+            nswap: 0,
+            cnswap: 0,
+            exit_signal: -1,
+            processor: 0,
+            rt_priority: 0,
+            policy: 3,
+            delayacct_blkio_ticks: 0,
+            guest_time: 0,
+            cguest_time: 0,
+            start_data: Some(3078184256),
+            end_data: Some(3078184948),
+            start_brk: Some(3092856832),
+            arg_start: Some(3214289929),
+            arg_end: Some(3214290005),
+            env_start: Some(3214290005),
+            env_end: Some(3214290916),
             exit_code: Some(0),
         };
         assert_eq!(correct, source.parse::<StatP>().unwrap());
