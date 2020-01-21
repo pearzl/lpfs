@@ -9,4 +9,5 @@ define_modules! {
     task "task";
     stat "pid_stat";
     comm "pid_comm";
+    fd   "pid_fd";
 }

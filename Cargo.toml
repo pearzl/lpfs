@@ -24,11 +24,9 @@ default = [
     "apm", "cpuinfo", "stat", "loadavg", "kcore",
     "uptime", "buddyinfo", "pagetypeinfo", "crypto",
     "version", "cmdline", "consoles", "devices",
-    "dma", "execdomains",
+    "dma", "execdomains", "_self", 
     
-    "_self", "task", 
-    
-    "pid_stat", "pid_comm"
+    "task", "pid_stat", "pid_comm", "pid_fd"
     ]
 
 apm = []
@@ -46,10 +44,9 @@ consoles = []
 devices = []
 dma = []
 execdomains = []
-
 _self = []
-task = []
 
+task = []
 pid_stat = []
 pid_comm = []
-
+pid_fd = []
