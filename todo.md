@@ -1,7 +1,5 @@
 ## top-level files
 
-- /proc/execdomains
-- /proc/fb
 - /proc/filesystems
 - /proc/interrupts
 - /proc/iomem

@@ -21,4 +21,5 @@ define_modules! {
     devices "devices";
     dma "dma";
     execdomains "execdomains";
+    fb "fb";
 }

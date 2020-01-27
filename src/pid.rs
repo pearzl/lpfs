@@ -6,7 +6,7 @@
 //!
 
 define_modules! {
-    task "task";
+    task "pid_task";
     stat "pid_stat";
     comm "pid_comm";
     fd   "pid_fd";
