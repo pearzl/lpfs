@@ -24,7 +24,8 @@ default = [
     "apm", "cpuinfo", "stat", "loadavg", "kcore",
     "uptime", "buddyinfo", "pagetypeinfo", "crypto",
     "version", "cmdline", "consoles", "devices",
-    "dma", "execdomains", "_self", "fb",
+    "dma", "execdomains", "_self", "fb", "filesystems",
+    "interrupts", "iomem", "ioports",
     
     "pid_task", "pid_stat", "pid_comm", "pid_fd"
     ]
@@ -46,6 +47,10 @@ dma = []
 execdomains = []
 _self = []
 fb = []
+filesystems = []
+interrupts = []
+iomem = []
+ioports = []
 
 pid_task = []
 pid_stat = []

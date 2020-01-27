@@ -1,8 +1,5 @@
 ## top-level files
 
-- /proc/filesystems
-- /proc/interrupts
-- /proc/iomem
 - /proc/ioports
 - /proc/kmsg
 - /proc/locks

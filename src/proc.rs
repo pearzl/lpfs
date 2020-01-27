@@ -22,4 +22,8 @@ define_modules! {
     dma "dma";
     execdomains "execdomains";
     fb "fb";
+    filesystems "filesystems";
+    interrupts "interrupts";
+    iomem "iomem";
+    ioports "ioports";
 }
