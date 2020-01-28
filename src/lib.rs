@@ -34,3 +34,15 @@ impl From<std::num::ParseFloatError> for ProcErr {
         ProcErr::Parse(Box::new(x))
     }
 }
+
+impl From<String> for ProcErr {
+    fn from(s: String) -> Self {
+        ProcErr::BadFormat(s)
+    }
+}
+
+impl From<&str> for ProcErr {
+    fn from(s: &str) -> Self {
+        ProcErr::BadFormat(s.to_string())
+    }
+}

@@ -26,4 +26,5 @@ define_modules! {
     interrupts "interrupts";
     iomem "iomem";
     ioports "ioports";
+    locks "locks";
 }
