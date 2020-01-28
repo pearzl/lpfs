@@ -359,21 +359,19 @@ impl FromStr for StatP {
     type Err = crate::ProcErr;
 
     fn from_str(s: &str) -> Result<StatP, crate::ProcErr> {
-        // let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         let columns_: Vec<&str> = s.split(|c| c == '(' || c == ')').collect();
         if columns_.len() != 3 {
-            return Err(bfe!("no enough fields to parse a StatP".to_string()));
+            return Err("no enough fields to parse a StatP".into());
         }
         let mut columns: Vec<&str> = vec![columns_[0].trim(), columns_[1].trim()];
         columns.extend(columns_[2].trim().split_ascii_whitespace());
-        println!();
 
         macro_rules! unwrap_integer {
             (
                 $source: expr, $type: ty, $field: ident
             ) => {
                 let $field = $source.parse::<$type>()
-                    .map_err(|_|bfe!(concat!("parse ", stringify!($field)," failed").to_string()))?;
+                    .map_err(|_| concat!("parse ", stringify!($field)," failed"))?;
             }
         }
 
@@ -383,10 +381,7 @@ impl FromStr for StatP {
             ) => {
                 let $field = if let Some(v) = $source.get($get_n) {
                     let value = v.parse::<$type>()
-                        .map_err(|_|bfe!(
-                            concat!("parse ", stringify!($field)," failed")
-                            .to_string())
-                        )?;
+                        .map_err(|_| concat!("parse ", stringify!($field)," failed"))?;
                     Some(value)
                 }else {
                     None
@@ -396,7 +391,7 @@ impl FromStr for StatP {
 
         unwrap_integer!(columns[0], i32, pid);
         let comm = columns[1].to_string();
-        let state = columns[2].chars().next().ok_or_else(||bfe!("stat is empty".to_string()))?;
+        let state = columns[2].chars().next().ok_or_else(||"stat is empty")?;
         unwrap_integer!(columns[3], i32, ppid);
         unwrap_integer!(columns[4], i32, pgrp);
         unwrap_integer!(columns[5], i32, session);

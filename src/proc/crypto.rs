@@ -72,7 +72,7 @@ impl FromStr for Crypto {
         for line in s.trim().lines() {
             let columns: Vec<&str> = line.split(':').collect();
             if columns.len() != 2 {
-                return Err(bfe!("not an key-value pair in crypto".to_string()));
+                return Err("not an key-value pair in crypto".into());
             }
             ret.insert(columns[0].trim().to_string(), columns[1].trim().to_string());
         }

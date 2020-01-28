@@ -75,7 +75,7 @@ impl FromStr for FreePage {
     fn from_str(s: &str) -> Result<FreePage, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 17 {
-            return Err(bfe!("no enough fileds to parse a free page".to_string()))
+            return Err("no enough fileds to parse a free page".into())
         }
 
         let node = columns[1].trim_end_matches(',').parse::<i32>()?;
@@ -111,7 +111,7 @@ impl FromStr for BlockTypeNumber {
     fn from_str(s: &str) -> Result<BlockTypeNumber, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 10 {
-            return Err(bfe!("no enough fields to parse blocks type number".to_string()))
+            return Err("no enough fields to parse blocks type number".into())
         }
 
         let node = columns[1].trim_end_matches(',').parse::<i32>()?;
@@ -134,12 +134,12 @@ impl FromStr for PageTypeInfo {
         let blocks: Vec<&str> = s.split("\n\n").collect();
         if blocks.len() != 3 {
             println!("{:?}", blocks);
-            return Err(bfe!("pagetypeinfo should have 3 blocks".to_string()))
+            return Err("pagetypeinfo should have 3 blocks".into())
         }
 
         let b1: Vec<&str> = blocks[0].split_ascii_whitespace().collect();
         if b1.len() != 8 {
-            return Err(bfe!("first block of pagetypeinfo should 8 items".to_string()))
+            return Err("first block of pagetypeinfo should 8 items".into())
         }
         let page_block_order = b1[3].parse::<i32>()?;
         let pages_per_block = b1[7].parse::<u64>()?;

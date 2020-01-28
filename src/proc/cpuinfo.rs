@@ -118,7 +118,7 @@ impl FromStr for Processor {
         for line in s.trim().lines() {
             let columns: Vec<&str> = line.split(':').collect();
             if columns.len() != 2 {
-                return Err(bfe!(format!("`{}` is not k:v pair", line)));
+                return Err(format!("`{}` is not k:v pair", line).into());
             }
             map.insert(columns[0].trim(), columns[1].trim());
         }
@@ -128,7 +128,7 @@ impl FromStr for Processor {
                 let $field = if let Some(vid) = map.get($key) {
                     vid.to_string()
                 }else {
-                    return Err(bfe!(format!("`{}` field not found", $key)))
+                    return Err(format!("`{}` field not found", $key).into())
                 };
             }
         }
@@ -138,7 +138,7 @@ impl FromStr for Processor {
                 let $field = if let Some(p) = map.get($key) {
                     p.parse::<$type>()?
                 }else {
-                    return Err(bfe!(format!("`{}` field not found", $key)))
+                    return Err(format!("`{}` field not found", $key).into())
                 };
             }
         }
@@ -161,7 +161,7 @@ impl FromStr for Processor {
                     match map.get($key) {
                         Some(&"yes") => Some(true),
                         Some(&"no") => Some(false),
-                        Some(_) => return Err(bfe!(format!("unknow value for `{}` field", $key))),
+                        Some(_) => return Err(format!("unknow value for `{}` field", $key).into()),
                         None => None
                     }
                 };
@@ -228,7 +228,7 @@ impl FromStr for Processor {
         let address_sizes = {
             let columns: Vec<&str> = address_sizes.split(' ').collect();
             if columns.len() != 6 {
-                return Err(bfe!("unknow value for `address sizes`".to_string()))
+                return Err("unknow value for `address sizes`".into())
             }
             (
                 columns[0].parse::<u8>()?,

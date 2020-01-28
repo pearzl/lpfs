@@ -211,7 +211,7 @@ impl FromStr for Cpu {
     fn from_str(s: &str) -> Result<Cpu, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 11 {
-            return Err(bfe!(("need 10 number to parse to Cpu").to_string()))
+            return Err("need 10 number to parse to Cpu".into())
         }
 
         let mut cpu = [0;10];
@@ -249,7 +249,7 @@ impl FromStr for Stat {
         let lines: Vec<&str> = s.trim().lines().collect();
         let line_num = lines.len();
         if line_num < 8 {
-            return Err(bfe!(String::from("It takes at least 8 lines to parse to Stat")));
+            return Err("It takes at least 8 lines to parse to Stat".into());
         }
 
         let cpu = lines[0].parse::<Cpu>()?;
@@ -258,7 +258,7 @@ impl FromStr for Stat {
 
         let softirq_columns: Vec<&str> = lines[last_n].split_ascii_whitespace().collect();
         if softirq_columns[0] != "softirq" {
-            return Err(bfe!(String::from("softirq not found")));
+            return Err("softirq not found".into());
         }
         let mut softirq: Vec<u64> = vec![];
         for s in &softirq_columns[1..] {
@@ -273,7 +273,7 @@ impl FromStr for Stat {
                 .trim_start_matches(stringify!($name))
                 .trim()
                 .parse::<u64>()
-                .map_err(|_|bfe!(format!("failed to parse {}", stringify!($name))))?;
+                .map_err(|_|concat!("failed to parse {}", stringify!($name)))?;
             last_n -= 1;
             }
         }

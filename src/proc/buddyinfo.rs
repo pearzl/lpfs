@@ -82,7 +82,7 @@ impl FromStr for BuddyInfo {
     fn from_str(s: &str) -> Result<BuddyInfo, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 15 {
-            return Err(bfe!("no enough fields to parse a Page".to_string()))
+            return Err("no enough fields to parse a Page".into())
         }
         
         let node = columns[1].trim_end_matches(',').parse::<i32>()?;

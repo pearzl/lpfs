@@ -38,7 +38,7 @@ impl FromStr for IoMem {
     fn from_str(s: &str) -> Result<IoMem, Self::Err> {
         let items: Vec<&str> = s.split(|c| c == '-' || c == ':').map(|s| s.trim()).collect();
         if items.len() != 3 {
-            return Err(bfe!("require three items at least to parse iomem".to_string()));
+            return Err("require three items at least to parse iomem".into());
         }
 
         let start = usize::from_str_radix(items[0], 16)?;

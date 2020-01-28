@@ -30,7 +30,7 @@ impl FromStr for Uptime {
     fn from_str(s: &str) -> Result<Uptime, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 2 {
-            return Err(bfe!("not uptime format".to_string()))
+            return Err("not uptime format".into())
         }
 
         let total = columns[0].parse::<f64>()?;

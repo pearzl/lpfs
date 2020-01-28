@@ -55,7 +55,7 @@ impl FromStr for LoadAvg {
         let columns: Vec<&str> = s.split(|c| c == ' ' || c == '/').collect();
         if columns.len() != 6 {
             let emsg = format!("LoadAvg has 5 fields but got {}", columns.len());
-            return Err(bfe!(emsg))
+            return Err(emsg.into())
         }
         
         let one = columns[0].parse::<f32>()?;

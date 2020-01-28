@@ -111,7 +111,7 @@ macro_rules! fd_impl {
             let fd_str = task_dir?.file_name();
             let fd = fd_str
                 .to_str()
-                .ok_or_else(||bfe!("contains non-unicode chatacter".to_string()))?
+                .ok_or_else(||"contains non-unicode chatacter")?
                 .parse::<u32>()?;
             ret.push(fd);
         }

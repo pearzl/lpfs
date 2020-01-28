@@ -45,7 +45,7 @@ impl FromStr for IoPort {
     fn from_str(s: &str) -> Result<IoPort, Self::Err> {
         let items: Vec<&str> = s.split(|c| c == '-' || c == ':').map(|s| s.trim()).collect();
         if items.len() != 3 {
-            return Err(bfe!("require three items at least to parse ioport".to_string()));
+            return Err("require three items at least to parse ioport".into());
         }
 
         let start = usize::from_str_radix(items[0], 16)?;

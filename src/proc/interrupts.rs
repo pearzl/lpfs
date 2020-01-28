@@ -88,7 +88,7 @@ impl FromStr for InternalInterrupt {
     fn from_str(s: &str) -> Result<InternalInterrupt, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() < 2 {
-            return Err(bfe!("require at least two clolums to parse an InternalInterrupt".to_string()))
+            return Err("require at least two clolums to parse an InternalInterrupt".into())
         }
         let name = columns[0].trim_end_matches(':').to_string();
         let mut cpu_num = 0;
@@ -102,7 +102,7 @@ impl FromStr for InternalInterrupt {
             }
         }
         if counts.is_empty() {
-            return Err(bfe!("interrupt count not found".to_string()));
+            return Err("interrupt count not found".into());
         }
         let details = columns[1+cpu_num..].join(" ");
         Ok(InternalInterrupt{
@@ -117,7 +117,7 @@ impl FromStr for DeviceInterrupt {
     fn from_str(s: &str) -> Result<DeviceInterrupt, Self::Err>  {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() < 4{
-            return Err(bfe!("require at least four clolums to parse an InternalInterrupt".to_string()))
+            return Err("require at least four clolums to parse an InternalInterrupt".into())
         }
         let irq_number = columns[0].trim_end_matches(':').parse::<usize>()?;
         let mut cpu_num = 0;
@@ -131,7 +131,7 @@ impl FromStr for DeviceInterrupt {
             }
         }
         if counts.is_empty() {
-            return Err(bfe!("interrupt count not found".to_string()));
+            return Err("interrupt count not found".into());
         }
         let type_device = columns[1+cpu_num..].join(" ");
         Ok(DeviceInterrupt{
@@ -146,7 +146,7 @@ impl FromStr for Interrupts {
     fn from_str(s: &str) -> Result<Interrupts, Self::Err> {
         let lines: Vec<&str> = s.lines().collect();
         if lines.is_empty() {
-            return Err(bfe!("no enough lines to parse Interrupts".to_string()));
+            return Err("no enough lines to parse Interrupts".into());
         }
         let cpu_num = lines[0].split_ascii_whitespace().count();
         let mut internals = vec![];

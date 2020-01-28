@@ -12,7 +12,7 @@ impl FromStr for Devices {
     fn from_str(s: &str) -> Result<Devices, crate::ProcErr> {
         let areas: Vec<&str> = s.split("\n\n").collect();
         if areas.len() != 2 {
-            return Err(bfe!("devices consist of two parts".to_string()));
+            return Err("devices consist of two parts".into());
         }
 
         let mut character = vec![];

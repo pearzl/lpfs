@@ -64,7 +64,7 @@ impl FromStr for Version {
             }
         }
 
-        Err(bfe!("unknow format".to_string()))
+        Err("unknow format".into())
 
     }
 }

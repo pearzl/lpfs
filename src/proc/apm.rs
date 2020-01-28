@@ -94,7 +94,7 @@ impl FromStr for Apm {
     fn from_str(s: &str) -> Result<Apm, Self::Err> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 9 {
-            return Err(bfe!("unknow format".to_string()))
+            return Err("unknow format".into())
         }
 
         let driver_version = columns[0].to_string();
@@ -102,7 +102,7 @@ impl FromStr for Apm {
         let bios_version = {
             let vv: Vec<&str> = columns[1].split('.').collect();
             if vv.len() != 2 {
-                return Err(bfe!("wrong bios version".to_string()))
+                return Err("wrong bios version".into())
             }
             (
                 vv[0].parse::<u8>()?, 

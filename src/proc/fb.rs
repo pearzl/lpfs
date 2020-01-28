@@ -22,7 +22,7 @@ impl FromStr for Fb {
 
     fn from_str(value: &str) -> Result<Self, crate::ProcErr> {
         let mut columns = value.split_ascii_whitespace();
-        let device = columns.next().ok_or_else(|| bfe!("device number not found".to_string()))?.parse::<usize>()?;
+        let device = columns.next().ok_or_else(|| "device number not found")?.parse::<usize>()?;
         let drivers = columns.map(|s: &str| s.to_string()).collect();
         Ok(Fb { device, drivers })
     }

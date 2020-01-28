@@ -127,11 +127,3 @@ macro_rules! define_modules {
         )*
     };
 }
-
-macro_rules! bfe {
-    (
-        $msg: expr
-    ) => {
-        crate::ProcErr::BadFormat($msg)
-    };
-}

@@ -22,7 +22,7 @@ impl FromStr for Dma {
     fn from_str(value: &str) -> Result<Self, crate::ProcErr> {
         let columns: Vec<&str> = value.split(':').collect();
         if columns.len() != 2 {
-            return Err(bfe!("dma consists of two parts".to_string()));
+            return Err("dma consists of two parts".into());
         }
         Ok(Dma {
             channel: columns[0].trim().parse::<u8>()?,
