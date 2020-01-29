@@ -29,4 +29,5 @@ define_modules! {
     locks "locks";
     mdstat "mdstat";
     meminfo "meminfo";
+    misc "misc";
 }
