@@ -1,7 +1,5 @@
 ## top-level files
 
-- /proc/mdstat
-- /proc/meminfo
 - /proc/misc
 - /proc/modules
 - /proc/mounts

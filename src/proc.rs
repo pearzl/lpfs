@@ -27,4 +27,6 @@ define_modules! {
     iomem "iomem";
     ioports "ioports";
     locks "locks";
+    mdstat "mdstat";
+    meminfo "meminfo";
 }

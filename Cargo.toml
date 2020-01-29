@@ -25,7 +25,8 @@ default = [
     "uptime", "buddyinfo", "pagetypeinfo", "crypto",
     "version", "cmdline", "consoles", "devices",
     "dma", "execdomains", "_self", "fb", "filesystems",
-    "interrupts", "iomem", "ioports", "locks",
+    "interrupts", "iomem", "ioports", "locks", "mdstat",
+    "meminfo",
     
     "pid_task", "pid_stat", "pid_comm", "pid_fd"
     ]
@@ -52,6 +53,8 @@ interrupts = []
 iomem = []
 ioports = []
 locks = []
+mdstat = []
+meminfo = []
 
 pid_task = []
 pid_stat = []
