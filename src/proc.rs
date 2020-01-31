@@ -31,4 +31,5 @@ define_modules! {
     meminfo "meminfo";
     misc "misc";
     modules "modules";
+    mounts "mounts";
 }
