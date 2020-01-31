@@ -26,7 +26,7 @@ default = [
     "version", "cmdline", "consoles", "devices",
     "dma", "execdomains", "_self", "fb", "filesystems",
     "interrupts", "iomem", "ioports", "locks", "mdstat",
-    "meminfo", "misc",
+    "meminfo", "misc", "modules",
     
     "pid_task", "pid_stat", "pid_comm", "pid_fd"
     ]
@@ -56,6 +56,7 @@ locks = []
 mdstat = []
 meminfo = []
 misc = []
+modules = []
 
 pid_task = []
 pid_stat = []

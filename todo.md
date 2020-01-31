@@ -1,7 +1,5 @@
 ## top-level files
 
-- /proc/misc
-- /proc/modules
 - /proc/mounts
 - /proc/mtrr
 - /proc/partitions

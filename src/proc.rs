@@ -30,4 +30,5 @@ define_modules! {
     mdstat "mdstat";
     meminfo "meminfo";
     misc "misc";
+    modules "modules";
 }
