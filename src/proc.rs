@@ -34,4 +34,5 @@ define_modules! {
     mounts;
     mtrr;
     partitions;
+    swaps;
 }

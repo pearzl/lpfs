@@ -36,8 +36,8 @@ macro_rules! list_impl {
         pub fn $fn_name() -> Result<Vec<$return_type>, crate::ProcErr> {
             let content = std::fs::read_to_string($path)?;
             let mut ret = vec![];
-            for line in content.trim().lines() {
-                let v: $return_type = line.parse()?;
+            for block in content.trim().split($sep).skip($skip) {
+                let v: $return_type = block.parse()?;
                 ret.push(v);
             }
             Ok(ret)
