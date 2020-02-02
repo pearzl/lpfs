@@ -296,7 +296,7 @@ define_struct! {
     /// Returned by [`stat_of()`](fn.stat_of.html).
     /// 
     /// Reference to [`fs/proc/array.c`](https://github.com/torvalds/linux/blob/master/fs/proc/array.c)
-    pub struct StatP {
+    pub struct Stat {
         pid: i32,
         comm: String,
         state: char,
@@ -353,13 +353,13 @@ define_struct! {
 }
 
 use std::str::FromStr;
-impl FromStr for StatP {
+impl FromStr for Stat {
     type Err = crate::ProcErr;
 
-    fn from_str(s: &str) -> Result<StatP, crate::ProcErr> {
+    fn from_str(s: &str) -> Result<Stat, crate::ProcErr> {
         let columns_: Vec<&str> = s.split(|c| c == '(' || c == ')').collect();
         if columns_.len() != 3 {
-            return Err("no enough fields to parse a StatP".into());
+            return Err("no enough fields to parse a Stat".into());
         }
         let mut columns: Vec<&str> = vec![columns_[0].trim(), columns_[1].trim()];
         columns.extend(columns_[2].trim().split_ascii_whitespace());
@@ -440,7 +440,7 @@ impl FromStr for StatP {
         unwrap_opt_integer!(columns, 50, u64, env_end);
         unwrap_opt_integer!(columns, 51, i32,  exit_code);
 
-        Ok(StatP{
+        Ok(Stat{
             pid, comm, state, ppid, pgrp, session, tty_nr, tpgid,
             flags, minflt, cminflt, majflt, cmajflt, utime, stime,
             cutime, cstime, priority, nice, num_threads, itrealvalue,
@@ -455,7 +455,7 @@ impl FromStr for StatP {
 }
 
 pid_instance_impl! {
-    stat_of, "stat", StatP, 
+    stat_of, "stat", Stat, 
     stat_self, stat_of_task, stat_self_task
 }
 
@@ -464,9 +464,9 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_parse_statp() {
+    fn test_parse_Stat() {
         let source = "1 (systemd) S 0 1 1 0 -1 4202752 14369183 764090677 397 46639 54116 70774 2865762 770103 20 0 1 0 4 55685120 981 18446744073709551615 94270761308160 94270762758152 140727263428848 140727263425536 140367080586851 0 671173123 4096 1260 18446744072542055742 0 0 17 0 0 0 76 0 0 94270764855672 94270765000248 94270777630720 140727263432620 140727263432671 140727263432671 140727263432671 0";
-        let correct = StatP {
+        let correct = Stat {
             pid: 1,
             comm: String::from("systemd"),
             state: 'S',
@@ -520,10 +520,10 @@ mod test {
             env_end: Some(140727263432671),
             exit_code: Some(0),
         };
-        assert_eq!(correct, source.parse::<StatP>().unwrap());
+        assert_eq!(correct, source.parse::<Stat>().unwrap());
 
         let source = "1410 (Network File Th) S 251 251 1 0 -1 1077960768 8 2764 0 32 0 0 1 3 20 0 193 0 1541 2565836800 93388 4294967295 3078164480 3078178764 3214281856 2368030232 2999026130 0 4612 4096 1073775868 3223042942 0 0 -1 0 0 3 0 0 0 3078184256 3078184948 3092856832 3214289929 3214290005 3214290005 3214290916 0";
-        let correct = StatP {
+        let correct = Stat {
             pid: 1410,
             comm: String::from("Network File Th"),
             state: 'S',
@@ -577,6 +577,6 @@ mod test {
             env_end: Some(3214290916),
             exit_code: Some(0),
         };
-        assert_eq!(correct, source.parse::<StatP>().unwrap());
+        assert_eq!(correct, source.parse::<Stat>().unwrap());
     }
 }

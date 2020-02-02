@@ -14,11 +14,11 @@ define_struct! {
     /// Represent the content of /proc/[pid]/comm, returned by [`comm_of()`](fn.comm_of.html).
     /// 
     /// This is an String wrapper with implement of Deref trait.
-    pub struct CommP (String);
+    pub struct Comm (String);
 }
 
 use std::ops::Deref;
-impl Deref for CommP {
+impl Deref for Comm {
     type Target = String;
 
     fn deref(&self) -> &Self::Target {
@@ -28,15 +28,15 @@ impl Deref for CommP {
 }
 
 use std::str::FromStr;
-impl FromStr for CommP {
+impl FromStr for Comm {
     type Err = crate::ProcErr;
 
-    fn from_str(s: &str) -> Result<CommP, crate::ProcErr> {
-        Ok(CommP(s.to_string()))
+    fn from_str(s: &str) -> Result<Comm, crate::ProcErr> {
+        Ok(Comm(s.to_string()))
     }
 }
 
 pid_instance_impl! {
-    comm_of, "comm", CommP, 
+    comm_of, "comm", Comm, 
     comm_self, comm_of_task, comm_self_task
 }
