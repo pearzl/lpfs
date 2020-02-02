@@ -32,6 +32,9 @@ macro_rules! list_impl {
         $(#[$k: meta])*
         $fn_name: ident, $path: expr, $return_type: ty, $sep: expr, $skip: literal
     ) => {
+        #[doc="Return parsed content of "]
+        #[doc=$path]
+        #[doc=".\n\n See it's return type for details."]
         $(#[$k])*
         pub fn $fn_name() -> Result<Vec<$return_type>, crate::ProcErr> {
             let content = std::fs::read_to_string($path)?;
@@ -42,6 +45,8 @@ macro_rules! list_impl {
             }
             Ok(ret)
         }
+
+        test_impl!($fn_name);
     }
 }
 
@@ -58,6 +63,8 @@ macro_rules! instance_impl {
             let content = std::fs::read_to_string($path)?;
             content.trim().parse()
         }
+
+        test_impl!($fn_name);
     }
 }
 
@@ -86,6 +93,8 @@ macro_rules! pid_instance_impl {
             let content = std::fs::read_to_string(path)?;
             content.trim().parse()
         }
+
+        test_impl!($self_fn_name);
 
         #[doc="Return parsed content of `/proc/[pid]/task/[tid]/"]
         #[doc=$file_name]
@@ -121,5 +130,28 @@ macro_rules! define_modules {
             #[doc(inline)]
             pub use $mod_name::*;
         )*
+    };
+}
+
+macro_rules! test_impl {
+    ($fn_name: ident) => {
+        #[cfg(test)]
+        #[test]
+        fn test_impl() {
+            use std::io::ErrorKind;
+
+            let ret = $fn_name();
+            if let Err(e) = ret {
+                match e {
+                    $crate::ProcErr::IO(inner_err) => {
+                        match inner_err.kind() {
+                            ErrorKind::NotFound => (),
+                            _ => Err(inner_err).unwrap()
+                        }
+                    },
+                    _ => Err(e).unwrap()
+                }
+            }
+        }
     };
 }

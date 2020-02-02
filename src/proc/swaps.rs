@@ -25,7 +25,6 @@ impl FromStr for Swap {
         if columns.len() != 5 {
             return Err("no enough fields".into());
         }
-        println!("{:?}", columns);
         let filename = columns[0].to_string();
         let r#type = columns[1].to_string();
         let size = columns[2].parse::<usize>()?;
