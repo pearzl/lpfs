@@ -27,20 +27,3 @@ pub fn self_pid() -> Result<u32> {
     let pid = pid_str.parse::<u32>()?;
     Ok(pid)
 }
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn test_self_self_pid() {
-        println!("/proc/self point to {:?}", _self().unwrap());
-        println!("current pid is {:?}", self_pid().unwrap());
-    }
-
-    #[test]
-    fn test_self_pid() {
-        let pid = unsafe { libc::getpid() } as u32;
-        assert_eq!(pid, self_pid().unwrap())
-    }
-}

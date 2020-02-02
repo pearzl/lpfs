@@ -1,58 +1,54 @@
-//! /proc/cpuinfo
-//!
-//! > This virtual file identifies the type of processor used by your system. The following is an example of the output typical of `/proc/cpuinfo`:
-//! > 
-//! > <pre class="screen">processor	: 0
-//! > vendor_id	: GenuineIntel
-//! > cpu family	: 15
-//! > model		: 2
-//! > model name	: Intel(R) Xeon(TM) CPU 2.40GHz
-//! > stepping	: 7 cpu
-//! > MHz		: 2392.371
-//! > cache size	: 512 KB
-//! > physical id	: 0
-//! > siblings	: 2
-//! > runqueue	: 0
-//! > fdiv_bug	: no
-//! > hlt_bug		: no
-//! > f00f_bug	: no
-//! > coma_bug	: no
-//! > fpu		: yes
-//! > fpu_exception	: yes
-//! > cpuid level	: 2
-//! > wp		: yes
-//! > flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca  cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm
-//! > bogomips	: 4771.02
-//! > </pre>
-//! > 
-//! > *   `processor` — Provides each processor with an identifying number. On systems that have one processor, only a `0` is present.
-//! > 
-//! > *   `cpu family` — Authoritatively identifies the type of processor in the system. For an Intel-based system, place the number in front of "86" to determine the value. This is particularly helpful for those attempting to identify the architecture of an older system such as a 586, 486, or 386\. Because some RPM packages are compiled for each of these particular architectures, this value also helps users determine which packages to install.
-//! > 
-//! > *   `model name` — Displays the common name of the processor, including its project name.
-//! > 
-//! > *   `cpu MHz` — Shows the precise speed in megahertz for the processor to the thousandths decimal place.
-//! > 
-//! > *   `cache size` — Displays the amount of level 2 memory cache available to the processor.
-//! > 
-//! > *   `siblings` — Displays the total number of sibling CPUs on the same physical CPU for architectures which use hyper-threading.
-//! > 
-//! > *   `flags` — Defines a number of different qualities about the processor, such as the presence of a floating point unit (FPU) and the ability to process MMX instructions.
-//! >
-//! > -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-cpuinfo
-//! >
-//! 
-//! 
-//!
-//! > This is a collection of CPU and system architecture dependent items, for each supported architecture a different list.
-//! > Two common entries are _processor_ which gives CPU number and _bogomips_; a system constant that is calculated during kernel initialization. 
-//! > SMP machines have information for each CPU. The [lscpu(1)](https://manpages.debian.org/testing/util-linux/lscpu.1.en.html) command gathers its information from this file.
-//! >
-//! > -- https://manpages.debian.org/testing/manpages/procfs.5.en.html#Files_and_directories
-//! 
+// This virtual file identifies the type of processor used by your system. The following is an example of the output typical of `/proc/cpuinfo`:
+// 
+// <pre class="screen">processor	: 0
+// vendor_id	: GenuineIntel
+// cpu family	: 15
+// model		: 2
+// model name	: Intel(R) Xeon(TM) CPU 2.40GHz
+// stepping	: 7 cpu
+// MHz		: 2392.371
+// cache size	: 512 KB
+// physical id	: 0
+// siblings	: 2
+// runqueue	: 0
+// fdiv_bug	: no
+// hlt_bug		: no
+// f00f_bug	: no
+// coma_bug	: no
+// fpu		: yes
+// fpu_exception	: yes
+// cpuid level	: 2
+// wp		: yes
+// flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca  cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm
+// bogomips	: 4771.02
+// </pre>
+// 
+// *   `processor` — Provides each processor with an identifying number. On systems that have one processor, only a `0` is present.
+// 
+// *   `cpu family` — Authoritatively identifies the type of processor in the system. For an Intel-based system, place the number in front of "86" to determine the value. This is particularly helpful for those attempting to identify the architecture of an older system such as a 586, 486, or 386\. Because some RPM packages are compiled for each of these particular architectures, this value also helps users determine which packages to install.
+// 
+// *   `model name` — Displays the common name of the processor, including its project name.
+// 
+// *   `cpu MHz` — Shows the precise speed in megahertz for the processor to the thousandths decimal place.
+// 
+// *   `cache size` — Displays the amount of level 2 memory cache available to the processor.
+// 
+// *   `siblings` — Displays the total number of sibling CPUs on the same physical CPU for architectures which use hyper-threading.
+// 
+// *   `flags` — Defines a number of different qualities about the processor, such as the presence of a floating point unit (FPU) and the ability to process MMX instructions.
+//
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-cpuinfo
+//
+//
+// This is a collection of CPU and system architecture dependent items, for each supported architecture a different list.
+// Two common entries are _processor_ which gives CPU number and _bogomips_; a system constant that is calculated during kernel initialization. 
+// SMP machines have information for each CPU. The [lscpu(1)](https://manpages.debian.org/testing/util-linux/lscpu.1.en.html) command gathers its information from this file.
+//
+// -- https://manpages.debian.org/testing/manpages/procfs.5.en.html#Files_and_directories
+// 
 
 define_struct!{
-    /// Each instance of this struct represent a block in /proc/cpuinfo. See (CpuInfo)[struct.CpuInfo.html].
+    /// Each instance of this struct represent a block in /proc/cpuinfo. See [CpuInfo](struct.CpuInfo.html).
     ///
     /// Fields of this struct reference to 
     /// [proc.c](https://github.com/torvalds/linux/blob/master/arch/x86/kernel/cpu/proc.c#L57).
@@ -262,10 +258,7 @@ define_struct! {
     /// [physical_core_num()](#method.physical_core_num)
     /// 
     /// This struct implement Index trait.
-    pub struct CpuInfo {
-        #[doc(hidden)]
-        entry: Vec<Processor>,
-    }
+    pub struct CpuInfo(Vec<Processor>);
 }
 
 impl CpuInfo {
@@ -273,7 +266,7 @@ impl CpuInfo {
     /// 
     /// This is the numbers of the entry in /proc/cpuinfo.
     pub fn logical_core_num(&self) -> usize {
-        self.entry.len()
+        self.0.len()
     }
 
     /// Return physical core number
@@ -286,8 +279,8 @@ impl CpuInfo {
     /// *Field `core id` only appears on SMP machine. 
     /// In this case, physical core numbers equals to logical core numbers.*
     pub fn physical_core_num(&self) -> usize {
-        let mut set = vec![false; self.entry.len()];
-        for p in self.entry.iter() {
+        let mut set = vec![false; self.0.len()];
+        for p in self.0.iter() {
             let i = p.core_id().unwrap() as usize;
             set[i] = true;
         }
@@ -301,7 +294,7 @@ impl Index<usize> for CpuInfo {
     type Output = Processor;
 
     fn index(&self, index: usize) -> &Self::Output {
-        &self.entry[index]
+        &self.0[index]
     }
 }
 
@@ -314,7 +307,7 @@ impl FromStr for CpuInfo {
             let p = Processor::from_str(block)?;
             entry.push(p);
         }
-        Ok(CpuInfo{entry})
+        Ok(CpuInfo(entry))
     }
 }
 
@@ -325,9 +318,8 @@ instance_impl! {
 #[cfg(test)]
 mod test {
     use super::*;
-    use lazy_static::lazy_static;
 
-    const S1: &'static str = {
+    fn s1() -> &'static str {
 "\
 processor       : 0
 vendor_id       : GenuineIntel
@@ -352,10 +344,10 @@ clflush size    : 64
 cache_alignment : 64
 address sizes   : 40 bits physical, 48 bits virtual
 power management:"
-    };
+    }
 
-    lazy_static! {
-        static ref P1: Processor = Processor {
+    fn p1() -> Processor {
+        Processor {
             processor: 0,
             vendor_id: String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -380,10 +372,10 @@ power management:"
             address_sizes   : (40, 48),
             power_management: vec![],
             ..Default::default()
-        };
+        }
     }
 
-    const S2: &'static str = {
+    fn s2() -> &'static str {
 "\
 processor       : 1
 vendor_id       : GenuineIntel
@@ -408,10 +400,10 @@ clflush size    : 64
 cache_alignment : 64
 address sizes   : 40 bits physical, 48 bits virtual
 power management:"      
-    };
+    }
 
-    lazy_static!{
-        static ref P2: Processor = Processor {
+    fn p2() -> Processor {
+        Processor {
             processor       : 1,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -436,23 +428,24 @@ power management:"
             address_sizes   : (40, 48),
             power_management: vec![],
             ..Default::default()
-        };
+        }
     }
 
     #[test]
     fn test_parse_processor() {
-        assert_eq!(*P1, Processor::from_str(S1).unwrap());
-        assert_eq!(*P2, Processor::from_str(S2).unwrap());
+        assert_eq!(p1(), Processor::from_str(s1()).unwrap());
+        assert_eq!(p2(), Processor::from_str(s2()).unwrap());
     }
 
     #[test]
     fn test_index_impl() {
-        let cpuinfo = CpuInfo{entry: vec![P1.clone(), P2.clone()]};
-        assert_eq!(cpuinfo[0], P1.clone());
-        assert_eq!(cpuinfo[1], P2.clone());
+        let cpuinfo = CpuInfo(vec![p1(), p2()]);
+        assert_eq!(cpuinfo[0], p1());
+        assert_eq!(cpuinfo[1], p2());
     }
 
-    const SI0: &'static str = {"\
+    fn si0() -> &'static str {
+        "\
 processor       : 0
 vendor_id       : GenuineIntel
 cpu family      : 6
@@ -660,10 +653,10 @@ clflush size    : 64
 cache_alignment : 64
 address sizes   : 36 bits physical, 48 bits virtual    
 "
-    };
+    }
 
-    lazy_static! {
-        static ref SI0_P0: Processor = Processor {
+    fn si0_p0() -> Processor {
+        Processor {
             processor       : 0,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -690,11 +683,11 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
+        }
     }
 
-    lazy_static! {
-        static ref SI0_P1: Processor = Processor {
+    fn si0_p1() -> Processor {
+        Processor {
             processor       : 1,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -721,11 +714,11 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
+        }
     }
 
-    lazy_static! {
-        static ref SI0_P2: Processor = Processor {
+    fn si0_p2() -> Processor {
+        Processor {
             processor       : 2,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -752,11 +745,11 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
+        }
     }
 
-    lazy_static! {
-        static ref SI0_P3: Processor = Processor {
+    fn si0_p3() -> Processor {
+        Processor {
             processor       : 3,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -783,12 +776,11 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
-    
+        }
     }
 
-    lazy_static! {
-        static ref SI0_P4: Processor = Processor {
+    fn si0_p4() -> Processor {
+        Processor {
             processor       : 4,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -815,12 +807,11 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
-    
+        }
     }
 
-    lazy_static! {
-        static ref SI0_P5: Processor = Processor {
+    fn si0_p5() -> Processor {
+        Processor {
             processor       : 5,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -847,12 +838,11 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
-    
+        }
     }
 
-    lazy_static! {
-        static ref SI0_P6: Processor = Processor {
+    fn si0_p6() -> Processor {
+        Processor {
             processor       : 6,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -879,12 +869,11 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
-    
+        }
     }
 
-    lazy_static! {
-        static ref SI0_P7: Processor = Processor {
+    fn si0_p7() -> Processor {
+        Processor {
             processor       : 7,
             vendor_id       : String::from("GenuineIntel"),
             cpu_family      : 6,
@@ -911,25 +900,24 @@ address sizes   : 36 bits physical, 48 bits virtual
             address_sizes   : (36, 48),
             power_management: vec![],
             ..Default::default()
-        };
-    
+        }
     }
 
     #[test]
     fn test_parse_cpuinfo() {
-        let cpuinfo = CpuInfo::from_str(SI0).unwrap();
-        assert_eq!(cpuinfo, CpuInfo{entry:vec![SI0_P0.clone(),SI0_P1.clone(),SI0_P2.clone(),SI0_P3.clone(),SI0_P4.clone(),SI0_P5.clone(),SI0_P6.clone(),SI0_P7.clone()]})
+        let cpuinfo = CpuInfo::from_str(si0()).unwrap();
+        assert_eq!(cpuinfo, CpuInfo(vec![si0_p0(), si0_p1(), si0_p2(), si0_p3(), si0_p4(), si0_p5(), si0_p6(), si0_p7()]))
     }
 
     #[test]
     fn test_logical_core_num() {
-        let cpuinfo = CpuInfo::from_str(SI0).unwrap();
+        let cpuinfo = CpuInfo::from_str(si0()).unwrap();
         assert_eq!(8, cpuinfo.logical_core_num());
     }
 
     #[test]
     fn test_physical_core_num() {
-        let cpuinfo = CpuInfo::from_str(SI0).unwrap();
+        let cpuinfo = CpuInfo::from_str(si0()).unwrap();
         assert_eq!(4, cpuinfo.physical_core_num());
     }
 

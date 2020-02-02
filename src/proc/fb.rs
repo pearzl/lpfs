@@ -1,12 +1,10 @@
-//! > <pre>
-//! > 5.2.9.  /proc/fb
-//! > This file contains a list of frame buffer devices, with the frame buffer device number and the driver that controls it. Typical output of /proc/fb for systems which contain frame buffer devices looks similar to the following:
-//! > 0 VESA VGA
-//! > </pre>
-//! >  
-//! > -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-fb
-//! 
-//! 
+// 
+// 5.2.9.  /proc/fb
+// This file contains a list of frame buffer devices, with the frame buffer device number and the driver that controls it. Typical output of /proc/fb for systems which contain frame buffer devices looks similar to the following:
+// 0 VESA VGA
+//  
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-fb
+
 
 define_struct! {
     /// represent an entry in /proc/fb

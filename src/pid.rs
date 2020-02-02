@@ -2,12 +2,12 @@
 //!
 //! Each file has its own submodule with the same name.
 //!
-//! Tese submodules is re-expored.
 //!
 
-define_modules! {
-    task;
-    stat;
-    comm;
-    fd;
-}
+pub type Pid = u32;
+pub type Tid = u32;
+
+pub mod task;
+pub mod stat;
+pub mod comm;
+pub mod fd;

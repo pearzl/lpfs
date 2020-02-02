@@ -1,20 +1,19 @@
-//! <pre>
-//! > 5.2.24.  /proc/partitions
-//! > This file contains partition block allocation information. A sampling of this file from a basic system looks similar to the following:
-//! > major minor  #blocks  name
-//! >   3     0   19531250 hda
-//! >   3     1     104391 hda1
-//! >   3     2   19422585 hda2
-//! > 253     0   22708224 dm-0
-//! > 253     1     524288 dm-1
-//! > Most of the information here is of little importance to the user, except for the following columns:
-//! > major — The major number of the device with this partition. The major number in the /proc/partitions, (3), corresponds with the block device ide0, in /proc/devices.
-//! > minor — The minor number of the device with this partition. This serves to separate the partitions into different physical devices and relates to the number at the end of the name of the partition.
-//! > #blocks — Lists the number of physical disk blocks contained in a particular partition.
-//! > name — The name of the partition.
-//! </pre>
-//! -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-partitions
-//! 
+// 5.2.24.  /proc/partitions
+// This file contains partition block allocation information. A sampling of this file from a basic system looks similar to the following:
+// major minor  #blocks  name
+//   3     0   19531250 hda
+//   3     1     104391 hda1
+//   3     2   19422585 hda2
+// 253     0   22708224 dm-0
+// 253     1     524288 dm-1
+// Most of the information here is of little importance to the user, except for the following columns:
+// major — The major number of the device with this partition. The major number in the /proc/partitions, (3), corresponds with the block device ide0, in /proc/devices.
+// minor — The minor number of the device with this partition. This serves to separate the partitions into different physical devices and relates to the number at the end of the name of the partition.
+// #blocks — Lists the number of physical disk blocks contained in a particular partition.
+// name — The name of the partition.
+//
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-partitions
+// 
 
 define_struct!{
     pub struct Partition {

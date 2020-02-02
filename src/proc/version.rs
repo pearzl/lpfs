@@ -1,12 +1,12 @@
-//! > /proc/version
-//! > This string identifies the kernel version that is currently
-//! > running.  It includes the contents of /proc/sys/kernel/ostype,
-//! > /proc/sys/kernel/osrelease and /proc/sys/kernel/version.  For
-//! > example:
-//! > 
-//! > Linux version 1.0.9 (quinlan@phaze) #1 Sat May 14 01:51:54 EDT 1994
-//! >
-//! > -- http://man7.org/linux/man-pages/man5/proc.5.html
+// /proc/version
+// This string identifies the kernel version that is currently
+// running.  It includes the contents of /proc/sys/kernel/ostype,
+// /proc/sys/kernel/osrelease and /proc/sys/kernel/version.  For
+// example:
+// 
+// Linux version 1.0.9 (quinlan@phaze) #1 Sat May 14 01:51:54 EDT 1994
+//
+// -- http://man7.org/linux/man-pages/man5/proc.5.html
 
 define_struct! {
     /// Represent the content of /proc/version

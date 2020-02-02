@@ -1,12 +1,12 @@
-//! > 5.2.30.  /proc/uptime
-//! > This file contains information detailing how long the system has been on since its last restart. 
-//! > The output of /proc/uptime is quite minimal:
-//! > 350735.47 234388.90
-//! > The first number is the total number of seconds the system has been up. 
-//! > The second number is how much of that time the machine has spent idle, in seconds.
-//! > 
-//! > -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-kcore
-//! 
+// 5.2.30.  /proc/uptime
+// This file contains information detailing how long the system has been on since its last restart. 
+// The output of /proc/uptime is quite minimal:
+// 350735.47 234388.90
+// The first number is the total number of seconds the system has been up. 
+// The second number is how much of that time the machine has spent idle, in seconds.
+// 
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-kcore
+// 
 
 define_struct! {
     /// Represent the content of /proc/uptime, returned by [`uptime()`](fn.uptime.html)

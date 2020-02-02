@@ -1,23 +1,23 @@
-//! > 5.2.22.  /proc/mounts
-//! > This file provides a list of all mounts in use by the system:
-//! > rootfs / rootfs rw 0 0
-//! > /proc /proc proc rw,nodiratime 0 0 none
-//! > /dev ramfs rw 0 0
-//! > /dev/mapper/VolGroup00-LogVol00 / ext3 rw 0 0
-//! > none /dev ramfs rw 0 0
-//! > /proc /proc proc rw,nodiratime 0 0
-//! > /sys /sys sysfs rw 0 0
-//! > none /dev/pts devpts rw 0 0
-//! > usbdevfs /proc/bus/usb usbdevfs rw 0 0
-//! > /dev/hda1 /boot ext3 rw 0 0
-//! > none /dev/shm tmpfs rw 0 0
-//! > none /proc/sys/fs/binfmt_misc binfmt_misc rw 0 0
-//! > sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw 0 0
-//! > The output found here is similar to the contents of /etc/mtab, except that /proc/mount is more up-to-date.
-//! > The first column specifies the device that is mounted, the second column reveals the mount point, and the third column tells the file system type, and the fourth column tells you if it is mounted read-only (ro) or read-write (rw). The fifth and sixth columns are dummy values designed to match the format used in /etc/mtab.
-//! 
-//! -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-mounts
-//! 
+// 5.2.22.  /proc/mounts
+// This file provides a list of all mounts in use by the system:
+// rootfs / rootfs rw 0 0
+// /proc /proc proc rw,nodiratime 0 0 none
+// /dev ramfs rw 0 0
+// /dev/mapper/VolGroup00-LogVol00 / ext3 rw 0 0
+// none /dev ramfs rw 0 0
+// /proc /proc proc rw,nodiratime 0 0
+// /sys /sys sysfs rw 0 0
+// none /dev/pts devpts rw 0 0
+// usbdevfs /proc/bus/usb usbdevfs rw 0 0
+// /dev/hda1 /boot ext3 rw 0 0
+// none /dev/shm tmpfs rw 0 0
+// none /proc/sys/fs/binfmt_misc binfmt_misc rw 0 0
+// sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw 0 0
+// The output found here is similar to the contents of /etc/mtab, except that /proc/mount is more up-to-date.
+// The first column specifies the device that is mounted, the second column reveals the mount point, and the third column tells the file system type, and the fourth column tells you if it is mounted read-only (ro) or read-write (rw). The fifth and sixth columns are dummy values designed to match the format used in /etc/mtab.
+// 
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-mounts
+// 
 
 use std::path::PathBuf;
 define_struct! {

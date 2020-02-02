@@ -1,32 +1,30 @@
-//! <pre>
-//! > 5.2.21.  /proc/modules
-//! > This file displays a list of all modules loaded into the kernel. Its contents vary based on the configuration and use of your system, but it should be organized in a similar manner to this sample /proc/modules file output:
-//! > Note
-//! > 
-//! > This example has been reformatted into a readable format. Most of this information can also be viewed via the /sbin/lsmod command.
-//! > nfs      170109  0 -          Live 0x129b0000
-//! > lockd    51593   1 nfs,       Live 0x128b0000
-//! > nls_utf8 1729    0 -          Live 0x12830000
-//! > vfat     12097   0 -          Live 0x12823000
-//! > fat      38881   1 vfat,      Live 0x1287b000
-//! > autofs4  20293   2 -          Live 0x1284f000
-//! > sunrpc   140453  3 nfs,lockd, Live 0x12954000
-//! > 3c59x    33257   0 -          Live 0x12871000
-//! > uhci_hcd 28377   0 -          Live 0x12869000
-//! > md5      3777    1 -          Live 0x1282c000
-//! > ipv6     211845 16 -          Live 0x128de000
-//! > ext3     92585   2 -          Live 0x12886000
-//! > jbd      65625   1 ext3,      Live 0x12857000
-//! > dm_mod   46677   3 -          Live 0x12833000
-//! > The first column contains the name of the module.
-//! > The second column refers to the memory size of the module, in bytes.
-//! > The third column lists how many instances of the module are currently loaded. A value of zero represents an unloaded module.
-//! > The fourth column states if the module depends upon another module to be present in order to function, and lists those other modules.
-//! > The fifth column lists what load state the module is in: Live, Loading, or Unloading are the only possible values.
-//! > The sixth column lists the current kernel memory offset for the loaded module. This information can be useful for debugging purposes, or for profiling tools such as oprofile.
-//! </pre>
-//! -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-modules
-//! 
+// 5.2.21.  /proc/modules
+// This file displays a list of all modules loaded into the kernel. Its contents vary based on the configuration and use of your system, but it should be organized in a similar manner to this sample /proc/modules file output:
+// Note
+// 
+// This example has been reformatted into a readable format. Most of this information can also be viewed via the /sbin/lsmod command.
+// nfs      170109  0 -          Live 0x129b0000
+// lockd    51593   1 nfs,       Live 0x128b0000
+// nls_utf8 1729    0 -          Live 0x12830000
+// vfat     12097   0 -          Live 0x12823000
+// fat      38881   1 vfat,      Live 0x1287b000
+// autofs4  20293   2 -          Live 0x1284f000
+// sunrpc   140453  3 nfs,lockd, Live 0x12954000
+// 3c59x    33257   0 -          Live 0x12871000
+// uhci_hcd 28377   0 -          Live 0x12869000
+// md5      3777    1 -          Live 0x1282c000
+// ipv6     211845 16 -          Live 0x128de000
+// ext3     92585   2 -          Live 0x12886000
+// jbd      65625   1 ext3,      Live 0x12857000
+// dm_mod   46677   3 -          Live 0x12833000
+// The first column contains the name of the module.
+// The second column refers to the memory size of the module, in bytes.
+// The third column lists how many instances of the module are currently loaded. A value of zero represents an unloaded module.
+// The fourth column states if the module depends upon another module to be present in order to function, and lists those other modules.
+// The fifth column lists what load state the module is in: Live, Loading, or Unloading are the only possible values.
+// The sixth column lists the current kernel memory offset for the loaded module. This information can be useful for debugging purposes, or for profiling tools such as oprofile.
+//
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-modules 
 
 define_struct! {
     pub struct Module {

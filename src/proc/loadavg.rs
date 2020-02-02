@@ -1,35 +1,31 @@
-//! > /proc/loadavg
-//! >
-//! > The first three fields in this file are load average figures
-//! > giving the number of jobs in the run queue (state R) or wait‐
-//! > ing for disk I/O (state D) averaged over 1, 5, and 15 minutes.
-//! > They are the same as the load average numbers given by
-//! > uptime(1) and other programs.  The fourth field consists of
-//! > two numbers separated by a slash (/).  The first of these is
-//! > the number of currently runnable kernel scheduling entities
-//! > (processes, threads).  The value after the slash is the number
-//! > of kernel scheduling entities that currently exist on the sys‐
-//! > tem.  The fifth field is the PID of the process that was most
-//! > recently created on the system.
-//! > 
-//! > -- http://man7.org/linux/man-pages/man5/proc.5.html
-//! 
-//! 
-//! 
-//! > ### 5.2.16.  `/proc/loadavg`
-//! > 
-//! > <a id="idm139745972429728" class="indexterm" href=""></a>
-//! > 
-//! > This file provides a look at the load average in regard to both the CPU and IO over time, as well as additional data used by `uptime` and other commands. A sample `/proc/loadavg` file looks similar to the following:
-//! > 
-//! > <pre class="screen">0.20 0.18 0.12 1/80 11206</pre>
-//! > 
-//! > The first three columns measure CPU and IO utilization of the last one, five, and 15 minute periods. The fourth column shows the number of currently running processes and the total number of processes. The last column displays the last process ID used.
-//! > 
-//! > In addition, load average also refers to the number of processes ready to run (i.e. in the run queue, waiting for a CPU share.
-//! >
-//! > -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-loadavg
-//! 
+// /proc/loadavg
+//
+// The first three fields in this file are load average figures
+// giving the number of jobs in the run queue (state R) or wait‐
+// ing for disk I/O (state D) averaged over 1, 5, and 15 minutes.
+// They are the same as the load average numbers given by
+// uptime(1) and other programs.  The fourth field consists of
+// two numbers separated by a slash (/).  The first of these is
+// the number of currently runnable kernel scheduling entities
+// (processes, threads).  The value after the slash is the number
+// of kernel scheduling entities that currently exist on the sys‐
+// tem.  The fifth field is the PID of the process that was most
+// recently created on the system.
+// 
+// -- http://man7.org/linux/man-pages/man5/proc.5.html
+// 
+// 5.2.16.  `/proc/loadavg`
+// 
+// This file provides a look at the load average in regard to both the CPU and IO over time, as well as additional data used by `uptime` and other commands. A sample `/proc/loadavg` file looks similar to the following:
+// 
+// 0.20 0.18 0.12 1/80 11206
+// 
+// The first three columns measure CPU and IO utilization of the last one, five, and 15 minute periods. The fourth column shows the number of currently running processes and the total number of processes. The last column displays the last process ID used.
+// 
+// In addition, load average also refers to the number of processes ready to run (i.e. in the run queue, waiting for a CPU share.
+//
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-loadavg
+// 
 
 define_struct! {
     /// Represent the content of /proc/loadavg

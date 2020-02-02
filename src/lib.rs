@@ -1,4 +1,24 @@
+//! 
+//! # Example
+//! 
+//! ```
+//! use lpfs::proc::stat::*;
+//! use lpfs::pid::stat::*;
+//! 
+//! fn main() {
+//!     //  /proc/stat
+//!     println!("{:?}", stat().unwrap());
+//! 
+//!     //  /proc/1/stat
+//!     println!("{:?}", stat_of(1).unwrap());
+//! }
+//! ```
+//! 
+
+
 #![cfg(any(target_os = "linux", target_os = "android"))]
+
+
 
 /// define some macro_rule used in this crate.
 #[macro_use]

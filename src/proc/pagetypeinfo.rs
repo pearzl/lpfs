@@ -1,41 +1,40 @@
-//! > cat /proc/pagetypeinfo
-//! > 
-//! > Page block order: 9
-//! > Pages per block:  512
-//! > Free pages count per migrate type at order       0      1      2      3      4      5      6      7      8      9     10
-//! > Node    0, zone      DMA, type    Unmovable      0      0      0      1      1      1      1      1      1      1      0
-//! > Node    0, zone      DMA, type  Reclaimable      0      0      0      0      0      0      0      0      0      0      0
-//! > Node    0, zone      DMA, type      Movable      1      1      2      1      2      1      1      0      1      0      2
-//! > Node    0, zone      DMA, type      Reserve      0      0      0      0      0      0      0      0      0      1      0
-//! > Node    0, zone      DMA, type      Isolate      0      0      0      0      0      0      0      0      0      0      0
-//! > Node    0, zone    DMA32, type    Unmovable    103     54     77      1      1      1     11      8      7      1      9
-//! > Node    0, zone    DMA32, type  Reclaimable      0      0      2      1      0      0      0      0      1      0      0
-//! > Node    0, zone    DMA32, type      Movable    169    152    113     91     77     54     39     13      6      1    452
-//! > Node    0, zone    DMA32, type      Reserve      1      2      2      2      2      0      1      1      1      1      0
-//! > Node    0, zone    DMA32, type      Isolate      0      0      0      0      0      0      0      0      0      0      0
-//! > Number of blocks type     Unmovable  Reclaimable      Movable      Reserve      Isolate
-//! > Node 0, zone      DMA            2            0            5            1            0
-//! > Node 0, zone    DMA32           41            6          967            2            0
-//! >
-//! > Fragmentation avoidance in the kernel works by grouping pages of different
-//! > migrate types into the same contiguous regions of memory called page blocks.
-//! > A page block is typically the size of the default hugepage size e.g. 2MB on
-//! > X86-64. By keeping pages grouped based on their ability to move, the kernel
-//! > can reclaim pages within a page block to satisfy a high-order allocation.
-//! > The pagetypinfo begins with information on the size of a page block. It
-//! > then gives the same type of information as buddyinfo except broken down
-//! > by migrate-type and finishes with details on how many page blocks of each
-//! > type exist.
-//! > If min_free_kbytes has been tuned correctly (recommendations made by hugeadm
-//! > from libhugetlbfs http://sourceforge.net/projects/libhugetlbfs/), one can
-//! > make an estimate of the likely number of huge pages that can be allocated
-//! > at a given point in time. All the "Movable" blocks should be allocatable
-//! > unless memory has been mlock()'d. Some of the Reclaimable blocks should
-//! > also be allocatable although a lot of filesystem metadata may have to be
-//! > reclaimed to achieve this.
-//! > 
-//! > -- https://android.googlesource.com/kernel/msm/+/android-wear-5.1.1_r0.6/Documentation/filesystems/proc.txt?autodive=0%2F%2F%2F#716
-//! 
+// cat /proc/pagetypeinfo
+// 
+// Page block order: 9
+// Pages per block:  512
+// Free pages count per migrate type at order       0      1      2      3      4      5      6      7      8      9     10
+// Node    0, zone      DMA, type    Unmovable      0      0      0      1      1      1      1      1      1      1      0
+// Node    0, zone      DMA, type  Reclaimable      0      0      0      0      0      0      0      0      0      0      0
+// Node    0, zone      DMA, type      Movable      1      1      2      1      2      1      1      0      1      0      2
+// Node    0, zone      DMA, type      Reserve      0      0      0      0      0      0      0      0      0      1      0
+// Node    0, zone      DMA, type      Isolate      0      0      0      0      0      0      0      0      0      0      0
+// Node    0, zone    DMA32, type    Unmovable    103     54     77      1      1      1     11      8      7      1      9
+// Node    0, zone    DMA32, type  Reclaimable      0      0      2      1      0      0      0      0      1      0      0
+// Node    0, zone    DMA32, type      Movable    169    152    113     91     77     54     39     13      6      1    452
+// Node    0, zone    DMA32, type      Reserve      1      2      2      2      2      0      1      1      1      1      0
+// Node    0, zone    DMA32, type      Isolate      0      0      0      0      0      0      0      0      0      0      0
+// Number of blocks type     Unmovable  Reclaimable      Movable      Reserve      Isolate
+// Node 0, zone      DMA            2            0            5            1            0
+// Node 0, zone    DMA32           41            6          967            2            0
+//
+// Fragmentation avoidance in the kernel works by grouping pages of different
+// migrate types into the same contiguous regions of memory called page blocks.
+// A page block is typically the size of the default hugepage size e.g. 2MB on
+// X86-64. By keeping pages grouped based on their ability to move, the kernel
+// can reclaim pages within a page block to satisfy a high-order allocation.
+// The pagetypinfo begins with information on the size of a page block. It
+// then gives the same type of information as buddyinfo except broken down
+// by migrate-type and finishes with details on how many page blocks of each
+// type exist.
+// If min_free_kbytes has been tuned correctly (recommendations made by hugeadm
+// from libhugetlbfs http://sourceforge.net/projects/libhugetlbfs/), one can
+// make an estimate of the likely number of huge pages that can be allocated
+// at a given point in time. All the "Movable" blocks should be allocatable
+// unless memory has been mlock()'d. Some of the Reclaimable blocks should
+// also be allocatable although a lot of filesystem metadata may have to be
+// reclaimed to achieve this.
+// 
+// -- https://android.googlesource.com/kernel/msm/+/android-wear-5.1.1_r0.6/Documentation/filesystems/proc.txt?autodive=0%2F%2F%2F#716
 
 define_struct! {
     /// Represent the content of /proc/pagetypeinfo, returned by [`pagetypeinfo()`](fn.pagetypeinfo.html)

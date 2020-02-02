@@ -1,8 +1,8 @@
-//! > 5.2.20.  /proc/misc
-//! > This file lists miscellaneous drivers registered on the miscellaneous major device, which is device number 10:
-//! > 63 device-mapper 175 agpgart 135 rtc 134 apm_bios
-//! > The first column is the minor number of each device, while the second column shows the driver in use.
-//! 
+// 5.2.20.  /proc/misc
+// This file lists miscellaneous drivers registered on the miscellaneous major device, which is device number 10:
+// 63 device-mapper 175 agpgart 135 rtc 134 apm_bios
+// The first column is the minor number of each device, while the second column shows the driver in use.
+// 
 
 define_struct! {
     pub struct Misc {

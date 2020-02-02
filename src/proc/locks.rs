@@ -1,18 +1,16 @@
-//! > <pre>
-//! > 5.2.17.  /proc/locks
-//! > This file displays the files currently locked by the kernel. The contents of this file contain internal kernel debugging data and can vary tremendously, depending on the use of the system. A sample /proc/locks file for a lightly loaded system looks similar to the following:
-//! > 1: POSIX  ADVISORY  WRITE 3568 fd:00:2531452 0 EOF
-//! > 2: FLOCK  ADVISORY  WRITE 3517 fd:00:2531448 0 EOF
-//! > 3: POSIX  ADVISORY  WRITE 3452 fd:00:2531442 0 EOF
-//! > 4: POSIX  ADVISORY  WRITE 3443 fd:00:2531440 0 EOF
-//! > 5: POSIX  ADVISORY  WRITE 3326 fd:00:2531430 0 EOF
-//! > 6: POSIX  ADVISORY  WRITE 3175 fd:00:2531425 0 EOF
-//! > 7: POSIX  ADVISORY  WRITE 3056 fd:00:2548663 0 EOF
-//! > Each lock has its own line which starts with a unique number. The second column refers to the class of lock used, with FLOCK signifying the older-style UNIX file locks from a flock system call and POSIX representing the newer POSIX locks from the lockf system call.
-//! > The third column can have two values: ADVISORY or MANDATORY. ADVISORY means that the lock does not prevent other people from accessing the data; it only prevents other attempts to lock it. MANDATORY means that no other access to the data is permitted while the lock is held. The fourth column reveals whether the lock is allowing the holder READ or WRITE access to the file. The fifth column shows the ID of the process holding the lock. The sixth column shows the ID of the file being locked, in the format of MAJOR-DEVICE:MINOR-DEVICE:INODE-NUMBER . The seventh and eighth column shows the start and end of the file's locked region.
-//! </pre>
-//! 
-//! -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-kmsg
+// 5.2.17.  /proc/locks
+// This file displays the files currently locked by the kernel. The contents of this file contain internal kernel debugging data and can vary tremendously, depending on the use of the system. A sample /proc/locks file for a lightly loaded system looks similar to the following:
+// 1: POSIX  ADVISORY  WRITE 3568 fd:00:2531452 0 EOF
+// 2: FLOCK  ADVISORY  WRITE 3517 fd:00:2531448 0 EOF
+// 3: POSIX  ADVISORY  WRITE 3452 fd:00:2531442 0 EOF
+// 4: POSIX  ADVISORY  WRITE 3443 fd:00:2531440 0 EOF
+// 5: POSIX  ADVISORY  WRITE 3326 fd:00:2531430 0 EOF
+// 6: POSIX  ADVISORY  WRITE 3175 fd:00:2531425 0 EOF
+// 7: POSIX  ADVISORY  WRITE 3056 fd:00:2548663 0 EOF
+// Each lock has its own line which starts with a unique number. The second column refers to the class of lock used, with FLOCK signifying the older-style UNIX file locks from a flock system call and POSIX representing the newer POSIX locks from the lockf system call.
+// The third column can have two values: ADVISORY or MANDATORY. ADVISORY means that the lock does not prevent other people from accessing the data; it only prevents other attempts to lock it. MANDATORY means that no other access to the data is permitted while the lock is held. The fourth column reveals whether the lock is allowing the holder READ or WRITE access to the file. The fifth column shows the ID of the process holding the lock. The sixth column shows the ID of the file being locked, in the format of MAJOR-DEVICE:MINOR-DEVICE:INODE-NUMBER . The seventh and eighth column shows the start and end of the file's locked region.
+// 
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-kmsg
 
 define_struct! {
     pub struct Lock{

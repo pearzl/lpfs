@@ -1,55 +1,52 @@
-
-//! https://github.com/torvalds/linux/blob/cef7298262e9af841fb70d8673af45caf55300a1/kernel/irq/proc.c
-//! 
-//! > <pre>
-//! > 5.2.11.  /proc/interrupts
-//! > This file records the number of interrupts per IRQ on the x86 architecture. A standard /proc/interrupts looks similar to the following:
-//! >   CPU0
-//! >   0:   80448940          XT-PIC  timer
-//! >   1:     174412          XT-PIC  keyboard
-//! >   2:          0          XT-PIC  cascade
-//! >   8:          1          XT-PIC  rtc
-//! >  10:     410964          XT-PIC  eth0
-//! >  12:      60330          XT-PIC  PS/2 Mouse
-//! >  14:    1314121          XT-PIC  ide0
-//! >  15:    5195422          XT-PIC  ide1
-//! > NMI:          0
-//! > ERR:          0
-//! > For a multi-processor machine, this file may look slightly different:
-//! > 	   CPU0       CPU1
-//! >   0: 1366814704          0          XT-PIC  timer
-//! >   1:        128        340    IO-APIC-edge  keyboard
-//! >   2:          0          0          XT-PIC  cascade
-//! >   8:          0          1    IO-APIC-edge  rtc
-//! >  12:       5323       5793    IO-APIC-edge  PS/2 Mouse
-//! >  13:          1          0          XT-PIC  fpu
-//! >  16:   11184294   15940594   IO-APIC-level  Intel EtherExpress Pro 10/100 Ethernet
-//! >  20:    8450043   11120093   IO-APIC-level  megaraid
-//! >  30:      10432      10722   IO-APIC-level  aic7xxx
-//! >  31:         23         22   IO-APIC-level  aic7xxx
-//! > NMI:          0
-//! > ERR:          0
-//! > The first column refers to the IRQ number. Each CPU in the system has its own column and its own number of interrupts per IRQ. The next column reports the type of interrupt, and the last column contains the name of the device that is located at that IRQ.
-//! > Each of the types of interrupts seen in this file, which are architecture-specific, mean something different. For x86 machines, the following values are common:
-//! > XT-PIC — This is the old AT computer interrupts.
-//! > IO-APIC-edge — The voltage signal on this interrupt transitions from low to high, creating an edge, where the interrupt occurs and is only signaled once. This kind of interrupt, as well as the IO-APIC-level interrupt, are only seen on systems with processors from the 586 family and higher.
-//! > IO-APIC-level — Generates interrupts when its voltage signal is high until the signal is low again.
-//! </pre>
-//! 
-//! -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-interrupts
-//! 
-//! > /proc/interrupts
-//! > This is used to record the number of interrupts per CPU per IO
-//! > device.  Since Linux 2.6.24, for the i386 and x86-64 architec‐
-//! > tures, at least, this also includes interrupts internal to the
-//! > system (that is, not associated with a device as such), such
-//! > as NMI (nonmaskable interrupt), LOC (local timer interrupt),
-//! > and for SMP systems, TLB (TLB flush interrupt), RES
-//! > (rescheduling interrupt), CAL (remote function call inter‐
-//! > rupt), and possibly others.  Very easy to read formatting,
-//! > done in ASCII.
-//! 
-//! -- http://man7.org/linux/man-pages/man5/proc.5.html
+// https://github.com/torvalds/linux/blob/cef7298262e9af841fb70d8673af45caf55300a1/kernel/irq/proc.c
+// 
+// 5.2.11.  /proc/interrupts
+// This file records the number of interrupts per IRQ on the x86 architecture. A standard /proc/interrupts looks similar to the following:
+//   CPU0
+//   0:   80448940          XT-PIC  timer
+//   1:     174412          XT-PIC  keyboard
+//   2:          0          XT-PIC  cascade
+//   8:          1          XT-PIC  rtc
+//  10:     410964          XT-PIC  eth0
+//  12:      60330          XT-PIC  PS/2 Mouse
+//  14:    1314121          XT-PIC  ide0
+//  15:    5195422          XT-PIC  ide1
+// NMI:          0
+// ERR:          0
+// For a multi-processor machine, this file may look slightly different:
+// 	   CPU0       CPU1
+//   0: 1366814704          0          XT-PIC  timer
+//   1:        128        340    IO-APIC-edge  keyboard
+//   2:          0          0          XT-PIC  cascade
+//   8:          0          1    IO-APIC-edge  rtc
+//  12:       5323       5793    IO-APIC-edge  PS/2 Mouse
+//  13:          1          0          XT-PIC  fpu
+//  16:   11184294   15940594   IO-APIC-level  Intel EtherExpress Pro 10/100 Ethernet
+//  20:    8450043   11120093   IO-APIC-level  megaraid
+//  30:      10432      10722   IO-APIC-level  aic7xxx
+//  31:         23         22   IO-APIC-level  aic7xxx
+// NMI:          0
+// ERR:          0
+// The first column refers to the IRQ number. Each CPU in the system has its own column and its own number of interrupts per IRQ. The next column reports the type of interrupt, and the last column contains the name of the device that is located at that IRQ.
+// Each of the types of interrupts seen in this file, which are architecture-specific, mean something different. For x86 machines, the following values are common:
+// XT-PIC — This is the old AT computer interrupts.
+// IO-APIC-edge — The voltage signal on this interrupt transitions from low to high, creating an edge, where the interrupt occurs and is only signaled once. This kind of interrupt, as well as the IO-APIC-level interrupt, are only seen on systems with processors from the 586 family and higher.
+// IO-APIC-level — Generates interrupts when its voltage signal is high until the signal is low again.
+// 
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-interrupts
+// 
+// /proc/interrupts
+// This is used to record the number of interrupts per CPU per IO
+// device.  Since Linux 2.6.24, for the i386 and x86-64 architec‐
+// tures, at least, this also includes interrupts internal to the
+// system (that is, not associated with a device as such), such
+// as NMI (nonmaskable interrupt), LOC (local timer interrupt),
+// and for SMP systems, TLB (TLB flush interrupt), RES
+// (rescheduling interrupt), CAL (remote function call inter‐
+// rupt), and possibly others.  Very easy to read formatting,
+// done in ASCII.
+// 
+// -- http://man7.org/linux/man-pages/man5/proc.5.html
 
 define_struct! {
     pub struct InternalInterrupt {

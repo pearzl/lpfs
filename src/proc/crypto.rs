@@ -1,21 +1,20 @@
-//! > ### 5.2.5.  `/proc/crypto`
-//! > 
-//! > This file lists all installed cryptographic ciphers used by the Linux kernel, including additional details for each. 
-//! > A sample `/proc/crypto` file looks like the following:
-//! > 
-//! > <pre class="screen">name         : sha1
-//! > module       : kernel
-//! > type         : digest
-//! > blocksize    : 64
-//! > digestsize   : 20
-//! > name         : md5
-//! > module       : md5
-//! > type         : digest
-//! > blocksize    : 64
-//! > digestsize   : 16</pre>
-//! >
-//! > -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-crypto
-//! 
+// 5.2.5.  `/proc/crypto`
+// 
+// This file lists all installed cryptographic ciphers used by the Linux kernel, including additional details for each. 
+// A sample `/proc/crypto` file looks like the following:
+// 
+// <pre class="screen">name         : sha1
+// module       : kernel
+// type         : digest
+// blocksize    : 64
+// digestsize   : 20
+// name         : md5
+// module       : md5
+// type         : digest
+// blocksize    : 64
+// digestsize   : 16</pre>
+//
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-crypto
 
 use std::collections::HashMap;
 define_struct! {
@@ -25,9 +24,7 @@ define_struct! {
     /// However it provide some methods to retrive common fields.
     /// 
     /// See [`crypto/proc.c`](https://github.com/torvalds/linux/blob/master/crypto/proc.c).
-    pub struct Crypto {
-        entries: HashMap<String, String>,
-    }
+    pub struct Crypto(HashMap<String, String>);
 }
 
 use std::ops::Deref;
@@ -35,7 +32,7 @@ impl Deref for Crypto {
     type Target = HashMap<String, String>;
 
     fn deref(&self) -> &Self::Target {
-        &self.entries
+        &self.0
     }
 }
 
@@ -76,7 +73,7 @@ impl FromStr for Crypto {
             }
             ret.insert(columns[0].trim().to_string(), columns[1].trim().to_string());
         }
-        Ok(Crypto{ entries: ret })
+        Ok(Crypto(ret ))
     }
 }
 
@@ -113,9 +110,7 @@ max keysize  : 32"
         map.insert(String::from("blocksize"  ), String::from("16"));
         map.insert(String::from("min keysize"), String::from("16"));
         map.insert(String::from("max keysize"), String::from("32"));
-        let correct = Crypto {
-            entries: map
-        };
+        let correct = Crypto (map);
         assert_eq!(correct, source.parse().unwrap());
     }
 }

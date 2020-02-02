@@ -1,10 +1,10 @@
-//! > 5.2.28.  /proc/swaps
-//! > This file measures swap space and its utilization. For a system with only one swap partition, the output of /proc/swaps may look similar to the following:
-//! > Filename                          Type        Size     Used    Priority
-//! > /dev/mapper/VolGroup00-LogVol01   partition   524280   0       -1
-//! > While some of this information can be found in other files in the /proc/ directory, /proc/swaps provides a snapshot of every swap file name, the type of swap space, the total size, and the amount of space in use (in kilobytes). The priority column is useful when multiple swap files are in use. The lower the priority, the more likely the swap file is to be used.
-//! -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-swaps
-//! 
+// 5.2.28.  /proc/swaps
+// This file measures swap space and its utilization. For a system with only one swap partition, the output of /proc/swaps may look similar to the following:
+// Filename                          Type        Size     Used    Priority
+// /dev/mapper/VolGroup00-LogVol01   partition   524280   0       -1
+// While some of this information can be found in other files in the /proc/ directory, /proc/swaps provides a snapshot of every swap file name, the type of swap space, the total size, and the amount of space in use (in kilobytes). The priority column is useful when multiple swap files are in use. The lower the priority, the more likely the swap file is to be used.
+// 
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-swaps
 
 define_struct!{
     pub struct Swap {
