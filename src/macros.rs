@@ -91,7 +91,6 @@ macro_rules! pid_instance_impl {
         #[doc=$file_name]
         #[doc="`.\n\n See it's return type for details.\n\n"]
         $(#[$k])*
-        #[cfg(feature = "pid_task" )]
         pub fn $of_task_fn_name(pid: u32, tid: u32) -> Result<$return_type, crate::ProcErr> {
             let path = format!(concat!("/proc/{}/task/{}/", $file_name), pid, tid);
             let content = std::fs::read_to_string(path)?;
@@ -102,7 +101,6 @@ macro_rules! pid_instance_impl {
         #[doc=$file_name]
         #[doc="`.\n\n See it's return type for details.\n\n"]
         $(#[$k])*
-        #[cfg(feature = "pid_task" )]
         pub fn $self_task_fn_name(tid: u32) -> Result<$return_type, crate::ProcErr> {
             let path = format!(concat!("/proc/self/task/{}/", $file_name), tid);
             let content = std::fs::read_to_string(path)?;
@@ -114,15 +112,13 @@ macro_rules! pid_instance_impl {
 macro_rules! define_modules {
     (
         $(
-            $mod_name: ident $feature_name: expr;
+            $mod_name: ident;
         )*
     ) => {
         $(
-            #[cfg(feature = $feature_name )]
             #[doc(hidden)]
             pub mod $mod_name;
             #[doc(inline)]
-            #[cfg(feature = $feature_name )]
             pub use $mod_name::*;
         )*
     };

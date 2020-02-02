@@ -6,8 +6,8 @@
 //!
 
 define_modules! {
-    task "pid_task";
-    stat "pid_stat";
-    comm "pid_comm";
-    fd   "pid_fd";
+    task;
+    stat;
+    comm;
+    fd;
 }

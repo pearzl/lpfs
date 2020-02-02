@@ -6,30 +6,32 @@
 //!
 
 define_modules! {
-    apm "apm";
-    cpuinfo "cpuinfo";
-    stat "stat";
-    loadavg "loadavg";
-    kcore "kcore";
-    uptime "uptime";
-    buddyinfo "buddyinfo";
-    pagetypeinfo "pagetypeinfo";
-    crypto "crypto";
-    version "version";
-    cmdline "cmdline";
-    consoles "consoles";
-    devices "devices";
-    dma "dma";
-    execdomains "execdomains";
-    fb "fb";
-    filesystems "filesystems";
-    interrupts "interrupts";
-    iomem "iomem";
-    ioports "ioports";
-    locks "locks";
-    mdstat "mdstat";
-    meminfo "meminfo";
-    misc "misc";
-    modules "modules";
-    mounts "mounts";
+    apm;
+    cpuinfo;
+    stat;
+    loadavg;
+    kcore;
+    uptime;
+    buddyinfo;
+    pagetypeinfo;
+    crypto;
+    version;
+    cmdline;
+    consoles;
+    devices;
+    dma;
+    execdomains;
+    fb;
+    filesystems;
+    interrupts;
+    iomem;
+    ioports;
+    locks;
+    mdstat;
+    meminfo;
+    misc;
+    modules;
+    mounts;
+    mtrr;
+    partitions;
 }
