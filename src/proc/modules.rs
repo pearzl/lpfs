@@ -1,7 +1,7 @@
 // 5.2.21.  /proc/modules
 // This file displays a list of all modules loaded into the kernel. Its contents vary based on the configuration and use of your system, but it should be organized in a similar manner to this sample /proc/modules file output:
 // Note
-// 
+//
 // This example has been reformatted into a readable format. Most of this information can also be viewed via the /sbin/lsmod command.
 // nfs      170109  0 -          Live 0x129b0000
 // lockd    51593   1 nfs,       Live 0x128b0000
@@ -24,7 +24,7 @@
 // The fifth column lists what load state the module is in: Live, Loading, or Unloading are the only possible values.
 // The sixth column lists the current kernel memory offset for the loaded module. This information can be useful for debugging purposes, or for profiling tools such as oprofile.
 //
-// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-modules 
+// -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-modules
 
 define_struct! {
     pub struct Module {
@@ -69,7 +69,6 @@ impl FromStr for Module {
     }
 }
 
-
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub enum State {
     Live,
@@ -97,7 +96,6 @@ list_impl! {
     modules, "/proc/modules", Module, '\n', 0
 }
 
-
 #[cfg(test)]
 mod test {
     use super::*;
@@ -113,7 +111,7 @@ mod test {
     #[test]
     fn test_parse_module1() {
         let source = "sbhid 53248 0 - Live 0x0000000000000000";
-        let correct = Module{
+        let correct = Module {
             name: "sbhid".to_string(),
             mem_size: 53248,
             instance_nums: 0,
@@ -133,7 +131,7 @@ mod test {
             instance_nums: 2,
             deps: vec!["hid_generic".to_string(), "usbhid".to_string()],
             state: State::Live,
-            offset: 0
+            offset: 0,
         };
         assert_eq!(correct, source.parse().unwrap());
     }

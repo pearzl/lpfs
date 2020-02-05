@@ -23,7 +23,7 @@
 // nodev   autofs
 // The first column signifies whether the file system is mounted on a block device. Those beginning with nodev are not mounted on a device. The second column lists the names of the file systems supported.
 // The mount command cycles through the file systems listed here when one is not specified as an argument.
-// 
+//
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-filesystems
 
 define_struct! {
@@ -41,12 +41,10 @@ impl FromStr for FileSystem {
         let nodev = value.starts_with("nodev");
         let fs_type = if nodev {
             value.trim_start_matches("nodev").trim().to_string()
-        }else {
+        } else {
             value.trim().to_string()
         };
-        Ok(FileSystem{
-            nodev, fs_type
-        })
+        Ok(FileSystem { nodev, fs_type })
     }
 }
 
@@ -63,21 +61,21 @@ mod test {
         let source = "nodev   sysfs";
         let correct = FileSystem {
             nodev: true,
-            fs_type: "sysfs".to_string()
+            fs_type: "sysfs".to_string(),
         };
         assert_eq!(correct, source.parse().unwrap());
 
         let source = "sysfs";
         let correct = FileSystem {
             nodev: false,
-            fs_type: "sysfs".to_string()
+            fs_type: "sysfs".to_string(),
         };
         assert_eq!(correct, source.parse().unwrap());
 
         let source = "   sysfs";
         let correct = FileSystem {
             nodev: false,
-            fs_type: "sysfs".to_string()
+            fs_type: "sysfs".to_string(),
         };
         assert_eq!(correct, source.parse().unwrap());
     }

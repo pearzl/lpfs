@@ -16,7 +16,8 @@ impl FromStr for Devices {
         }
 
         let mut character = vec![];
-        let character_devices: Vec<&str> = areas[0].trim().split_ascii_whitespace().skip(2).collect();
+        let character_devices: Vec<&str> =
+            areas[0].trim().split_ascii_whitespace().skip(2).collect();
         for s in character_devices.windows(2).step_by(2) {
             let num = s[0].parse::<usize>()?;
             let name = s[1].to_string();
@@ -25,21 +26,20 @@ impl FromStr for Devices {
 
         let mut block = vec![];
         let block_devices: Vec<&str> = areas[1].trim().split_ascii_whitespace().skip(2).collect();
-        
+
         for s in block_devices.windows(2).step_by(2) {
             let num = s[0].parse::<usize>()?;
             let name = s[1].to_string();
             block.push((num, name));
         }
 
-        Ok(Devices{character, block})
+        Ok(Devices { character, block })
     }
 }
 
 instance_impl! {
     devices, "/proc/devices", Devices
 }
-
 
 #[cfg(test)]
 mod test {
@@ -48,7 +48,7 @@ mod test {
     #[test]
     fn test_parse_devices() {
         let source = {
-"Character devices:
+            "Character devices:
 1 mem
 4 /dev/vc/0
 4 tty
@@ -106,54 +106,54 @@ Block devices:
 254 mdp
 "
         };
-        let correct = Devices{
+        let correct = Devices {
             character: vec![
-                (    1, String::from("mem")),
-                (    4, String::from("/dev/vc/0")),
-                (    4, String::from("tty")),
-                (    4, String::from("ttyS")),
-                (    5, String::from("/dev/tty")),
-                (    5, String::from("/dev/console")),
-                (    5, String::from("/dev/ptmx")),
-                (    7, String::from("vcs")),
-                (   10, String::from("misc")),
-                (   13, String::from("input")),
-                (   14, String::from("sound")),
-                (   21, String::from("sg")),
-                (   29, String::from("fb")),  
-                (  116, String::from("alsa")),  
-                (  128, String::from("ptm")),  
-                (  136, String::from("pts")),  
-                (  162, String::from("raw")),  
-                (  180, String::from("usb")),      
-                (  188, String::from("ttyUSB")),  
-                (  189, String::from("usb_device")),      
-                (  202, String::from("cpu/msr")),  
-                (  203, String::from("cpu/cpuid")),      
-                (  226, String::from("drm")),  
-                (  244, String::from("BaseRemoteCtl")),
-                (  245, String::from("aux")),    
-                (  246, String::from("hidraw")), 
-                (  247, String::from("usbmon")), 
-                (  248, String::from("bsg")),
-                (  249, String::from("hmm_device")),     
-                (  250, String::from("watchdog")), 
-                (  251, String::from("iio")),
-                (  252, String::from("rtc")),
-                (  253, String::from("dax")),
-                (  254, String::from("tpm")),
+                (1, String::from("mem")),
+                (4, String::from("/dev/vc/0")),
+                (4, String::from("tty")),
+                (4, String::from("ttyS")),
+                (5, String::from("/dev/tty")),
+                (5, String::from("/dev/console")),
+                (5, String::from("/dev/ptmx")),
+                (7, String::from("vcs")),
+                (10, String::from("misc")),
+                (13, String::from("input")),
+                (14, String::from("sound")),
+                (21, String::from("sg")),
+                (29, String::from("fb")),
+                (116, String::from("alsa")),
+                (128, String::from("ptm")),
+                (136, String::from("pts")),
+                (162, String::from("raw")),
+                (180, String::from("usb")),
+                (188, String::from("ttyUSB")),
+                (189, String::from("usb_device")),
+                (202, String::from("cpu/msr")),
+                (203, String::from("cpu/cpuid")),
+                (226, String::from("drm")),
+                (244, String::from("BaseRemoteCtl")),
+                (245, String::from("aux")),
+                (246, String::from("hidraw")),
+                (247, String::from("usbmon")),
+                (248, String::from("bsg")),
+                (249, String::from("hmm_device")),
+                (250, String::from("watchdog")),
+                (251, String::from("iio")),
+                (252, String::from("rtc")),
+                (253, String::from("dax")),
+                (254, String::from("tpm")),
             ],
             block: vec![
                 (259, String::from("blkext")),
-                (8  , String::from("sd")),
-                (9  , String::from("md")),
-                (65 , String::from("sd")),
-                (66 , String::from("sd")),
-                (67 , String::from("sd")),
-                (68 , String::from("sd")),
-                (69 , String::from("sd")),
-                (70 , String::from("sd")),
-                (71 , String::from("sd")),
+                (8, String::from("sd")),
+                (9, String::from("md")),
+                (65, String::from("sd")),
+                (66, String::from("sd")),
+                (67, String::from("sd")),
+                (68, String::from("sd")),
+                (69, String::from("sd")),
+                (70, String::from("sd")),
+                (71, String::from("sd")),
                 (128, String::from("sd")),
                 (129, String::from("sd")),
                 (130, String::from("sd")),

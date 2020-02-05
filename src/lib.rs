@@ -1,24 +1,20 @@
-//! 
+//!
 //! # Example
-//! 
+//!
 //! ```
 //! use lpfs::proc::stat::*;
 //! use lpfs::pid::stat::*;
-//! 
+//!
 //! fn main() {
 //!     //  /proc/stat
 //!     println!("{:?}", stat().unwrap());
-//! 
+//!
 //!     //  /proc/1/stat
 //!     println!("{:?}", stat_of(1).unwrap());
 //! }
 //! ```
-//! 
-
 
 #![cfg(any(target_os = "linux", target_os = "android"))]
-
-
 
 /// define some macro_rule used in this crate.
 #[macro_use]
@@ -29,6 +25,7 @@ pub mod pid;
 pub mod proc;
 
 /// all the funcitons return this error in the crate.
+/// Any Err should be considered as an bug except `FILE_NOE_FOUND`.
 #[derive(Debug)]
 pub enum ProcErr {
     /// Failed to read the corresponding file.

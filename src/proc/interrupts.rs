@@ -1,5 +1,5 @@
 // https://github.com/torvalds/linux/blob/cef7298262e9af841fb70d8673af45caf55300a1/kernel/irq/proc.c
-// 
+//
 // 5.2.11.  /proc/interrupts
 // This file records the number of interrupts per IRQ on the x86 architecture. A standard /proc/interrupts looks similar to the following:
 //   CPU0
@@ -32,9 +32,9 @@
 // XT-PIC — This is the old AT computer interrupts.
 // IO-APIC-edge — The voltage signal on this interrupt transitions from low to high, creating an edge, where the interrupt occurs and is only signaled once. This kind of interrupt, as well as the IO-APIC-level interrupt, are only seen on systems with processors from the 586 family and higher.
 // IO-APIC-level — Generates interrupts when its voltage signal is high until the signal is low again.
-// 
+//
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-interrupts
-// 
+//
 // /proc/interrupts
 // This is used to record the number of interrupts per CPU per IO
 // device.  Since Linux 2.6.24, for the i386 and x86-64 architec‐
@@ -45,7 +45,7 @@
 // (rescheduling interrupt), CAL (remote function call inter‐
 // rupt), and possibly others.  Very easy to read formatting,
 // done in ASCII.
-// 
+//
 // -- http://man7.org/linux/man-pages/man5/proc.5.html
 
 define_struct! {
@@ -55,7 +55,7 @@ define_struct! {
         /// The first element is for CPU0, second for CPU1, and so on.
         counts: Vec<usize>,
         details: String,
-    } 
+    }
 }
 
 define_struct! {
@@ -85,7 +85,7 @@ impl FromStr for InternalInterrupt {
     fn from_str(s: &str) -> Result<InternalInterrupt, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() < 2 {
-            return Err("require at least two clolums to parse an InternalInterrupt".into())
+            return Err("require at least two clolums to parse an InternalInterrupt".into());
         }
         let name = columns[0].trim_end_matches(':').to_string();
         let mut cpu_num = 0;
@@ -94,16 +94,18 @@ impl FromStr for InternalInterrupt {
             if let Ok(n) = item.parse::<usize>() {
                 cpu_num += 1;
                 counts.push(n);
-            }else {
+            } else {
                 break;
             }
         }
         if counts.is_empty() {
             return Err("interrupt count not found".into());
         }
-        let details = columns[1+cpu_num..].join(" ");
-        Ok(InternalInterrupt{
-            name, counts, details
+        let details = columns[1 + cpu_num..].join(" ");
+        Ok(InternalInterrupt {
+            name,
+            counts,
+            details,
         })
     }
 }
@@ -111,10 +113,10 @@ impl FromStr for InternalInterrupt {
 impl FromStr for DeviceInterrupt {
     type Err = crate::ProcErr;
 
-    fn from_str(s: &str) -> Result<DeviceInterrupt, Self::Err>  {
+    fn from_str(s: &str) -> Result<DeviceInterrupt, Self::Err> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
-        if columns.len() < 4{
-            return Err("require at least four clolums to parse an InternalInterrupt".into())
+        if columns.len() < 4 {
+            return Err("require at least four clolums to parse an InternalInterrupt".into());
         }
         let irq_number = columns[0].trim_end_matches(':').parse::<usize>()?;
         let mut cpu_num = 0;
@@ -123,16 +125,18 @@ impl FromStr for DeviceInterrupt {
             if let Ok(n) = item.parse::<usize>() {
                 cpu_num += 1;
                 counts.push(n);
-            }else {
+            } else {
                 break;
             }
         }
         if counts.is_empty() {
             return Err("interrupt count not found".into());
         }
-        let type_device = columns[1+cpu_num..].join(" ");
-        Ok(DeviceInterrupt{
-            irq_number, counts, type_device
+        let type_device = columns[1 + cpu_num..].join(" ");
+        Ok(DeviceInterrupt {
+            irq_number,
+            counts,
+            type_device,
         })
     }
 }
@@ -153,16 +157,18 @@ impl FromStr for Interrupts {
             if let Ok(itnl) = line.parse::<InternalInterrupt>() {
                 internals.push(itnl);
                 skip_lines += 1;
-            }else {
+            } else {
                 break;
             }
         }
         for line in lines.iter().skip(skip_lines) {
-            let dvs = line.parse::<DeviceInterrupt>()?; 
+            let dvs = line.parse::<DeviceInterrupt>()?;
             devices.push(dvs);
         }
-        Ok(Interrupts{
-            cpu_num, internals, devices
+        Ok(Interrupts {
+            cpu_num,
+            internals,
+            devices,
         })
     }
 }
@@ -181,7 +187,7 @@ mod test {
         let correct = InternalInterrupt {
             name: "MCP".to_string(),
             counts: vec![250],
-            details: "Machine check polls".to_string()
+            details: "Machine check polls".to_string(),
         };
         assert_eq!(correct, source.parse::<InternalInterrupt>().unwrap())
     }
@@ -192,7 +198,7 @@ mod test {
         let correct = InternalInterrupt {
             name: "MIS".to_string(),
             counts: vec![0],
-            details: "".to_string()
+            details: "".to_string(),
         };
         assert_eq!(correct, source.parse::<InternalInterrupt>().unwrap())
     }
@@ -203,7 +209,7 @@ mod test {
         let correct = DeviceInterrupt {
             irq_number: 1,
             counts: vec![9],
-            type_device: "IO-APIC 1-edge i8042".to_string()
+            type_device: "IO-APIC 1-edge i8042".to_string(),
         };
         assert_eq!(correct, source.parse::<DeviceInterrupt>().unwrap());
     }

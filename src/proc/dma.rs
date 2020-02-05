@@ -1,12 +1,12 @@
-// 
+//
 // This is a list of the registered ISA DMA (direct memory access) channels in use.
-// 
+//
 // -- https://www.unix.com/man-page/suse/5/proc/
-// 
+//
 
-define_struct!{
+define_struct! {
     /// Represent the an entry in /proc/dma, returned by [`dma()`](fn.dma.html).
-    /// 
+    ///
     /// Reference to [`kernel/dma.c`](https://github.com/torvalds/linux/blob/master/kernel/dma.c).
     pub struct Dma {
         channel: u8,
@@ -41,7 +41,10 @@ mod test {
     #[test]
     fn test_dma_parse() {
         let source = " 4: cascade";
-        let correct = Dma{ channel: 4, device: "cascade".to_string()};
+        let correct = Dma {
+            channel: 4,
+            device: "cascade".to_string(),
+        };
         assert_eq!(correct, source.parse().unwrap());
     }
 }

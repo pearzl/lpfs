@@ -1,5 +1,5 @@
 // /proc/mdstat
-// 
+//
 // > 5.2.18.  /proc/mdstat
 // > This file contains the current information for multiple-disk, RAID configurations. If the system does not contain such a configuration, then /proc/mdstat looks similar to the following:
 // > Personalities :  read_ahead not set unused devices: <none>
@@ -8,11 +8,11 @@
 // > Personalities : [linear] [raid1] read_ahead 1024 sectors
 // > md0: active raid1 sda2[1] sdb2[0] 9940 blocks [2/2] [UU] resync=1% finish=12.3min algorithm 2 [3/3] [UUU]
 // > unused devices: <none>
-// 
+//
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-mdstat
-// 
+//
 
-define_struct!{
+define_struct! {
     pub struct MdStat(String);
 }
 
@@ -25,6 +25,6 @@ impl FromStr for MdStat {
     }
 }
 
-instance_impl!{
+instance_impl! {
     mdstat, "/proc/mdstat", MdStat
 }

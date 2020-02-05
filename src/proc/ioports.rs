@@ -24,7 +24,7 @@
 // e800-e87f : Digital Equipment Corporation DECchip 21140 [FasterNet]
 // e800-e87f : tulip
 // The first column gives the I/O port address range reserved for the device listed in the second column.
-// 
+//
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-ioports
 
 define_struct! {
@@ -39,7 +39,10 @@ impl FromStr for IoPort {
     type Err = crate::ProcErr;
 
     fn from_str(s: &str) -> Result<IoPort, Self::Err> {
-        let items: Vec<&str> = s.splitn(3, |c| c == '-' || c == ':').map(|s| s.trim()).collect();
+        let items: Vec<&str> = s
+            .splitn(3, |c| c == '-' || c == ':')
+            .map(|s| s.trim())
+            .collect();
         if items.len() != 3 {
             return Err("require three items at least to parse ioport".into());
         }
@@ -48,7 +51,10 @@ impl FromStr for IoPort {
         let end = usize::from_str_radix(items[1], 16)?;
         let device = items[2].to_string();
 
-        Ok(IoPort { range: (start, end), device })
+        Ok(IoPort {
+            range: (start, end),
+            device,
+        })
     }
 }
 
@@ -63,9 +69,9 @@ mod test {
     #[test]
     fn test_parse_ioport() {
         let source = "00f0-00ff : fpu";
-        let correct = IoPort{
+        let correct = IoPort {
             range: (0xf0, 0xff),
-            device: "fpu".to_string()
+            device: "fpu".to_string(),
         };
         assert_eq!(correct, source.parse::<IoPort>().unwrap());
     }

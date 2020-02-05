@@ -51,8 +51,8 @@
 define_struct! {
     /// Represent the content of /proc/apm, returnd by [`apm()`](fn.apm.html).
     ///
-    /// fields of this struct reference to 
-    /// [apm_32.c](https://github.com/torvalds/linux/blob/86c2f5d653058798703549e1be39a819fcac0d5d/arch/x86/kernel/apm_32.c#L1663) 
+    /// fields of this struct reference to
+    /// [apm_32.c](https://github.com/torvalds/linux/blob/86c2f5d653058798703549e1be39a819fcac0d5d/arch/x86/kernel/apm_32.c#L1663)
     pub struct Apm {
         driver_version: String,
         bios_version: (u8, u8),
@@ -79,7 +79,7 @@ impl FromStr for Apm {
     fn from_str(s: &str) -> Result<Apm, Self::Err> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 9 {
-            return Err("unknow format".into())
+            return Err("unknow format".into());
         }
 
         let driver_version = columns[0].to_string();
@@ -87,40 +87,37 @@ impl FromStr for Apm {
         let bios_version = {
             let vv: Vec<&str> = columns[1].split('.').collect();
             if vv.len() != 2 {
-                return Err("wrong bios version".into())
+                return Err("wrong bios version".into());
             }
-            (
-                vv[0].parse::<u8>()?, 
-                vv[1].parse::<u8>()?
-            )
+            (vv[0].parse::<u8>()?, vv[1].parse::<u8>()?)
         };
-        
+
         let bios_flag = u8::from_str_radix(&columns[2][2..], 16)?;
-        
+
         let ac_line_status = u8::from_str_radix(&columns[3][2..], 16)?;
-        
+
         let battery_status = u8::from_str_radix(&columns[4][2..], 16)?;
-        
+
         let battery_flag = u8::from_str_radix(&columns[5][2..], 16)?;
-        
+
         let remain_percent = {
             match columns[6].trim_end_matches('%').parse::<i8>()? {
                 x if x <= 100 && x >= 0 => Some(x as u8),
-                _ => None
+                _ => None,
             }
         };
-        
+
         let remain_time = {
             match columns[7].parse::<i64>()? {
                 x if x >= 0 => Some(x as u64),
-                _ => None
+                _ => None,
             }
         };
 
         let unit = columns[8].to_string();
 
-        Ok(Apm{
-            driver_version, 
+        Ok(Apm {
+            driver_version,
             bios_version,
             bios_flag,
             ac_line_status,
@@ -128,21 +125,20 @@ impl FromStr for Apm {
             battery_flag,
             remain_percent,
             remain_time,
-            unit
+            unit,
         })
     }
 }
 
 impl Apm {
-
     /// return remaining time in seconds.
-    pub fn remain_time_sec(&self) -> Option <u64> {
+    pub fn remain_time_sec(&self) -> Option<u64> {
         let unit = &self.unit;
         let unit_sec = if unit == "min" {
             Some(false)
-        }else if unit == "sec" {
+        } else if unit == "sec" {
             Some(true)
-        }else {
+        } else {
             None
         };
 
@@ -150,13 +146,12 @@ impl Apm {
             (Some(v), Some(is_sec)) => {
                 if is_sec {
                     Some(v)
-                }else {
+                } else {
                     Some(v * 60)
                 }
-            },
-            _ => None
+            }
+            _ => None,
         }
-        
     }
 }
 
@@ -170,17 +165,20 @@ mod test {
 
         let apm_ = source.parse::<Apm>().unwrap();
 
-        assert_eq!(apm_, Apm{
-            driver_version: String::from("1.16"),
-            bios_version: (1, 2),
-            bios_flag: 0x07,
-            ac_line_status: 0x01,
-            battery_status: 0xff,
-            battery_flag: 0x80,
-            remain_percent: None,
-            remain_time: None,
-            unit: String::from("?")
-        });
+        assert_eq!(
+            apm_,
+            Apm {
+                driver_version: String::from("1.16"),
+                bios_version: (1, 2),
+                bios_flag: 0x07,
+                ac_line_status: 0x01,
+                battery_status: 0xff,
+                battery_flag: 0x80,
+                remain_percent: None,
+                remain_time: None,
+                unit: String::from("?")
+            }
+        );
 
         assert_eq!(apm_.remain_time_sec(), None);
     }
@@ -191,17 +189,20 @@ mod test {
 
         let apm_ = source.parse::<Apm>().unwrap();
 
-        assert_eq!(apm_, Apm{
-            driver_version: String::from("1.16"),
-            bios_version: (1, 2),
-            bios_flag: 0x03,
-            ac_line_status: 0x01,
-            battery_status: 0x03,
-            battery_flag: 0x09,
-            remain_percent: Some(100),
-            remain_time: None,
-            unit: String::from("?")
-        });
+        assert_eq!(
+            apm_,
+            Apm {
+                driver_version: String::from("1.16"),
+                bios_version: (1, 2),
+                bios_flag: 0x03,
+                ac_line_status: 0x01,
+                battery_status: 0x03,
+                battery_flag: 0x09,
+                remain_percent: Some(100),
+                remain_time: None,
+                unit: String::from("?")
+            }
+        );
 
         assert_eq!(apm_.remain_time_sec(), None);
     }
@@ -212,19 +213,21 @@ mod test {
 
         let apm_ = source.parse::<Apm>().unwrap();
 
-        assert_eq!(apm_, Apm{
-            driver_version: String::from("1.16"),
-            bios_version: (1, 2),
-            bios_flag: 0x03,
-            ac_line_status: 0x00,
-            battery_status: 0x00,
-            battery_flag: 0x01,
-            remain_percent: Some(99),
-            remain_time: Some(1792),
-            unit: String::from("min")
-        });
+        assert_eq!(
+            apm_,
+            Apm {
+                driver_version: String::from("1.16"),
+                bios_version: (1, 2),
+                bios_flag: 0x03,
+                ac_line_status: 0x00,
+                battery_status: 0x00,
+                battery_flag: 0x01,
+                remain_percent: Some(99),
+                remain_time: Some(1792),
+                unit: String::from("min")
+            }
+        );
 
-        assert_eq!(apm_.remain_time_sec(), Some(1792*60));
-        
+        assert_eq!(apm_.remain_time_sec(), Some(1792 * 60));
     }
 }

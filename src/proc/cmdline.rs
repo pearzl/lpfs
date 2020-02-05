@@ -1,5 +1,4 @@
-
-define_struct!{
+define_struct! {
     /// Represent the content of /proc/cmdline, returned by [`cmdline()`](fn.cmdline.html)
     pub struct Cmdline(String);
 }
@@ -14,7 +13,4 @@ impl FromStr for Cmdline {
     }
 }
 
-
-instance_impl!(
-    cmdline, "/proc/cmdline", Cmdline
-);
+instance_impl!(cmdline, "/proc/cmdline", Cmdline);

@@ -5,7 +5,8 @@
 // will return 0 characters.  The command-line arguments appear
 // in this file as a set of strings separated by null bytes
 // ('\0'), with a further null byte after the last string.
-
+//
+// -- http://man7.org/linux/man-pages/man5/proc.5.html
 
 define_struct! {
     pub struct Cmdline{
@@ -22,15 +23,13 @@ impl FromStr for Cmdline {
         let mut iter = s.split('\0');
         let cmd: String = iter.next().map_or_else(String::new, |s| s.to_string());
         let args: Vec<String> = iter.map(String::from).collect();
-        Ok(Cmdline{
-            cmd, args
-        })
+        Ok(Cmdline { cmd, args })
     }
 }
 
 pid_instance_impl! {
-    cmdline_of, "cmdline", Cmdline, 
-    cmdline_self, cmdline_of_task, cmdline_self_task
+    cmdline_of, "cmdline", Cmdline,
+    cmdline_self, cmdline_of_of, cmdline_self_of, cmdline_self_sellf
 }
 
 #[cfg(test)]
@@ -42,21 +41,21 @@ mod test {
         let source = String::new();
         let correct = Cmdline {
             cmd: "".to_string(),
-            args: vec![]
+            args: vec![],
         };
         assert_eq!(correct, source.parse::<Cmdline>().unwrap());
 
         let source = "abc";
         let correct = Cmdline {
             cmd: "abc".to_string(),
-            args: vec![]
+            args: vec![],
         };
         assert_eq!(correct, source.parse::<Cmdline>().unwrap());
 
         let source = "abc\01\02";
         let correct = Cmdline {
             cmd: "abc".to_string(),
-            args: vec!["1".to_string(), "2".to_string()]
+            args: vec!["1".to_string(), "2".to_string()],
         };
         assert_eq!(correct, source.parse::<Cmdline>().unwrap());
     }

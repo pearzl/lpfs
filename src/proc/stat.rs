@@ -1,5 +1,5 @@
 // This file keeps track of a variety of different statistics about the system since it was last restarted. The contents of `/proc/stat`, which can be quite long, usually begins like the following example:
-// 
+//
 // <pre class="screen">cpu  259246 7001 60190 34250993 137517 772 0
 // cpu0 259246 7001 60190 34250993 137517 772 0
 // intr 354133732 347209999 2272 0 4 4 0 0 3 1 1249247 0 0 80143 0 422626 5169433
@@ -24,22 +24,22 @@
 // processes 21905
 // procs_running 1
 // procs_blocked 0</pre>
-// 
+//
 // Some of the more commonly used statistics include:
-// 
+//
 // *   `cpu` — Measures the number of _jiffies_ (1/100 of a second for x86 systems) that the system has been in user mode, user mode with low priority (nice), system mode, idle task, I/O wait, IRQ (hardirq), and softirq respectively. The IRQ (hardirq) is the direct response to a hardware event. The IRQ takes minimal work for queuing the "heavy" work up for the softirq to execute. The softirq runs at a lower priority than the IRQ and therefore may be interrupted more frequently. The total for all CPUs is given at the top, while each individual CPU is listed below with its own statistics. The following example is a 4-way Intel Pentium Xeon configuration with multi-threading enabled, therefore showing four physical processors and four virtual processors totaling eight processors.
-// 
+//
 // *   `page` — The number of memory pages the system has written in and out to disk.
-// 
+//
 // *   `swap` — The number of swap pages the system has brought in and out.
-// 
+//
 // *   `intr` — The number of interrupts the system has experienced.
-// 
+//
 // *   `btime` — The boot time, measured in the number of seconds since January 1, 1970, otherwise known as the _epoch_.
 //
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-stat
 //
-// 
+//
 //
 // kernel/system statistics. Varies with architecture. Common entries include:
 // cpu 10132153 290696 3084719 46828483 16683 0 25195 0 175628 0
@@ -97,9 +97,9 @@
 
 define_struct! {
     /// Each instance represent an cpu entry in /proc/stat. See [Stat](struct.Stat.html).
-    /// 
+    ///
     /// Reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
-    /// 
+    ///
     /// This struct implement Index trait.
     pub struct Cpu {
         user: u64,
@@ -115,8 +115,8 @@ define_struct! {
     }
 }
 
-impl std::convert::From<[u64;10]> for Cpu {
-    fn from(x: [u64;10]) -> Cpu {
+impl std::convert::From<[u64; 10]> for Cpu {
+    fn from(x: [u64; 10]) -> Cpu {
         Cpu {
             user: x[0],
             nice: x[1],
@@ -148,7 +148,7 @@ impl Index<usize> for Cpu {
             7 => &self.steal,
             8 => &self.guest,
             9 => &self.guest_nice,
-            x => panic!(format!("Cpu has 10 items, but index {}", x))
+            x => panic!(format!("Cpu has 10 items, but index {}", x)),
         }
     }
 }
@@ -156,33 +156,33 @@ impl Index<usize> for Cpu {
 impl Cpu {
     /// Return the total jiffies of cpu time.
     pub fn cpu_time(&self) -> u64 {
-        self.user +
-        self.nice +
-        self.system +
-        self.idle +
-        self.iowait +
-        self.irq +
-        self.softirq +
-        self.steal +
-        self.guest +
-        self.guest_nice
+        self.user
+            + self.nice
+            + self.system
+            + self.idle
+            + self.iowait
+            + self.irq
+            + self.softirq
+            + self.steal
+            + self.guest
+            + self.guest_nice
     }
 
     /// Return the number of jiffies on user mode.
-    /// 
+    ///
     /// user + nice
     pub fn user_time(&self) -> u64 {
         self.user + self.nice
     }
 
     /// Return the number of jiffies on kernel mode.
-    /// 
+    ///
     /// system + irq + softirq
     pub fn system_time(&self) -> u64 {
         self.system + self.irq + self.softirq
     }
 
-    pub fn to_array(&self) -> [u64;10] {
+    pub fn to_array(&self) -> [u64; 10] {
         [
             self.user,
             self.nice,
@@ -205,10 +205,10 @@ impl FromStr for Cpu {
     fn from_str(s: &str) -> Result<Cpu, crate::ProcErr> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 11 {
-            return Err("need 10 number to parse to Cpu".into())
+            return Err("need 10 number to parse to Cpu".into());
         }
 
-        let mut cpu = [0;10];
+        let mut cpu = [0; 10];
         for (cpuv, strv) in cpu.iter_mut().zip(columns[1..].iter()) {
             *cpuv = strv.parse::<u64>()?;
         }
@@ -217,11 +217,9 @@ impl FromStr for Cpu {
     }
 }
 
-
-
 define_struct! {
     /// Represent the content of /proc/stat, returned by [`stat()`](fn.stat.html).
-    /// 
+    ///
     /// Reference to [`stat.c`](https://github.com/torvalds/linux/blob/master/fs/proc/stat.c).
     pub struct Stat {
         cpu: Cpu,
@@ -261,15 +259,15 @@ impl FromStr for Stat {
         }
         last_n -= 1;
 
-        macro_rules! single_value{
+        macro_rules! single_value {
             ($name: ident) => {
                 let $name = lines[last_n]
-                .trim_start_matches(stringify!($name))
-                .trim()
-                .parse::<u64>()
-                .map_err(|_|concat!("failed to parse {}", stringify!($name)))?;
-            last_n -= 1;
-            }
+                    .trim_start_matches(stringify!($name))
+                    .trim()
+                    .parse::<u64>()
+                    .map_err(|_| concat!("failed to parse {}", stringify!($name)))?;
+                last_n -= 1;
+            };
         }
 
         single_value!(procs_blocked);
@@ -296,8 +294,15 @@ impl FromStr for Stat {
         }
 
         Ok(Stat {
-            cpu, cpu_n, intr, ctxt, btime, processes,
-            procs_running, procs_blocked, softirq
+            cpu,
+            cpu_n,
+            intr,
+            ctxt,
+            btime,
+            processes,
+            procs_running,
+            procs_blocked,
+            softirq,
         })
     }
 }
@@ -312,7 +317,8 @@ mod test {
 
     #[test]
     fn test_parse_stat() {
-        let content = {"\
+        let content = {
+            "\
 cpu  3321955 860 1356594 496669212 37722 0 19000 0 0 0
 cpu0 1663503 446 679198 248162881 18470 0 11461 0 0 0
 cpu1 1658451 413 677395 248506330 19252 0 7539 0 0 0
@@ -329,15 +335,38 @@ softirq 298297245 3 133941424 620453 5325395 1833481 0 38653917 73984142 0 43938
             cpu: [3321955, 860, 1356594, 496669212, 37722, 0, 19000, 0, 0, 0].into(),
             cpu_n: vec![
                 [1663503, 446, 679198, 248162881, 18470, 0, 11461, 0, 0, 0].into(),
-                [1658451, 413, 677395, 248506330, 19252, 0, 7539, 0, 0, 0].into()
+                [1658451, 413, 677395, 248506330, 19252, 0, 7539, 0, 0, 0].into(),
             ],
-            intr: vec![265018021, 51, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 38498825, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3776959, 1833394, 218053, 542, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            intr: vec![
+                265018021, 51, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 38498825, 0, 0, 0,
+                0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3776959, 1833394, 218053, 542, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ],
             ctxt: 331738534,
             btime: 1572024946,
             processes: 3312700,
             procs_running: 1,
             procs_blocked: 0,
-            softirq: vec![298297245, 3, 133941424, 620453, 5325395, 1833481, 0, 38653917, 73984142, 0, 43938430]
+            softirq: vec![
+                298297245, 3, 133941424, 620453, 5325395, 1833481, 0, 38653917, 73984142, 0,
+                43938430,
+            ],
         };
         let s = content.parse::<Stat>().unwrap();
         assert_eq!(s, correct);

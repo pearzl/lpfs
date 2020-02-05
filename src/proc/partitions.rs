@@ -13,9 +13,9 @@
 // name — The name of the partition.
 //
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-partitions
-// 
+//
 
-define_struct!{
+define_struct! {
     pub struct Partition {
         major: usize,
         minor: usize,
@@ -31,19 +31,22 @@ impl FromStr for Partition {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let columns: Vec<&str> = s.split_ascii_whitespace().collect();
         if columns.len() != 4 {
-            return Err("partition should have 4 fields".into())
+            return Err("partition should have 4 fields".into());
         }
         let major = columns[0].parse::<usize>()?;
         let minor = columns[1].parse::<usize>()?;
         let blocks = columns[2].parse::<usize>()?;
         let name = columns[3].to_string();
-        Ok(Partition{
-            major, minor, blocks, name
+        Ok(Partition {
+            major,
+            minor,
+            blocks,
+            name,
         })
     }
 }
 
-list_impl!{
+list_impl! {
     partitions, "/proc/partitions", Partition, '\n', 2
 }
 
@@ -54,11 +57,11 @@ mod test {
     #[test]
     fn test_parse_partition() {
         let source = "252        0   41943040 vda";
-        let correct = Partition{
+        let correct = Partition {
             major: 252,
             minor: 0,
             blocks: 41943040,
-            name: "vda".to_string()
+            name: "vda".to_string(),
         };
         assert_eq!(source.parse::<Partition>().unwrap(), correct)
     }

@@ -27,7 +27,7 @@ macro_rules! define_struct {
     };
     (
         $(#[$odoc: meta])*
-        pub struct $name: ident ($ty: ty); 
+        pub struct $name: ident ($ty: ty);
     ) => {
         $(#[$odoc])*
         #[derive(Debug, PartialEq, Clone)]
@@ -43,7 +43,7 @@ macro_rules! define_struct {
             fn as_ref(&self) -> &$ty {
                 &self.0
             }
-        } 
+        }
 
         impl std::ops::Deref for $name {
             type Target = $ty;
@@ -99,14 +99,14 @@ macro_rules! instance_impl {
 macro_rules! pid_instance_impl {
     (
         $(#[$k: meta])*
-        $fn_name: ident, $file_name: expr, $return_type: ty,
-        $self_fn_name: ident, $of_task_fn_name: ident, $self_task_fn_name: ident
+        $name_of: ident, $file_name: expr, $return_type: ty,
+        $name_self: ident, $name_of_of: ident, $name_self_of: ident, $name_self_self: ident
     ) => {
         #[doc="Return parsed content of `/proc/[pid]/"]
         #[doc=$file_name]
         #[doc="`.\n\n See it's return type for details."]
         $(#[$k])*
-        pub fn $fn_name(pid: $crate::pid::Pid) -> Result<$return_type, crate::ProcErr> {
+        pub fn $name_of(pid: $crate::pid::Pid) -> Result<$return_type, crate::ProcErr> {
             let path = format!(concat!("/proc/{}/", $file_name), pid);
             let content = std::fs::read_to_string(path)?;
             content.trim().parse()
@@ -116,19 +116,19 @@ macro_rules! pid_instance_impl {
         #[doc=$file_name]
         #[doc="`.\n\n See it's return type for details.\n\n"]
         $(#[$k])*
-        pub fn $self_fn_name() -> Result<$return_type, crate::ProcErr> {
+        pub fn $name_self() -> Result<$return_type, crate::ProcErr> {
             let path = concat!("/proc/self/", $file_name);
             let content = std::fs::read_to_string(path)?;
             content.trim().parse()
         }
 
-        test_impl!($self_fn_name);
+        test_impl!($name_self);
 
         #[doc="Return parsed content of `/proc/[pid]/task/[tid]/"]
         #[doc=$file_name]
         #[doc="`.\n\n See it's return type for details.\n\n"]
         $(#[$k])*
-        pub fn $of_task_fn_name(pid: $crate::pid::Pid, tid: $crate::pid::Tid) -> Result<$return_type, crate::ProcErr> {
+        pub fn $name_of_of(pid: $crate::pid::Pid, tid: $crate::pid::Tid) -> Result<$return_type, crate::ProcErr> {
             let path = format!(concat!("/proc/{}/task/{}/", $file_name), pid, tid);
             let content = std::fs::read_to_string(path)?;
             content.trim().parse()
@@ -138,8 +138,18 @@ macro_rules! pid_instance_impl {
         #[doc=$file_name]
         #[doc="`.\n\n See it's return type for details.\n\n"]
         $(#[$k])*
-        pub fn $self_task_fn_name(tid: $crate::pid::Tid) -> Result<$return_type, crate::ProcErr> {
+        pub fn $name_self_of(tid: $crate::pid::Tid) -> Result<$return_type, crate::ProcErr> {
             let path = format!(concat!("/proc/self/task/{}/", $file_name), tid);
+            let content = std::fs::read_to_string(path)?;
+            content.trim().parse()
+        }
+
+        #[doc="Return parsed content of `/proc/thread-self/"]
+        #[doc=$file_name]
+        #[doc="`.\n\n See it's return type for details.\n\n"]
+        $(#[$k])*
+        pub fn $name_self_self() -> Result<$return_type, crate::ProcErr> {
+            let path = concat!("/proc/thread-self/{}", $file_name);
             let content = std::fs::read_to_string(path)?;
             content.trim().parse()
         }
@@ -156,13 +166,11 @@ macro_rules! test_impl {
             let ret = $fn_name();
             if let Err(e) = ret {
                 match e {
-                    $crate::ProcErr::IO(inner_err) => {
-                        match inner_err.kind() {
-                            ErrorKind::NotFound => (),
-                            _ => Err(inner_err).unwrap()
-                        }
+                    $crate::ProcErr::IO(inner_err) => match inner_err.kind() {
+                        ErrorKind::NotFound => (),
+                        _ => Err(inner_err).unwrap(),
                     },
-                    _ => Err(e).unwrap()
+                    _ => Err(e).unwrap(),
                 }
             }
         }

@@ -50,16 +50,16 @@
 // > HugePages_Total — The total number of hugepages for the system. The number is derived by dividing Hugepagesize by the megabytes set aside for hugepages specified in /proc/sys/vm/hugetlb_pool. This statistic only appears on the x86, Itanium, and AMD64 architectures.
 // > HugePages_Free — The total number of hugepages available for the system. This statistic only appears on the x86, Itanium, and AMD64 architectures.
 // > Hugepagesize — The size for each hugepages unit in kilobytes. By default, the value is 4096 KB on uniprocessor kernels for 32 bit architectures. For SMP, hugemem kernels, and AMD64, the default is 2048 KB. For Itanium architectures, the default is 262144 KB. This statistic only appears on the x86, Itanium, and AMD64 architectures.
-// 
+//
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-meminfo
-// 
+//
 
 use std::collections::HashMap;
 
 /// Returnd by [`meminfo()`](fn.meminfo.html)
-/// 
+///
 /// MemInfo can be derefed to a HashMap, so any item can be retrived by the map.
-/// 
+///
 /// ```no_run
 /// use lpfs::proc::meminfo::*;
 /// let mi = meminfo().unwrap();
@@ -67,7 +67,7 @@ use std::collections::HashMap;
 /// let total_memory2 = mi.mem_total();
 /// assert_eq!(*total_memory1, total_memory2);
 /// ```
-/// 
+///
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct MemInfo(HashMap<String, usize>);
@@ -123,7 +123,6 @@ get_fields! {
     direct_map_1g, "DirectMap1G"
 }
 
-
 use std::str::FromStr;
 impl FromStr for MemInfo {
     type Err = crate::ProcErr;
@@ -151,7 +150,7 @@ instance_impl! {
     meminfo, "/proc/meminfo", MemInfo
 }
 
-#[cfg(test)] 
+#[cfg(test)]
 mod test {
     use super::*;
 
@@ -163,4 +162,4 @@ mod test {
         map.insert("HugePages_Total".into(), 0);
         assert_eq!(MemInfo(map), source.parse().unwrap());
     }
-} 
+}

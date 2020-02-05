@@ -1,5 +1,5 @@
 // /proc/[pid]/task
-// 
+//
 // /proc/[pid]/task (since Linux 2.6.0-test6)
 // This  is	a directory that contains one subdirectory for each thread in the process.  The name of each subdirectory is the numerical
 // thread ID ([tid]) of the thread (see gettid(2)).	Within each of these subdirectories, there is a set of files with the  same  names
@@ -9,16 +9,15 @@
 // directory, since all of the threads in a process share a working directory).  For attributes that are distinct for each thread,  the
 // corresponding  files  under task/[tid] may have different values (e.g., various fields in each of the task/[tid]/status files may be
 // different for each thread).
-// 
+//
 // In a multithreaded process, the contents of the /proc/[pid]/task directory are not available if the main thread has  already  termi-
 // nated (typically by calling pthread_exit(3)).
-// 
+//
 // -- https://www.unix.com/man-page/suse/5/proc/
 
-type Result<T> = std::result::Result<T, crate::ProcErr>;
 
 /// Return a Vector contains thread id whose contained in current process.
-pub fn task_self() -> Result<Vec<u32>> {
+pub fn task_self() -> Result<Vec<u32>, crate::ProcErr> {
     let dir_entries = std::fs::read_dir("/proc/self/task/")?;
     let mut ret = vec![];
 
@@ -35,7 +34,7 @@ pub fn task_self() -> Result<Vec<u32>> {
 }
 
 /// Return a Vector contains thread id whose contained in specified process.
-pub fn task_of(pid: u32) -> Result<Vec<u32>> {
+pub fn task_of(pid: u32) -> Result<Vec<u32>, crate::ProcErr> {
     let dir_entries = std::fs::read_dir(format!("/proc/{}/task/", pid))?;
     let mut ret = vec![];
 
@@ -43,7 +42,7 @@ pub fn task_of(pid: u32) -> Result<Vec<u32>> {
         let thread_id_str = task_dir?.file_name();
         let thread_id = thread_id_str
             .to_str()
-            .ok_or_else(||"contains non-unicode chatacter")?
+            .ok_or_else(|| "contains non-unicode chatacter")?
             .parse::<u32>()?;
         ret.push(thread_id);
     }

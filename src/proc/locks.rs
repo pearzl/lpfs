@@ -9,7 +9,7 @@
 // 7: POSIX  ADVISORY  WRITE 3056 fd:00:2548663 0 EOF
 // Each lock has its own line which starts with a unique number. The second column refers to the class of lock used, with FLOCK signifying the older-style UNIX file locks from a flock system call and POSIX representing the newer POSIX locks from the lockf system call.
 // The third column can have two values: ADVISORY or MANDATORY. ADVISORY means that the lock does not prevent other people from accessing the data; it only prevents other attempts to lock it. MANDATORY means that no other access to the data is permitted while the lock is held. The fourth column reveals whether the lock is allowing the holder READ or WRITE access to the file. The fifth column shows the ID of the process holding the lock. The sixth column shows the ID of the file being locked, in the format of MAJOR-DEVICE:MINOR-DEVICE:INODE-NUMBER . The seventh and eighth column shows the start and end of the file's locked region.
-// 
+//
 // -- https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html/deployment_guide/s1-proc-topfiles#s2-proc-kmsg
 
 define_struct! {
@@ -58,8 +58,16 @@ impl FromStr for Lock {
         };
 
         Ok(Lock {
-            id, class, mode, rw, pid,
-            major, minor, inode, start, end,
+            id,
+            class,
+            mode,
+            rw,
+            pid,
+            major,
+            minor,
+            inode,
+            start,
+            end,
         })
     }
 }
@@ -76,8 +84,8 @@ mod test {
     fn test_parse_lock() {
         let source = "1: FLOCK  ADVISORY  WRITE 16861 fc:01:1313050 0 EOF";
         let correct = Lock {
-            id: 1, 
-            class: "FLOCK".to_string(), 
+            id: 1,
+            class: "FLOCK".to_string(),
             mode: "ADVISORY".to_string(),
             rw: "WRITE".to_string(),
             pid: 16861,
@@ -85,7 +93,7 @@ mod test {
             minor: 1,
             inode: 1313050,
             start: 0,
-            end: None
+            end: None,
         };
         assert_eq!(correct, source.parse::<Lock>().unwrap());
     }

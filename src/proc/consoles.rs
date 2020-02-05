@@ -1,5 +1,4 @@
-
-define_struct!{
+define_struct! {
     /// Represent the content of /proc/consoles, returned by [`consoles()`](fn.consoles.html)
     pub struct Consoles(String);
 }
@@ -13,7 +12,4 @@ impl FromStr for Consoles {
     }
 }
 
-
-instance_impl!(
-    consoles, "/proc/consoles", Consoles
-);
+instance_impl!(consoles, "/proc/consoles", Consoles);

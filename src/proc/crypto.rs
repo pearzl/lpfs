@@ -1,8 +1,8 @@
 // 5.2.5.  `/proc/crypto`
-// 
-// This file lists all installed cryptographic ciphers used by the Linux kernel, including additional details for each. 
+//
+// This file lists all installed cryptographic ciphers used by the Linux kernel, including additional details for each.
 // A sample `/proc/crypto` file looks like the following:
-// 
+//
 // <pre class="screen">name         : sha1
 // module       : kernel
 // type         : digest
@@ -19,10 +19,10 @@
 use std::collections::HashMap;
 define_struct! {
     /// Represent an entry in /proc/crypto
-    /// 
-    /// This is an HashMap inside, and Deref trait is implement. 
+    ///
+    /// This is an HashMap inside, and Deref trait is implement.
     /// However it provide some methods to retrive common fields.
-    /// 
+    ///
     /// See [`crypto/proc.c`](https://github.com/torvalds/linux/blob/master/crypto/proc.c).
     pub struct Crypto(HashMap<String, String>);
 }
@@ -44,7 +44,7 @@ impl Crypto {
     }
 
     /// It is assumed that `name` is exist in an entry, if not it will panic.
-    /// 
+    ///
     /// Return true is the value is "passed".
     pub fn selftest(&self) -> bool {
         self.get("selftest").unwrap() == "passed"
@@ -64,7 +64,7 @@ impl FromStr for Crypto {
             }
             ret.insert(columns[0].trim().to_string(), columns[1].trim().to_string());
         }
-        Ok(Crypto(ret ))
+        Ok(Crypto(ret))
     }
 }
 
@@ -79,7 +79,7 @@ mod test {
     #[test]
     fn test_parse_crypto() {
         let source = {
-"name         : aes
+            "name         : aes
 driver       : aes-asm
 module       : kernel
 priority     : 200
@@ -91,17 +91,17 @@ min keysize  : 16
 max keysize  : 32"
         };
         let mut map = std::collections::HashMap::new();
-        map.insert(String::from("name"       ), String::from("aes"));
-        map.insert(String::from("driver"     ), String::from("aes-asm"));
-        map.insert(String::from("module"     ), String::from("kernel"));
-        map.insert(String::from("priority"   ), String::from("200"));
-        map.insert(String::from("refcnt"     ), String::from("1"));
-        map.insert(String::from("selftest"   ), String::from("passed"));
-        map.insert(String::from("type"       ), String::from("cipher"));
-        map.insert(String::from("blocksize"  ), String::from("16"));
+        map.insert(String::from("name"), String::from("aes"));
+        map.insert(String::from("driver"), String::from("aes-asm"));
+        map.insert(String::from("module"), String::from("kernel"));
+        map.insert(String::from("priority"), String::from("200"));
+        map.insert(String::from("refcnt"), String::from("1"));
+        map.insert(String::from("selftest"), String::from("passed"));
+        map.insert(String::from("type"), String::from("cipher"));
+        map.insert(String::from("blocksize"), String::from("16"));
         map.insert(String::from("min keysize"), String::from("16"));
         map.insert(String::from("max keysize"), String::from("32"));
-        let correct = Crypto (map);
+        let correct = Crypto(map);
         assert_eq!(correct, source.parse().unwrap());
     }
 }
