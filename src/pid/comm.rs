@@ -17,16 +17,6 @@ define_struct! {
     pub struct Comm (String);
 }
 
-use std::ops::Deref;
-impl Deref for Comm {
-    type Target = String;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-
-}
-
 use std::str::FromStr;
 impl FromStr for Comm {
     type Err = crate::ProcErr;

@@ -44,6 +44,14 @@ macro_rules! define_struct {
                 &self.0
             }
         } 
+
+        impl std::ops::Deref for $name {
+            type Target = $ty;
+
+            fn deref(&self) -> &Self::Target {
+                &self.0
+            }
+        }
     }
 }
 

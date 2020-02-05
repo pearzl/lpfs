@@ -11,3 +11,4 @@ pub mod task;
 pub mod stat;
 pub mod comm;
 pub mod fd;
+pub mod cmdline;

@@ -27,15 +27,6 @@ define_struct! {
     pub struct Crypto(HashMap<String, String>);
 }
 
-use std::ops::Deref;
-impl Deref for Crypto {
-    type Target = HashMap<String, String>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
 impl Crypto {
     /// It is assumed that `name` is exist in an entry, if not it will panic.
     pub fn name(&self) -> &str {
