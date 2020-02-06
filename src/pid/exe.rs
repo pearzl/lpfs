@@ -10,26 +10,25 @@
 // threaded process, the contents of this symbolic link are not
 // available if the main thread has already terminated (typically
 // by calling pthread_exit(3)).
-// 
+//
 // Permission to dereference or read (readlink(2)) this symbolic
 // link is governed by a ptrace access mode
 // PTRACE_MODE_READ_FSCREDS check; see ptrace(2).
-// 
+//
 // Under Linux 2.0 and earlier, /proc/[pid]/exe is a pointer to
 // the binary which was executed, and appears as a symbolic link.
 // A readlink(2) call on this file under Linux 2.0 returns a
 // string in the format:
-// 
+//
 //     [device]:inode
-// 
+//
 // For example, [0301]:1502 would be inode 1502 on device major
 // 03 (IDE, MFM, etc. drives) minor 01 (first partition on the
 // first drive).
-// 
+//
 // find(1) with the -inum option can be used to locate the file.
-// 
+//
 // -- http://man7.org/linux/man-pages/man5/proc.5.html
-
 
 use std::path::PathBuf;
 define_struct! {

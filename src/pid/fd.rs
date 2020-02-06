@@ -136,7 +136,7 @@ pub fn fd_self_of(tid: u32) -> Result<Vec<Fd>, crate::ProcErr> {
 }
 
 pub fn fd_self_self() -> Result<Vec<Fd>, crate::ProcErr> {
-    fd_impl! {format!("/proc/thread-self/fd")}
+    fd_impl! {"/proc/thread-self/fd"}
 }
 
 #[cfg(test)]

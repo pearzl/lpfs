@@ -15,7 +15,6 @@
 //
 // -- https://www.unix.com/man-page/suse/5/proc/
 
-
 /// Return a Vector contains thread id whose contained in current process.
 pub fn task_self() -> Result<Vec<u32>, crate::ProcErr> {
     let dir_entries = std::fs::read_dir("/proc/self/task/")?;
