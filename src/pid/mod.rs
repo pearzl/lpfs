@@ -16,3 +16,5 @@ pub mod fd;
 pub mod maps;
 pub mod stat;
 pub mod task;
+pub mod mem;
+pub mod root;
